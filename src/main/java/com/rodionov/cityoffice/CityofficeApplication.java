@@ -26,6 +26,7 @@ public class CityofficeApplication implements CommandLineRunner {
 		documentRepository.deleteAll();
 		if (documentRepository.count() == 0) {
 			documentRepository.save(new Document("First Document", LocalDate.of(2016, 11, 1)));
+			documentRepository.save(new Document("Second Document", LocalDate.of(2016, 02, 3)));
 		}
 	}
 }

@@ -5,20 +5,20 @@
 <link href="css/angular-bootstrap.css" rel="stylesheet">
 <style type="text/css">
 [ng\:cloak], [ng-cloak], .ng-cloak {
-  display: none !important;
+	display: none !important;
 }
 </style>
 </head>
 
-<body ng-app="hello">
-  <div class="container">
-    <h1>Greeting</h1>
-    <div ng-controller="app" ng-cloak class="ng-cloak">
-      <p>The ID is {{greeting.id}}</p>
-      <p>The content is {{greeting.content}}</p>
-    </div>
-  </div>
-  <script src="js/angular-bootstrap.js" type="text/javascript"></script>
-  <script src="js/hello.js"></script>
+<body ng-app="app">
+	<div class="container">
+		<h1>Greeting to you</h1>
+		<div ng-controller="home as home" ng-cloak class="ng-cloak">
+			<p>The ID is {{home.greeting.id}}</p>
+			<p>The content is {{home.greeting.content}}</p>
+		</div>
+	</div>
+	<script src="js/angular-bootstrap.js" type="text/javascript"></script>
+	<script src="js/app.js"></script>
 </body>
 </html>
