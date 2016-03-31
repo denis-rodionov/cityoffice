@@ -47,6 +47,7 @@ angular.module('app', [ 'ngRoute' ])
 
   		  authenticate();
   		  self.credentials = {};
+  		  
   		  self.login = function() {
   		      authenticate(self.credentials, function() {
   		        if ($rootScope.authenticated) {
@@ -58,4 +59,11 @@ angular.module('app', [ 'ngRoute' ])
   		        }
   		      });
   		  };
+  		  
+	  	  self.logout = function() {
+	  		  $http.get('/logout', {}).finally(function() {
+	  		    $rootScope.authenticated = false;
+	  		    $location.path("/");
+	  		  });
+	  		};
   		});
