@@ -7,6 +7,9 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -18,12 +21,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
       http
         .authorizeRequests()
           .antMatchers("/index.html", "/home.html", "/login.html", "/").permitAll()
+          .anyRequest().authenticated()
 		.and()
 		.httpBasic()
 		.and()
 		.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-			.logoutSuccessUrl("/");
+			.logoutSuccessUrl("/")
+			.and()
+			.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
+			.csrf().csrfTokenRepository(csrfTokenRepository());
 			
     }
     
@@ -33,4 +40,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
 			.inMemoryAuthentication()
 				.withUser("user").password("123").roles("USER");
 	}
+    
+    private CsrfTokenRepository csrfTokenRepository() {
+    	  HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+    	  repository.setHeaderName("X-XSRF-TOKEN");
+    	  return repository;
+    	}
 }
