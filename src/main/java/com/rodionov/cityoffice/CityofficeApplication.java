@@ -20,7 +20,7 @@ public class CityofficeApplication implements CommandLineRunner {
 	private DocumentRepository documentRepository;
 
 	public static void main(String[] args) {
-		logger.fatal("Application start");
+		logger.info("Application start");
 		SpringApplication.run(CityofficeApplication.class, args);
 	}
 	
