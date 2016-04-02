@@ -4,7 +4,7 @@
 </div>
 <div ng-show="authenticated">
     <ul>
-        <li ng-repeat="document in documents">{{document.id}}: {{document.name}}</li>
+        <li ng-repeat="document in controller.documents">{{document.id}}: {{document.name}}</li>
     </ul>
 </div>
 <div  ng-show="!authenticated">

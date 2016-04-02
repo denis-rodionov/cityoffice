@@ -6,16 +6,20 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rodionov.cityoffice.CityofficeApplication;
 import com.rodionov.cityoffice.dto.DocumentDTO;
 import com.rodionov.cityoffice.repository.DocumentRepository;
 
 @RestController
 
 public class DocumentController {
+	
+	private static final Logger logger = Logger.getLogger(DocumentController.class);
 	
 	@Autowired
 	private DocumentRepository documentRepository;
@@ -31,6 +35,8 @@ public class DocumentController {
 	
 	@RequestMapping("/document")
 	public List<DocumentDTO> documentList() {
+		logger.debug("/document");
+		
 		return documentRepository.findAll().stream()
 				.map(d -> new DocumentDTO(d.getId(), d.getName(), d.getDeadline()))
 				.collect(Collectors.toList());
