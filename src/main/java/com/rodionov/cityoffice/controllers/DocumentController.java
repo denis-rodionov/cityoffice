@@ -1,22 +1,38 @@
 package com.rodionov.cityoffice.controllers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rodionov.cityoffice.dto.DocumentDTO;
+import com.rodionov.cityoffice.repository.DocumentRepository;
+
 @RestController
-//@RequestMapping("document")
+
 public class DocumentController {
 	
-	//@ResponseBody
-	@RequestMapping("/document")
+	@Autowired
+	private DocumentRepository documentRepository;
+	
+	//@RequestMapping("/home")
 	public Map<String, Object> home() {
+		
 		Map<String,Object> model = new HashMap<String,Object>();
 	    model.put("id", UUID.randomUUID().toString());
 	    model.put("content", "Hello World");
 	    return model;
+	}
+	
+	@RequestMapping("/document")
+	public List<DocumentDTO> documentList() {
+		return documentRepository.findAll().stream()
+				.map(d -> new DocumentDTO(d.getId(), d.getName(), d.getDeadline()))
+				.collect(Collectors.toList());
 	}
 }

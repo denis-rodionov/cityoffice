@@ -1,9 +1,9 @@
 <div class="alert alert-danger" ng-show="controller.error">
-    There was a problem logging in. Please try again.
+    Неверное имя пользователя или пароль!
 </div>
 <form role="form" ng-submit="controller.login()">
     <div class="form-group">
-        <label for="username">Username:</label> 
+        <label for="username">Имя пользователя:</label> 
         <input 
         	type="text"
             class="form-control" 
@@ -12,7 +12,7 @@
             ng-model="controller.credentials.username"/>
     </div>
     <div class="form-group">
-        <label for="password">Password:</label> 
+        <label for="password">Пароль:</label> 
         <input 
         	type="password"
             class="form-control" 
@@ -20,5 +20,5 @@
             name="password" 
             ng-model="controller.credentials.password"/>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Войти</button>
 </form>

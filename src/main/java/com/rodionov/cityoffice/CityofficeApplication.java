@@ -2,13 +2,11 @@ package com.rodionov.cityoffice;
 
 import java.time.LocalDate;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 
 import com.rodionov.cityoffice.model.Document;
 import com.rodionov.cityoffice.repository.DocumentRepository;
@@ -16,10 +14,13 @@ import com.rodionov.cityoffice.repository.DocumentRepository;
 @SpringBootApplication
 public class CityofficeApplication implements CommandLineRunner {
 	
+	private static final Logger logger = Logger.getLogger(CityofficeApplication.class);
+	
 	@Autowired
 	private DocumentRepository documentRepository;
 
 	public static void main(String[] args) {
+		logger.fatal("Application start");
 		SpringApplication.run(CityofficeApplication.class, args);
 	}
 	

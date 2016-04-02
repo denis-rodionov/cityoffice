@@ -6,7 +6,7 @@
 	<groupId>com.rodionov.cityoffice</groupId>
 	<artifactId>cityoffice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>cityoffice</name>
 	<description>Demo project for Spring Boot</description>
@@ -53,6 +53,22 @@
 	        <groupId>org.springframework.security</groupId>
 	        <artifactId>spring-security-config</artifactId>	
     	</dependency>
+    	
+    	<dependency>
+    		<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+    	</dependency>
+    	
+    	<dependency>
+    		<groupId>org.springframework</groupId>  
+        	<artifactId>spring-webmvc</artifactId>  
+    	</dependency>
+    	
+    	<!-- Log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

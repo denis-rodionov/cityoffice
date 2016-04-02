@@ -1,9 +1,9 @@
-angular.module('app', [ 'ngRoute' ])
+angular.module('app', [ 'ngRoute', 'services'])
 	  .config(function($routeProvider, $httpProvider) {
 	
 	    $routeProvider.when('/', {
 	      templateUrl : 'home.html',
-	      controller : 'home',
+	      controller : 'documentController',
 	      controllerAs: 'controller'
 	    }).when('/login', {
 	      templateUrl : 'login.html',
@@ -14,12 +14,19 @@ angular.module('app', [ 'ngRoute' ])
 	    $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 	
 	  })
-  	.controller('home', function($http) {
+  	.controller('documentController', ['$scope', 'DocumentService',	function($scope, DocumentService) {
   		var self = this;
-  		$http.get('/document/').then(function(response) {
-  			self.greeting = response.data;
-  		});
-    })
+  		
+  		DocumentService.getAllDocuments()
+  			.then(function(data) {
+  				self.documents = data;
+  			}); 		
+  		
+  		
+  		//$http.get('/document/').then(function(response) {
+  		//	self.greeting = response.data;
+  		//});
+    }])
   	.controller('navigation',
   		function($rootScope, $http, $location) {
 
