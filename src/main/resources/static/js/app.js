@@ -68,7 +68,7 @@ angular.module('app', [ 'ngRoute', 'services'])
   		  };
   		  
 	  	  self.logout = function() {
-	  		  $http.get('/logout', {}).finally(function() {
+	  		  $http.post('/logout', {}).finally(function() {
 	  		    $rootScope.authenticated = false;
 	  		    $location.path("/");
 	  		  });

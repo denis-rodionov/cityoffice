@@ -2,18 +2,12 @@ package com.rodionov.cityoffice.controllers;
 
 import java.security.Principal;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.rodionov.cityoffice.CityofficeApplication;
 
 @RestController
 public class UserController {
@@ -26,6 +20,12 @@ public class UserController {
 		
 		return user;
 	}
+	
+	@RequestMapping(value="logout", method=RequestMethod.POST)
+	  public String logout(HttpSession session) {
+	    session.invalidate();
+	    return "redirect:/";
+	  }
 	
 //	@RequestMapping(value="/logout", method=RequestMethod.GET)
 //	public String logout(HttpServletRequest request, HttpServletResponse response) {

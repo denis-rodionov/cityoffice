@@ -26,11 +26,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
 		.httpBasic()
 		.and()
 		.logout()
-			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-			.logoutSuccessUrl("/")
-			.and()
-			.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
-			.csrf().csrfTokenRepository(csrfTokenRepository());
+			.deleteCookies("remove")
+        	.invalidateHttpSession(true)
+        	.logoutUrl("/logout")
+        	.logoutSuccessUrl("/")
+        	.and()
+		.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
+		.csrf().csrfTokenRepository(csrfTokenRepository());
 			
     }
     
