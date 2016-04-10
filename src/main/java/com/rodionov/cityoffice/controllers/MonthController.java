@@ -1,9 +1,9 @@
 package com.rodionov.cityoffice.controllers;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rodionov.cityoffice.dto.DocumentDTO;
 import com.rodionov.cityoffice.dto.MonthDTO;
 import com.rodionov.cityoffice.model.Document;
-import com.rodionov.cityoffice.model.DocumentStatus;
 import com.rodionov.cityoffice.services.DocumentService;
 
 @RestController
@@ -40,12 +39,13 @@ public class MonthController {
 		
 		Map<String, List<Document>> groupedDocs = documentService.getUnfinishedDocuments()
 				.stream()
-				.collect(Collectors.groupingBy(Document::getMonth));
-		
-		
+				.collect(Collectors.groupingBy(Document::getSortableMonth));
+				
 		List<MonthDTO> res = new ArrayList<MonthDTO>();
 		for (Map.Entry<String, List<Document>> entry : groupedDocs.entrySet()) {
-			Date monthDate = entry.getValue().get(0).getDeadline();
+			
+			LocalDate monthDate = entry.getValue().get(0).getDeadline();
+			
 			List<DocumentDTO> docs = entry.getValue().stream()
 					.map(d ->  {
 						return new DocumentDTO(

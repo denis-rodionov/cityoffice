@@ -15,9 +15,9 @@ public class DocumentHelper {
 			LocalDate date,
 			DocumentStatus status) {
 		
-		Instant instant = date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-		Date resDate = Date.from(instant);
+		//Instant instant = date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+		//Date resDate = Date.from(instant);
 		
-		return new Document(name, resDate, status, projectId);
+		return new Document(name, date, status, projectId);
 	}
 }

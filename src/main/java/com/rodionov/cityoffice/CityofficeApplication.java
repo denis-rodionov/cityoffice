@@ -1,7 +1,6 @@
 package com.rodionov.cityoffice;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import com.rodionov.cityoffice.model.Project;
 import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.repository.ProjectRepository;
 
-//@SpringBootApplication
+@SpringBootApplication
 public class CityofficeApplication implements CommandLineRunner {
 	
 	private static final Logger logger = Logger.getLogger(CityofficeApplication.class);
@@ -40,17 +39,20 @@ public class CityofficeApplication implements CommandLineRunner {
 			Project proj1 = projectRepository.save(new Project("Exerica", true, "primary"));
 			Project proj2 = projectRepository.save(new Project("Lobster", true, "success"));			
 			
-			documentRepository.save(new Document("ТЗ", new GregorianCalendar(2016, 04, 15).getTime(), 
+			documentRepository.save(new Document("ТЗ", 
+					LocalDate.of(2016, 04, 15), 
 					DocumentStatus.NEW, proj1.getId()));
-			documentRepository.save(new Document("Техническая записка", new GregorianCalendar(2016, 04, 27).getTime(), 
+			documentRepository.save(new Document("Техническая записка", 
+					LocalDate.of(2016, 04, 27), 
 					DocumentStatus.NEW, proj1.getId()));
-			documentRepository.save(new Document("Согласование списка документов", new GregorianCalendar(2016, 05, 2).getTime(), 
+			documentRepository.save(new Document("Согласование списка документов", 
+					LocalDate.of(2016, 05, 2), 
 					DocumentStatus.NEW, proj2.getId()));
 			documentRepository.save(new Document("Согласование типов клавиатур", 
-					new GregorianCalendar(2016, 05, 15).getTime(), 
+					LocalDate.of(2016, 05, 15), 
 					DocumentStatus.NEW, proj2.getId()));
 			documentRepository.save(new Document("Акт приёмки этапа", 
-					new GregorianCalendar(2016, 05, 29).getTime(), 
+					LocalDate.of(2016, 05, 29), 
 					DocumentStatus.NEW, proj1.getId()));
 		}
 	}

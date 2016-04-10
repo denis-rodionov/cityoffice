@@ -1,5 +1,6 @@
 package com.rodionov.cityoffice.model;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -11,7 +12,7 @@ public class Document {
 	@Id
 	private String id;	
 	private String name;
-	private Date deadline;
+	private LocalDate deadline;
 	private DocumentStatus status;
 	private String projectId;
 	
@@ -21,7 +22,7 @@ public class Document {
 	public Document() { }
 	
 	@PersistenceConstructor	
-	public Document(String id, String name, Date deadline, DocumentStatus status, String projectId) {
+	public Document(String id, String name, LocalDate deadline, DocumentStatus status, String projectId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -30,7 +31,7 @@ public class Document {
 		this.projectId = projectId;
 	}	
 
-	public Document(String name, Date deadline, DocumentStatus status, String projectId) {
+	public Document(String name, LocalDate deadline, DocumentStatus status, String projectId) {
 		super();
 		this.name = name;
 		this.deadline = deadline;
@@ -49,11 +50,8 @@ public class Document {
 				+ ", projectId=" + projectId + ", project=" + project + "]";
 	}
 	
-	public String getMonth() {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(deadline);
-		
-		return cal.get(Calendar.MONTH) + "/" + cal.get(Calendar.YEAR);
+	public String getSortableMonth() {
+		return deadline.getMonthValue() + "/" + deadline.getYear();
 	}
 
 	public DocumentStatus getStatus() {
@@ -92,10 +90,10 @@ public class Document {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getDeadline() {
+	public LocalDate getDeadline() {
 		return deadline;
 	}
-	public void setDeadline(Date deadline) {
+	public void setDeadline(LocalDate deadline) {
 		this.deadline = deadline;
 	}
 }

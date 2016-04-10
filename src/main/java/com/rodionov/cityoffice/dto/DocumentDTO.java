@@ -2,8 +2,9 @@ package com.rodionov.cityoffice.dto;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 
 public class DocumentDTO {
 	private String id;
@@ -17,20 +18,19 @@ public class DocumentDTO {
 	private String formatedDeadline;
 	private String projectColor;
 	
-	public DocumentDTO(String id, String name, Date date, String projectName, boolean isUrgent, String projectColor) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM");
+	public DocumentDTO(String id, String name, LocalDate date, String projectName, boolean isUrgent, String projectColor) {
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");	
 		
 		this.id = id;
 		this.name = name;
-		this.dateOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-		this.year = cal.get(Calendar.YEAR);
-		this.monthNumber = cal.get(Calendar.MONTH);
-		this.monthName = new DateFormatSymbols().getMonths()[this.monthNumber - 1];
+		this.dateOfMonth = date.getDayOfMonth();
+		this.year = date.getYear();
+		this.monthNumber = date.getMonthValue();
+		this.monthName = date.getMonth().toString();
 		this.projectName = projectName;
 		this.isUrgent = isUrgent;
-		this.formatedDeadline = dateFormat.format(date);
+		this.formatedDeadline = date.format(formatter);
 		this.projectColor = projectColor;
 	}
 

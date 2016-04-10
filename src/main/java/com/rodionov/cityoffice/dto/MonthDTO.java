@@ -1,8 +1,8 @@
 package com.rodionov.cityoffice.dto;
 
 import java.text.DateFormatSymbols;
+import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class MonthDTO {
@@ -14,15 +14,12 @@ public class MonthDTO {
 	
 	public MonthDTO() {}
 	
-	public MonthDTO(Date date, List<DocumentDTO> documents) {
+	public MonthDTO(LocalDate date, List<DocumentDTO> documents) {
 		
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
+		this.monthNumber = date.getMonthValue();
+		this.monthName = date.getMonth().toString();
 		
-		this.monthNumber = cal.get(Calendar.MONTH);
-		this.monthName = new DateFormatSymbols().getMonths()[this.monthNumber - 1];
-		
-		this.year = cal.get(Calendar.YEAR);
+		this.year = date.getYear();
 		this.documentsCount = documents.size();
 		this.documents = documents;
 	}
