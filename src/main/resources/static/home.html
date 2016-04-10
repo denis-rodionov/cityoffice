@@ -2,11 +2,28 @@
 <div class="alert alert-danger" ng-show="controller.error">
     Сервер вернул ошибку: {{controller.error}}
 </div>
-<div ng-show="authenticated">
-    <ul>
-        <li ng-repeat="document in controller.documents">{{document.id}}: {{document.name}}</li>
-    </ul>
+<div ng-show="authenticated" ng-repeat="month in controller.months">
+
+	<div class="panel panel-default">
+	  <div class="panel-heading">{{month.monthName}} {{month.year}} <span class="badge">{{month.documentsCount}}</span></div>
+	  <!-- List group -->
+	  <ul class="list-group" ng-repeat="doc in month.documents">
+	    <li class="list-group-item">	    	
+			<strong>{{doc.formatedDeadline}}</strong>
+			  	{{doc.name}}	    
+			    <span class="label label-{{doc.projectColor}}">{{doc.projectName}}</span>
+			    <a class="btn btn-default pull-right btn-xs btn-danger" href="#" role="button">Готово</a>
+	    </li>
+	  </ul>	  
+	</div>
+	
+    
 </div>
+
+<!-- <ul class="list-group">
+        <li class="list-group-item" ng-repeat="document in controller.documents">{{document.id}}: {{document.name}}</li>
+    </ul> -->
+
 <div  ng-show="!authenticated">
-    <p>Для просмотра документов необходимо войти в систему</p>
+    <p>Для просмотра списка документов необходимо войти в систему</p>
 </div>

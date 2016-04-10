@@ -17,10 +17,18 @@ angular.module('app', [ 'ngRoute', 'services'])
   	.controller('documentController', ['$scope', 'DocumentService',	function($scope, DocumentService) {
   		var self = this;
   		
-  		DocumentService.getAllDocuments()
-  			.then(function(data) {
-  				self.documents = data;
-  			}); 		
+  		DocumentService.getDocumentsByMonths().
+  			then(function(data) {
+  				self.months = data;
+  			},
+  			function(reason) {
+  				self.error = reason;
+  			});
+  		
+//  		DocumentService.getAllDocuments()
+//  			.then(function(data) {
+//  				self.documents = data;
+//  			}); 		
   		
   		
   		//$http.get('/document/').then(function(response) {
