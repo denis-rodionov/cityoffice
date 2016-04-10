@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rodionov.cityoffice.dto.DocumentDTO;
 import com.rodionov.cityoffice.dto.MonthDTO;
 import com.rodionov.cityoffice.model.Document;
+import com.rodionov.cityoffice.services.DateService;
 import com.rodionov.cityoffice.services.DocumentService;
 
 @RestController
@@ -26,6 +27,9 @@ public class MonthController {
 	
 	@Autowired
 	private DocumentService documentService;
+	
+	@Autowired
+	private DateService dateService;
 	
 	@RequestMapping("/month")
 	public List<MonthDTO> getMonthList(
