@@ -24,16 +24,6 @@ angular.module('app', [ 'ngRoute', 'services'])
   			function(reason) {
   				self.error = reason;
   			});
-  		
-//  		DocumentService.getAllDocuments()
-//  			.then(function(data) {
-//  				self.documents = data;
-//  			}); 		
-  		
-  		
-  		//$http.get('/document/').then(function(response) {
-  		//	self.greeting = response.data;
-  		//});
     }])
   	.controller('navigation',
   		function($rootScope, $http, $location) {
