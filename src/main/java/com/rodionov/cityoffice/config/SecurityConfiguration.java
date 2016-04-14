@@ -17,21 +17,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
     
 	@Override
     protected void configure(HttpSecurity http) throws Exception { 
-      http
-        .authorizeRequests()
-          .antMatchers("/index.html", "/home.html", "/login.html", "/").permitAll()
-          .anyRequest().authenticated()
-		.and()
-		.httpBasic()
-		.and()
-		.logout()
-			.deleteCookies("remove")
-        	.invalidateHttpSession(true)
-        	.logoutUrl("/logout")
-        	.logoutSuccessUrl("/")
-        	.and()
-		.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
-		.csrf().csrfTokenRepository(csrfTokenRepository());
+//      http
+//        .authorizeRequests()
+//          .antMatchers("/admin.html", "/index.html", "/home.html", "/login.html", "/").permitAll()
+//          .anyRequest().authenticated()
+//		.and()
+//		.httpBasic()
+//		.and()
+//		.logout()
+//			.deleteCookies("remove")
+//        	.invalidateHttpSession(true)
+//        	.logoutUrl("/logout")
+//        	.logoutSuccessUrl("/")
+//        	.and()
+//		.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
+//		.csrf().csrfTokenRepository(csrfTokenRepository());
 			
     }
     

@@ -1,0 +1,14 @@
+{
+  "name": "cityoffice",
+  "version": "1.0.0",
+  "description": "Planner for the office",
+  "main": "/js/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Denis Rodionov",
+  "license": "ISC",
+  "dependencies": {
+    "ng-admin": "^0.9.1"
+  }
+}
