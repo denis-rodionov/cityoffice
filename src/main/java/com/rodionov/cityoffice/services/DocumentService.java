@@ -1,6 +1,5 @@
 package com.rodionov.cityoffice.services;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,7 +51,6 @@ public class DocumentService {
 		
 		res = res.stream()
 			.map((Document d) -> {
-				Document newDoc = new Document(d);
 				Project proj = projectRepository.findOne(d.getProjectId());				
 				d.setProject(proj);
 				return d;

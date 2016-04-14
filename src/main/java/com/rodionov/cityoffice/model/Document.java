@@ -1,8 +1,6 @@
 package com.rodionov.cityoffice.model;
 
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
@@ -29,6 +27,16 @@ public class Document {
 		this.deadline = deadline;
 		this.status = status;
 		this.projectId = projectId;
+	}	
+	
+	public Document(String id, String name, LocalDate deadline, DocumentStatus status, String projectId, Project project) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.deadline = deadline;
+		this.status = status;
+		this.projectId = projectId;
+		this.project = project;
 	}	
 
 	public Document(String name, LocalDate deadline, DocumentStatus status, String projectId) {

@@ -1,8 +1,6 @@
 package com.rodionov.cityoffice.dto;
 
-import java.text.DateFormatSymbols;
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.List;
 
 public class MonthDTO {
@@ -28,6 +26,10 @@ public class MonthDTO {
 	public String toString() {
 		return "MonthDTO [monthName=" + monthName + ", monthNumber=" + monthNumber + ", year=" + year
 				+ ", documentsCount=" + documentsCount + ", documents=" + documents + "]";
+	}
+	
+	public LocalDate getMonthStartDate() {
+		return LocalDate.of(year, monthNumber, 1);
 	}
 
 	public String getMonthName() {

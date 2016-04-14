@@ -1,10 +1,9 @@
 package com.rodionov.cityoffice.dto;
 
-import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
+
+import com.rodionov.cityoffice.model.Document;
 
 public class DocumentDTO {
 	private String id;
@@ -42,7 +41,15 @@ public class DocumentDTO {
 				+ "]";
 	}
 
-
+	public static DocumentDTO of(Document d) {
+		return new DocumentDTO(
+				d.getId(), 
+				d.getName(), 
+				d.getDeadline(),
+				d.getProject().getName(),
+				false,
+				d.getProject().getColorName());
+	}
 
 	public int getDateOfMonth() {
 		return dateOfMonth;
