@@ -37,7 +37,7 @@ public class CityofficeApplication implements CommandLineRunner {
 		projectRepository.deleteAll();
 		if (documentRepository.count() == 0) {
 			Project proj1 = projectRepository.save(new Project("Exerica", true, "primary"));
-			Project proj2 = projectRepository.save(new Project("Lobster", true, "success"));			
+			Project proj2 = projectRepository.save(new Project("Lobster", false, "success"));			
 			
 			documentRepository.save(new Document("ТЗ", 
 					LocalDate.of(2016, 04, 15), 
