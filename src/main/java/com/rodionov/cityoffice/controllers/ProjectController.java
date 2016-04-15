@@ -51,28 +51,29 @@ public class ProjectController {
      
     //-------------------Create a Project--------------------------------------------------------
      
-    @RequestMapping(value = "/project/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createProject(@RequestBody Project project, UriComponentsBuilder ucBuilder) {
+    @RequestMapping(value = "/project", method = RequestMethod.POST)
+    public ResponseEntity<Project> createProject(@RequestBody Project project, UriComponentsBuilder ucBuilder) {
         System.out.println("Creating Project " + project.getName());
         Project existing = projectRepository.findByName(project.getName()).stream().findAny().orElse(null);
         
         if (existing != null) {
             System.out.println("A Project with name " + project.getName() + " already exist");
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+            return new ResponseEntity<Project>(HttpStatus.CONFLICT);
         }
  
         projectRepository.save(project);
  
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/project/{id}").buildAndExpand(project.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        //HttpHeaders headers = new HttpHeaders();
+        //headers.setLocation(ucBuilder.path("/project/{id}").buildAndExpand(project.getId()).toUri());
+        //return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<Project>(project, HttpStatus.CREATED);
     }
  
      
     //------------------- Update a Project --------------------------------------------------------
      
     @RequestMapping(value = "/project/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Project> updateProject(@PathVariable("id") long id, @RequestBody Project project) {
+    public ResponseEntity<Project> updateProject(@PathVariable("id") String id, @RequestBody Project project) {
         System.out.println("Updating Project " + id);
          
         Project currentProject = projectRepository.findOne(project.getId());

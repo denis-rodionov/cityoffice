@@ -16,6 +16,10 @@ public class Project {
 		this.colorName = colorName;
 	}
 	
+	public Project() {
+		
+	}
+	
 	@Override
 	public String toString() {
 		return "Project [id=" + id + ", name=" + name + ", isActive=" + isActive + ", colorName=" + colorName + "]";
