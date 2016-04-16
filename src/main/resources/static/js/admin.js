@@ -100,6 +100,34 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     admin.addEntity(document);
     
+// ------------- USERS -------------------------
+    
+    var user = nga.entity('user')
+		.label("Users");
+    
+    user.listView().fields([
+        nga.field('username')
+           .label('Username')
+           .validation({ required : true }),
+        nga.field('email', 'email')
+           .label('E-mail')
+           .validation({ reuqired : true })
+    ]);
+    
+    user.creationView().fields([
+       nga.field('username')
+           .label('Username')
+           .validation({ required : true }),
+       nga.field('email', 'email')
+           .label('E-mail')
+           .validation({ reuqired : true })
+    ]);
+    
+    user.editionView().fields(user.creationView().fields())
+		.title('Edit User "{{entry.values.name}}":');
+    
+    admin.addEntity(user);
+    
     // attach the admin application to the DOM and execute it
     nga.configure(admin);
 }]);
