@@ -2,15 +2,30 @@ package com.rodionov.cityoffice.model;
 
 import java.time.LocalDate;
 
+import org.apache.log4j.Logger;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.annotation.Transient;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.rodionov.cityoffice.controllers.MonthController;
+import com.rodionov.cityoffice.model.serialization.CustomDateDeserializer;
+import com.rodionov.cityoffice.model.serialization.CustomDateSerializer;
+
 public class Document {
+	
+	private static final Logger logger = Logger.getLogger(Document.class);
+	
 	@Id
 	private String id;	
 	private String name;
+	
+	@JsonDeserialize(using = CustomDateDeserializer.class)
+	@JsonSerialize(using = CustomDateSerializer.class)
 	private LocalDate deadline;
+	
 	private DocumentStatus status;
 	private String projectId;
 	
@@ -58,8 +73,20 @@ public class Document {
 				+ ", projectId=" + projectId + ", project=" + project + "]";
 	}
 	
+	@JsonIgnore
 	public String getSortableMonth() {
+		if (deadline == null) {
+			logger.error("Deadline is NULL for the document: " + this);
+			return "";
+		}
 		return deadline.getMonthValue() + "/" + deadline.getYear();
+	}
+	
+	public boolean isValid() {
+		if (deadline == null)
+			return false;
+		
+		return true;
 	}
 
 	public DocumentStatus getStatus() {

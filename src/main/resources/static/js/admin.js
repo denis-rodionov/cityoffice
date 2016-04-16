@@ -3,9 +3,11 @@ var myApp = angular.module('myApp', ['ng-admin']);
 // declare a function to run when the module bootstraps (during the 'config' phase)
 myApp.config(['NgAdminConfigurationProvider', function (nga) {
     // create an admin application
-    var admin = nga.application('Admin Tool').debug(true);
+    var admin = nga.application('Admin Tool', true).debug(true);
     // more configuation here later
     
+    
+    // --------- PROJECTS -----------------------------------
     var project = nga.entity('project')
     	.label("Projects");
     
@@ -48,6 +50,55 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 		.title('Project "{{entry.values.name}}":');
     
     admin.addEntity(project);
+    
+    // ------------- DOCUMENTS -------------------------
+    
+    var document = nga.entity('document')
+		.label("Documents");
+    
+    document.listView().fields([
+ 	                          nga.field('name')
+ 	                          	.label('Name')
+ 	                          	.editable(true)
+ 	                          	.isDetailLink(true),
+ 	                          nga.field('deadline', 'date')
+ 	                          	.label('Deadline')
+ 	                          	.format('dd.MM.yyyy'),
+ 	                          nga.field('status')
+ 	                          	.label('Status'),
+ 	                          nga.field('projectId', 'reference')
+ 	                          	.targetEntity(project)
+ 	                          	.targetField(nga.field('name'))
+ 	                          	.label('Project Name')
+                             ]);
+    
+    document.creationView().fields([
+		nga.field('name')
+			.label('Name')
+			.validation({ required : true, maxLength: 30}),
+		nga.field('deadline', 'date')
+			.label('Deadline')
+			.format('dd.MM.yyyy')
+			.validation({ required : true}),
+		nga.field('status', 'choice')
+			.label('Status')
+			.choices([
+		        	    { value: 'NEW', label: 'NEW '},
+		        	    { value: 'FINISHED', label: 'FINISHED'}
+		    ])
+		    .defaultValue('NEW')
+		    .validation({ required : true }),
+		nga.field('projectId', 'reference')
+			.targetEntity(project)
+			.targetField(nga.field('name'))
+			.label('Project')
+			.validation({ required: true })
+    ]);
+    
+    document.editionView().fields(document.creationView().fields())
+		.title('Edit Document "{{entry.values.name}}":');
+    
+    admin.addEntity(document);
     
     // attach the admin application to the DOM and execute it
     nga.configure(admin);
