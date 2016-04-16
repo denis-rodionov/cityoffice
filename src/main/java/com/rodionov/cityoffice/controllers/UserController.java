@@ -26,7 +26,7 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@RequestMapping("/user")
+	@RequestMapping("/getuser")
 	public Principal user(Principal user) {
 		logger.debug("UserController.User accessed by '" + user + "'");
 		
