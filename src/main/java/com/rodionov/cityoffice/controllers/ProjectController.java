@@ -2,6 +2,7 @@ package com.rodionov.cityoffice.controllers;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,13 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.rodionov.cityoffice.model.Project;
+import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.repository.ProjectRepository;
 
 @RestController
 public class ProjectController {
-
+	
+	private static final Logger logger = Logger.getLogger(ProjectController.class);
+	
 	@Autowired
 	private ProjectRepository projectRepository;
+	
+	@Autowired
+	private DocumentRepository documentRepository;
 	
 	//-------------------Retrieve All Projects--------------------------------------------------------
     
@@ -93,13 +100,21 @@ public class ProjectController {
     //------------------- Delete a Project --------------------------------------------------------
      
     @RequestMapping(value = "/project/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Project> deleteProject(@PathVariable("id") String id) {
+    public ResponseEntity<Project> deleteProject(@PathVariable("id") String id) 
+    		throws Exception {
         System.out.println("Fetching & Deleting Project with id " + id);
  
         Project project = projectRepository.findOne(id);
         if (project == null) {
-            System.out.println("Unable to delete. Project with id " + id + " not found");
+            logger.info("Unable to delete. Project with id " + id + " not found");
             return new ResponseEntity<Project>(HttpStatus.NOT_FOUND);
+        }
+        
+        int docCount = documentRepository.findByProjectId(project.getId()).size();
+        if (docCount != 0) {
+        	String error = "Unable to delete: there are " + docCount + " documents for the project";
+        	logger.info(error);
+        	throw new Exception(error);
         }
 
         projectRepository.delete(id);
@@ -108,13 +123,13 @@ public class ProjectController {
  
      
     //------------------- Delete All Projects --------------------------------------------------------
-     
+/*     
     @RequestMapping(value = "/project/", method = RequestMethod.DELETE)
     public ResponseEntity<Project> deleteAllProjects() {
         System.out.println("Deleting All Projects");
  
         projectRepository.deleteAll();
         return new ResponseEntity<Project>(HttpStatus.NO_CONTENT);
-    }
+    }*/
  
 }

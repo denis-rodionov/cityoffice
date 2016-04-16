@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rodionov.cityoffice.model.Document;
 import com.rodionov.cityoffice.repository.DocumentRepository;
 
@@ -117,12 +116,12 @@ public class DocumentController {
      
     //------------------- Delete All Documents --------------------------------------------------------
      
-    @RequestMapping(value = "/document/", method = RequestMethod.DELETE)
+/*    @RequestMapping(value = "/document/", method = RequestMethod.DELETE)
     public ResponseEntity<Document> deleteAllDocuments() {
         System.out.println("Deleting All Documents");
  
         documentRepository.deleteAll();
         return new ResponseEntity<Document>(HttpStatus.NO_CONTENT);
-    }
+    }*/
 
 }

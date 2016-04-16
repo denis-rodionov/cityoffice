@@ -16,4 +16,6 @@ public interface DocumentRepository extends MongoRepository<Document, String> {
 	List<Document> findByStatus(DocumentStatus status);
 	
 	List<Document> findByDeadlineGreaterThan(Date date);
+	
+	List<Document> findByProjectId(String projectId);
 }
