@@ -134,11 +134,11 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     function getHeader() {
     	var res =   	'\
-    		<div ng-controller="navigation as nav" class="container"> \
+    		<div class="container"> \
     		<ul class="nav nav-pills" role="tablist"> \
     			<li><a href="/">Documents</a></li> \
     			<li class="active"><a>Settings</a></li> \
-    			<li ng-show="authenticated"><a>Log Out</a></li> \
+    			<li><a>Log Out</a></li> \
     		</ul> \
     	</div> \
 		';
