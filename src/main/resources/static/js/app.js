@@ -24,6 +24,20 @@ angular.module('app', [ 'ngRoute', 'services'])
   			function(reason) {
   				self.error = reason;
   			});
+  		
+  		self.finishDocument = function(document, month) {
+  			DocumentService.finishDocument(document.id);
+  			
+  			// hide the document
+  			var index = month.documents.indexOf(document);
+  			month.documents.splice(index, 1);
+  			
+  			// hide month of no mo elements
+  			if (month.documents.length == 0) {
+  				var index1 = self.months.indexOf(month);
+  				self.months.splice(index1, 1);
+  			}
+  		};
     }])
   	.controller('navigation',
   		function($rootScope, $http, $location) {

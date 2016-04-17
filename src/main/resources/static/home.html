@@ -12,7 +12,8 @@
 			<strong>{{doc.formatedDeadline}}</strong>
 			  	{{doc.name}}	    
 			    <span class="label label-{{doc.projectColor}}">{{doc.projectName}}</span>
-			    <a class="btn btn-default pull-right btn-xs btn-danger" href="#" role="button">Готово</a>
+			    <button class="btn btn-default pull-right btn-xs " 
+			       ng-click="controller.finishDocument(doc, month);">Готово</button>
 	    </li>
 	  </ul>	  
 	</div>

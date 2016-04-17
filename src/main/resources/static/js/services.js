@@ -30,4 +30,17 @@ angular.module('services', [])
 					});
 				return deferred.promise;
 			};	
+			
+			this.finishDocument = function(documentId) {
+				var deferred = $q.defer();
+				
+				$http.post('/finish/' + documentId)
+					.then(function(response) {
+						if (response.status == 200)
+							deferred.resolve(response.data);
+						else 
+							deferred.reject('Error sending request to finish document');
+					});
+				return deferred.promise;
+			};
 	}])

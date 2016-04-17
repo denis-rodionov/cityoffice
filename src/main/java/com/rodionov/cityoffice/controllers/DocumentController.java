@@ -2,6 +2,7 @@ package com.rodionov.cityoffice.controllers;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,13 +15,31 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.rodionov.cityoffice.model.Document;
+import com.rodionov.cityoffice.model.DocumentStatus;
 import com.rodionov.cityoffice.repository.DocumentRepository;
 
 @RestController
 public class DocumentController {
 
+	private static final Logger logger = Logger.getLogger(MonthController.class);
+	
 	@Autowired
 	private DocumentRepository documentRepository;
+	
+	@RequestMapping(value = "/finish/{id}", method = RequestMethod.POST)
+	public ResponseEntity<Document> doneDocument(@PathVariable("id") String id) {
+		logger.info("Make document with id=" + id + " done");
+		Document document = documentRepository.findOne(id);
+		if (document == null) {
+			logger.error("Document '" + id + "' not found");
+			return new ResponseEntity<Document>(HttpStatus.NOT_FOUND);
+		}
+		
+		document.setStatus(DocumentStatus.FINISHED);
+		documentRepository.save(document);
+		
+		return new ResponseEntity<Document>(document, HttpStatus.OK);
+	}
 	
 	//-------------------Retrieve All Documents --------------------------------------------------------
     
