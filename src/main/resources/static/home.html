@@ -1,6 +1,6 @@
-<h1>Документы</h1>
+<h1>Documents</h1>
 <div class="alert alert-danger" ng-show="controller.error">
-    Сервер вернул ошибку: {{controller.error}}
+    Error: {{controller.error}}
 </div>
 <div ng-show="authenticated" ng-repeat="month in controller.months">
 
@@ -13,7 +13,7 @@
 			  	{{doc.name}}	    
 			    <span class="label label-{{doc.projectColor}}">{{doc.projectName}}</span>
 			    <button class="btn btn-default pull-right btn-xs " 
-			       ng-click="controller.finishDocument(doc, month);">Готово</button>
+			       ng-click="controller.finishDocument(doc, month);">Finish</button>
 	    </li>
 	  </ul>	  
 	</div>
@@ -26,5 +26,5 @@
     </ul> -->
 
 <div  ng-show="!authenticated">
-    <p>Для просмотра списка документов необходимо войти в систему</p>
+    <p>Log in for viewing the documents</p>
 </div>

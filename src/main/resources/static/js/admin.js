@@ -134,20 +134,13 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     function getHeader() {
     	var res =   	'\
-    		<div class="navbar-header"> \
-		    <button type="button" class="navbar-toggle" ng-click="isCollapsed = !isCollapsed"> \
-		        <span class="icon-bar"></span> \
-		        <span class="icon-bar"></span> \
-		        <span class="icon-bar"></span> \
-		    </button> \
-		    <a class="navbar-brand" href="#" ng-click="appController.displayHome()">CityOffice Settings</a> \
-		</div> \
-		<ul class="nav navbar-top-links navbar-right hidden-xs"> \
-		    <li> \
-		        <a href="/"> \
-		            <i class="fa fa-user fa-lg"></i>&nbsp;Back to Documents \
-		        </a> \
-		</ul> \
+    		<div ng-controller="navigation as nav" class="container"> \
+    		<ul class="nav nav-pills" role="tablist"> \
+    			<li><a href="/">Documents</a></li> \
+    			<li class="active"><a>Settings</a></li> \
+    			<li ng-show="authenticated"><a>Log Out</a></li> \
+    		</ul> \
+    	</div> \
 		';
     	return res;
     }
