@@ -9,6 +9,8 @@ angular.module('app', [ 'ngRoute', 'services'])
 	      templateUrl : 'login.html',
 	      controller : 'navigation',
 	      controllerAs: 'controller'
+	    }).when('/admin', {
+	      redirectTo : 'admin.html'
 	    }).otherwise('/');
 	
 	    $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';

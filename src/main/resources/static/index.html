@@ -17,6 +17,7 @@
 	<div ng-controller="navigation as nav" class="container">
 		<ul class="nav nav-pills" role="tablist">
 			<li class="active"><a href="#/">Документы</a></li>
+			<li><a href="/admin.html">Настройка</a></li>
 			<li ng-show="!authenticated"><a href="#/login">Войти</a></li>
 			<li ng-show="authenticated"><a href="" ng-click="nav.logout()">Выйти</a></li>
 		</ul>

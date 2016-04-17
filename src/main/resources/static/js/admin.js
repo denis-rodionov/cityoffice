@@ -4,6 +4,7 @@ var myApp = angular.module('myApp', ['ng-admin']);
 myApp.config(['NgAdminConfigurationProvider', function (nga) {
     // create an admin application
     var admin = nga.application('Admin Tool', true).debug(true);
+    admin.header(getHeader());
     // more configuation here later
     
     
@@ -130,4 +131,24 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     // attach the admin application to the DOM and execute it
     nga.configure(admin);
+    
+    function getHeader() {
+    	var res =   	'\
+    		<div class="navbar-header"> \
+		    <button type="button" class="navbar-toggle" ng-click="isCollapsed = !isCollapsed"> \
+		        <span class="icon-bar"></span> \
+		        <span class="icon-bar"></span> \
+		        <span class="icon-bar"></span> \
+		    </button> \
+		    <a class="navbar-brand" href="#" ng-click="appController.displayHome()">CityOffice Settings</a> \
+		</div> \
+		<ul class="nav navbar-top-links navbar-right hidden-xs"> \
+		    <li> \
+		        <a href="/"> \
+		            <i class="fa fa-user fa-lg"></i>&nbsp;Back to Documents \
+		        </a> \
+		</ul> \
+		';
+    	return res;
+    }
 }]);
