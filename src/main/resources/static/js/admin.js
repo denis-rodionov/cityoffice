@@ -136,7 +136,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     	var res =   	'\
     		<div class="container"> \
     		<ul class="nav nav-pills" role="tablist"> \
-    			<li><a href="/">Documents</a></li> \
+    			<li><a href="index.html">Documents</a></li> \
     			<li class="active"><a>Settings</a></li> \
     			<li><a>Log Out</a></li> \
     		</ul> \
