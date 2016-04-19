@@ -10,7 +10,6 @@ import org.springframework.data.annotation.Transient;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.rodionov.cityoffice.controllers.MonthController;
 import com.rodionov.cityoffice.model.serialization.CustomDateDeserializer;
 import com.rodionov.cityoffice.model.serialization.CustomDateSerializer;
 
@@ -28,9 +27,13 @@ public class Document {
 	
 	private DocumentStatus status;
 	private String projectId;
-	
+	private String notificationSchemaId;
+		
 	@Transient
 	private Project project;
+	
+	@Transient
+	private NotificationSchema notificationSchema;
 	
 	public Document() { }
 	
@@ -59,7 +62,16 @@ public class Document {
 		this.name = name;
 		this.deadline = deadline;
 		this.status = status;
-		this.projectId = projectId;
+		this.projectId = projectId;		
+	}
+	
+	public Document(String name, LocalDate deadline, DocumentStatus status, String projectId, String notificationSchemaId) {
+		super();
+		this.name = name;
+		this.deadline = deadline;
+		this.status = status;
+		this.projectId = projectId;	
+		this.notificationSchemaId = notificationSchemaId;
 	}
 	
 	public Document(Document document) {
@@ -130,5 +142,21 @@ public class Document {
 	}
 	public void setDeadline(LocalDate deadline) {
 		this.deadline = deadline;
+	}
+	
+	public String getNotificationSchemaId() {
+		return notificationSchemaId;
+	}
+
+	public void setNotificationSchemaId(String notificationSchemaId) {
+		this.notificationSchemaId = notificationSchemaId;
+	}
+
+	public NotificationSchema getNotificationSchema() {
+		return notificationSchema;
+	}
+
+	public void setNotificationSchema(NotificationSchema notificationSchema) {
+		this.notificationSchema = notificationSchema;
 	}
 }

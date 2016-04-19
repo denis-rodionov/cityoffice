@@ -1,6 +1,5 @@
 package com.rodionov.cityoffice.model;
 
-import org.apache.log4j.Logger;
 import org.springframework.data.annotation.Id;
 
 import lombok.Data;
@@ -8,7 +7,7 @@ import lombok.Data;
 @Data
 public class User {
 	
-	private static final Logger logger = Logger.getLogger(User.class);
+	//private static final Logger logger = Logger.getLogger(User.class);
 	
 	@Id
 	private String id;

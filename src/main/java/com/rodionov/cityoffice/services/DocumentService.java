@@ -75,6 +75,8 @@ public class DocumentService {
 	public List<Document> getDocumentsToNotify() {
 		List<Document> res = new ArrayList<Document>();
 		
+		
+		
 		return res;
 	}
 	
