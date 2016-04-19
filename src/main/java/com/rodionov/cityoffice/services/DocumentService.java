@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.rodionov.cityoffice.model.Document;
 import com.rodionov.cityoffice.model.DocumentStatus;
 import com.rodionov.cityoffice.model.Project;
+import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.repository.ProjectRepository;
 
@@ -25,6 +26,9 @@ public class DocumentService {
 	
 	@Autowired
 	private ProjectRepository projectRepository;
+	
+	@Autowired
+	private DateService dateService;
 	
 	/**
 	 * @return All not done documents
@@ -61,6 +65,26 @@ public class DocumentService {
 		res.forEach(b::append);
 		
 		logger.debug(b);
+		
+		return res;
+	}
+	
+	/**
+	 * @return documents which need to be nofified about
+	 */
+	public List<Document> getDocumentsToNotify() {
+		List<Document> res = new ArrayList<Document>();
+		
+		return res;
+	}
+	
+	/**
+	 * Finds out which users must be notifyed about the document
+	 * @param doc Document to notify about
+	 * @return List of users
+	 */
+	public List<User> getUsersToNotify(Document doc) {
+		List<User> res = new ArrayList<User>();
 		
 		return res;
 	}
