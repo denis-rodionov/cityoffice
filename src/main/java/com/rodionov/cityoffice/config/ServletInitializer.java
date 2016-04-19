@@ -9,6 +9,8 @@ import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import com.rodionov.cityoffice.services.BackgroundJobService;
+
 @Configuration
 public class ServletInitializer implements ServletContextInitializer {
 
@@ -22,6 +24,8 @@ public class ServletInitializer implements ServletContextInitializer {
 	    encodingFilter.setInitParameter("encoding", "UTF-8");
 	    encodingFilter.setInitParameter("forceEncoding", "true");
 	    encodingFilter.addMappingForUrlPatterns(null, true, "/*");
+	    
+	    servletContext.addListener(new BackgroundJobService());
     }
 
 }
