@@ -2,18 +2,16 @@ package com.rodionov.cityoffice.services;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.Assertions.extractProperty;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -51,6 +49,9 @@ public class DocumentServiceTests {
 	@Autowired
 	private NotificationSchemaRepository notificationSchemaRepository;
 	
+	//@Autowired
+	//private UserRepository userRepository;
+	
 	@Mock
 	private DateService dateService;
 	
@@ -58,6 +59,7 @@ public class DocumentServiceTests {
 	public void cleanup() {
 		projectRepository.deleteAll();
 		documentRepository.deleteAll();
+		notificationSchemaRepository.deleteAll();
 		
 		MockitoAnnotations.initMocks(this);
 	}
@@ -69,7 +71,7 @@ public class DocumentServiceTests {
 		// arrange
 		NotificationSchema notification = NotificationHelper.create(NotificationHelper.ONLY_DEADLINE_NOTIFY);
 		notificationSchemaRepository.save(notification);
-		documentRepository.save(new Document("1", "projectId", LocalDate.of(2000, 1, 1), DocumentStatus.NEW, notification.getId()));
+		documentRepository.save(DocumentHelper.CreateDocument("1", "projectId", LocalDate.of(2000, 1, 1), DocumentStatus.NEW, notification.getId()));
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2000, 1, 1));
 		
 		// act
@@ -84,7 +86,7 @@ public class DocumentServiceTests {
 		// arrange
 		NotificationSchema notification = NotificationHelper.create(NotificationHelper.DEADLINE_AND_WEEK_BEFORE);
 		notificationSchemaRepository.save(notification);
-		documentRepository.save(new Document("1", "projectId", LocalDate.of(2000, 8, 1), DocumentStatus.NEW, notification.getId()));
+		documentRepository.save(DocumentHelper.CreateDocument("1", "projectId", LocalDate.of(2000, 1, 8), DocumentStatus.NEW, notification.getId()));
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2000, 1, 1));
 		
 		// act
@@ -99,7 +101,7 @@ public class DocumentServiceTests {
 		// arrange
 		NotificationSchema notification = NotificationHelper.create(NotificationHelper.ONLY_DEADLINE_NOTIFY);
 		notificationSchemaRepository.save(notification);
-		documentRepository.save(new Document("1", "projectId", LocalDate.of(2000, 1, 1), DocumentStatus.FINISHED, notification.getId()));
+		documentRepository.save(DocumentHelper.CreateDocument("1", "projectId", LocalDate.of(2000, 1, 1), DocumentStatus.FINISHED, notification.getId()));
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2000, 1, 1));
 		
 		// act
@@ -108,9 +110,22 @@ public class DocumentServiceTests {
 		// assert
 		assertThat(actual).hasSize(0);
 	}	
-		
-	// already notified
-	// correct user notified
+	
+//	// ------------------------- getUsersToNotifyTest  ----------------------------------
+//	@Test
+//	public void getUsersToNotifyTest() {
+//		// arrange
+//		NotificationSchema notification = NotificationHelper.create(NotificationHelper.ONLY_DEADLINE_NOTIFY);
+//		notificationSchemaRepository.save(notification);		
+//		String project1 = ProjectHelper.createAndSave("1",  projectRepository);
+//		userRepository.save(new User())		
+//		
+//		documentRepository.save(new Document("1", project1, LocalDate.of(2000, 1, 1), DocumentStatus.FINISHED, notification.getId()));
+//		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2000, 1, 1));
+//	}
+//		
+//	// already notified
+//	// correct user notified
 	
 	// ------------------------- getUnfinishedDocumentsTest  ----------------------------------
 	

@@ -17,4 +17,20 @@ public class DocumentHelper {
 		
 		return new Document(name, date, status, projectId);
 	}
+	
+	public static Document CreateDocument(
+			String name, 
+			String projectId, 
+			LocalDate date,
+			DocumentStatus status,
+			String notificationSchemaId) {
+		
+		//Instant instant = date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+		//Date resDate = Date.from(instant);
+		
+		Document doc = new Document(name, date, status, projectId);
+		doc.setNotificationSchemaId(notificationSchemaId);
+		
+		return doc;
+	}
 }

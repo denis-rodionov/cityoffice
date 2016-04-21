@@ -38,16 +38,23 @@ public class Document {
 	public Document() { }
 	
 	@PersistenceConstructor	
-	public Document(String id, String name, LocalDate deadline, DocumentStatus status, String projectId) {
+	public Document(String id, String name, LocalDate deadline, DocumentStatus status, String projectId, String notificationSchemaId) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.deadline = deadline;
 		this.status = status;
 		this.projectId = projectId;
+		this.notificationSchemaId = notificationSchemaId;
 	}	
 	
-	public Document(String id, String name, LocalDate deadline, DocumentStatus status, String projectId, Project project) {
+	public Document(
+			String id, 
+			String name, 
+			LocalDate deadline, 
+			DocumentStatus status, 
+			String projectId, 
+			Project project) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -76,7 +83,7 @@ public class Document {
 	
 	public Document(Document document) {
 		this(document.id, document.name, document.deadline, document.status,
-			document.projectId);
+			document.projectId, document.notificationSchemaId);
 	}
 
 	@Override

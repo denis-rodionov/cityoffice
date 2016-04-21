@@ -10,8 +10,8 @@ public class NotificationSchema {
 	
 	public NotificationSchema() { }
 	
-	public NotificationSchema(String id) {
-		this.id = id;
+	public NotificationSchema(String name) {
+		this.name = name;
 	}
 
 	public String getId() {

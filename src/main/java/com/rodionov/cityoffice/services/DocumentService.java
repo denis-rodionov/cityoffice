@@ -1,5 +1,6 @@
 package com.rodionov.cityoffice.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,10 +12,14 @@ import org.springframework.stereotype.Service;
 
 import com.rodionov.cityoffice.model.Document;
 import com.rodionov.cityoffice.model.DocumentStatus;
+import com.rodionov.cityoffice.model.NotificationSchema;
 import com.rodionov.cityoffice.model.Project;
 import com.rodionov.cityoffice.model.User;
+import com.rodionov.cityoffice.model.helpers.NotificationHelper;
 import com.rodionov.cityoffice.repository.DocumentRepository;
+import com.rodionov.cityoffice.repository.NotificationSchemaRepository;
 import com.rodionov.cityoffice.repository.ProjectRepository;
+import com.rodionov.cityoffice.repository.UserRepository;
 
 @Service
 public class DocumentService {
@@ -29,6 +34,12 @@ public class DocumentService {
 	
 	@Autowired
 	private DateService dateService;
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private NotificationSchemaRepository notificationSchemaRepository;
 	
 	/**
 	 * @return All not done documents
@@ -55,8 +66,13 @@ public class DocumentService {
 		
 		res = res.stream()
 			.map((Document d) -> {
-				Project proj = projectRepository.findOne(d.getProjectId());				
+				Project proj = projectRepository.findOne(d.getProjectId());
 				d.setProject(proj);
+				if (d.getNotificationSchemaId() != null) {
+					NotificationSchema n = notificationSchemaRepository.findOne(d.getNotificationSchemaId());
+					d.setNotificationSchema(n);
+				}
+				
 				return d;
 			})
 			.collect(Collectors.toList());
@@ -70,24 +86,31 @@ public class DocumentService {
 	}
 	
 	/**
-	 * @return documents which need to be nofified about
+	 * @return documents which need to be notified about
 	 */
 	public List<Document> getDocumentsToNotify() {
 		List<Document> res = new ArrayList<Document>();
 		
+		List<Document> unfinished = getDocuments(Arrays.asList(DocumentStatus.NEW));
+		LocalDate today = dateService.getCurrentDate();
 		
+		unfinished.forEach(d -> {
+			List<LocalDate> dates = NotificationHelper.getNotificationDates(d.getNotificationSchema(), d);
+			System.out.println(dates);
+			System.out.println(today);
+			if (dates.stream().anyMatch(date -> date.compareTo(today) == 0))
+				res.add(d);					
+		});
 		
 		return res;
 	}
 	
 	/**
-	 * Finds out which users must be notifyed about the document
+	 * Finds out which users must be notified about the document deadline
 	 * @param doc Document to notify about
 	 * @return List of users
 	 */
 	public List<User> getUsersToNotify(Document doc) {
-		List<User> res = new ArrayList<User>();
-		
-		return res;
+		return userRepository.findAll();
 	}
 }
