@@ -52,6 +52,25 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     admin.addEntity(project);
     
+    // ------------- NOTIFICATION SCHEMAS -------------------------
+    
+    var notification_schema = nga.entity('notification_schema')
+    	.label('Notification Schema');
+    
+    notification_schema.listView().fields([
+        nga.field('name')
+        	.label('Schema Name')
+        	.editable(false)
+        	.isDetailLink(true),
+        nga.field('description')
+        	.label('Description')
+    ]);
+    
+    notification_schema.editionView().fields(notification_schema.listView().fields())
+    	.title('Edit schema "{{entry.values.name}}":');
+    
+    admin.addEntity(notification_schema);
+    
     // ------------- DOCUMENTS -------------------------
     
     var document = nga.entity('document')
@@ -70,8 +89,14 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
  	                          nga.field('projectId', 'reference')
  	                          	.targetEntity(project)
  	                          	.targetField(nga.field('name'))
- 	                          	.label('Project Name')
-                             ]);
+ 	                          	.label('Project Name'),
+ 	                          nga.field('notificationSchemaId', 'reference')
+ 	                          	.targetEntity(notification_schema)
+ 	                          	.targetField(nga.field('description'))
+ 	                          	.label('Notification Schema')
+                             ])
+                             .sortField('deadline')
+                             .sortDir('DESC');
     
     document.creationView().fields([
 		nga.field('name')
@@ -93,7 +118,11 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 			.targetEntity(project)
 			.targetField(nga.field('name'))
 			.label('Project')
-			.validation({ required: true })
+			.validation({ required: true }),
+		nga.field('notificationSchemaId', 'reference')
+           	.targetEntity(notification_schema)
+           	.targetField(nga.field('description'))
+           	.label('Notification Schema')
     ]);
     
     document.editionView().fields(document.creationView().fields())

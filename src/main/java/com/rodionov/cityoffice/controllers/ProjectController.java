@@ -40,7 +40,7 @@ public class ProjectController {
         return new ResponseEntity<List<Project>>(projects, HttpStatus.OK);
     }
     
-  //-------------------Retrieve Single Project--------------------------------------------------------
+    //-------------------Retrieve Single Project--------------------------------------------------------
     
     @RequestMapping(value = "/project/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Project> getProject(@PathVariable("id") String id) {
@@ -51,9 +51,7 @@ public class ProjectController {
             return new ResponseEntity<Project>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Project>(project, HttpStatus.OK);
-    }
- 
-     
+    }     
      
     //-------------------Create a Project--------------------------------------------------------
      

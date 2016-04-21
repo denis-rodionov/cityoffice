@@ -103,6 +103,7 @@ public class DocumentController {
         currentDocument.setProjectId(document.getProjectId());
         currentDocument.setProject(document.getProject());
         currentDocument.setStatus(document.getStatus());
+        currentDocument.setNotificationSchemaId(document.getNotificationSchemaId());
         
         if (document.getDeadline() != null)
         	currentDocument.setDeadline(document.getDeadline());
