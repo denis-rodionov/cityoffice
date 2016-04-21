@@ -1,5 +1,6 @@
 package com.rodionov.cityoffice.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +20,34 @@ public class NotificationService {
 	@Autowired
 	private MailService mailService;
 	
+	@Autowired
+	private DateService dateService;
+	
 	/**
 	 * Notifies given user about
 	 * @param user
 	 * @param doc
 	 */
 	public void notifyUserAboutDocument(User user, Document doc) {
-		List<SentNotification> notifications = sentNotificationRepository.findByDocumentId(doc.getId());
-		
-		if (notifications.stream().filter(n -> n.getUserId() == user.getId()).count() == 0) {
+				
+		if (!isNotificationHappened(user, doc)) {
 						
 			mailService.send(user, doc);
 			
 			saveNotification(user, doc);
 		}
+	}
+	
+	private boolean isNotificationHappened(User user, Document doc) {
+		List<SentNotification> notifications = sentNotificationRepository.findByDocumentId(doc.getId());
+		
+		LocalDate today = dateService.getCurrentDate();
+		String userId = user.getId();
+		boolean res = notifications
+				.stream()
+				.anyMatch(n -> n.getUserId().compareTo(userId) == 0 && n.getDate().compareTo(today) == 0);
+		
+		return res;
 	}
 
 	private void saveNotification(User user, Document doc) {
@@ -40,6 +55,7 @@ public class NotificationService {
 		notification.setUserId(user.getId());
 		notification.setDocumentId(doc.getId());
 		notification.setByEmail(true);
+		notification.setDate(dateService.getCurrentDate());
 		
 		sentNotificationRepository.save(notification);
 	}
