@@ -95,7 +95,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
  	                          	.targetField(nga.field('description'))
  	                          	.label('Notification Schema')
                              ])
-                             .sortField('deadline')
+                             .sortField('status')
                              .sortDir('DESC');
     
     document.creationView().fields([

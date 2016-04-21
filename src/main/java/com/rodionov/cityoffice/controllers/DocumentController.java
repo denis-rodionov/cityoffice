@@ -46,6 +46,8 @@ public class DocumentController {
     @RequestMapping(value = "/document", method = RequestMethod.GET)
     public ResponseEntity<List<Document>> listAllDocuments() {
         List<Document> docs = documentRepository.findAll();
+        docs.sort((d1, d2) -> d1.getDeadline().compareTo(d2.getDeadline()));
+        
         if(docs.isEmpty()){
             return new ResponseEntity<List<Document>>(HttpStatus.NO_CONTENT);
         }
