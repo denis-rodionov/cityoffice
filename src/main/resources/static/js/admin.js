@@ -55,7 +55,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     // ------------- NOTIFICATION SCHEMAS -------------------------
     
     var notification_schema = nga.entity('notification_schema')
-    	.label('Notification Schema');
+    	.label('Notification Schemas');
     
     notification_schema.listView().fields([
         nga.field('name')
@@ -154,10 +154,15 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     user.listView().fields([
         nga.field('username')
            .label('Username')
+           .isDetailLink(true)
            .validation({ required : true }),
         nga.field('email', 'email')
            .label('E-mail')
-           .validation({ reuqired : true })
+           .validation({ reuqired : true }),
+        nga.field('projectIds', 'reference_many')
+           .targetEntity(project)
+           .targetField(nga.field('name'))
+           .label('Projects')
     ]);
     
     user.creationView().fields([
@@ -166,8 +171,21 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
            .validation({ required : true }),
        nga.field('email', 'email')
            .label('E-mail')
-           .validation({ reuqired : true })
+           .validation({ reuqired : true }),
+       nga.field('projectIds', 'reference_many')
+       	   .targetEntity(project)
+       	   .targetField(nga.field('name'))   	
+       	   .label('Projects')
     ]);
+    
+    user.showView().fields([
+        nga.field('username')
+            .label('Username')
+            .validation({ required : true }),
+        nga.field('email', 'email')
+            .label('E-mail')
+            .validation({ reuqired : true })
+     ]);
     
     user.editionView().fields(user.creationView().fields())
 		.title('Edit User "{{entry.values.name}}":');

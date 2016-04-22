@@ -1,5 +1,7 @@
 package com.rodionov.cityoffice.model;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 
 import lombok.Data;
@@ -13,6 +15,7 @@ public class User {
 	private String id;
 	private String username;
 	private String email;
+	private List<String> projectIds;
 	
 	public User() { }
 	
@@ -29,7 +32,13 @@ public class User {
 		this.email = email;
 	}
 	
-	
+	public List<String> getProjectIds() {
+		return projectIds;
+	}
+
+	public void setProjectIds(List<String> projectIds) {
+		this.projectIds = projectIds;
+	}
 
 	@Override
 	public String toString() {

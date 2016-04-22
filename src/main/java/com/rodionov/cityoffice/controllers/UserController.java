@@ -56,8 +56,6 @@ public class UserController {
         }
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
- 
-     
      
     //-------------------Create a User--------------------------------------------------------
      
@@ -96,6 +94,7 @@ public class UserController {
  
         currentUser.setUsername(user.getUsername());
         currentUser.setEmail(user.getEmail());
+        currentUser.setProjectIds(user.getProjectIds());
                 
         userRepository.save(currentUser);
         return new ResponseEntity<User>(currentUser, HttpStatus.OK);
