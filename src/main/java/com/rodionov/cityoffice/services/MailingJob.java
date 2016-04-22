@@ -20,9 +20,12 @@ public class MailingJob implements Runnable {
 	
 	@Override
 	public void run() {
-		logger.info("MAILING");
+		logger.info("Checking documents for notifiction...");
 		
 		List<Document> docsToNotifyAbout = documentService.getDocumentsToNotify();
+		
+		if (docsToNotifyAbout.size() != 0)
+			logger.info("Found " + docsToNotifyAbout.size() + " documents to notify about");
 		
 		for (Document doc : docsToNotifyAbout) {
 			List<User> usersToNotify = documentService.getUsersToNotify(doc);

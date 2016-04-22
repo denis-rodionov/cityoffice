@@ -1,13 +1,17 @@
 package com.rodionov.cityoffice.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.mail.MailSender;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
+
+import static org.mockito.Mockito.*;
 
 @Configuration
 @EnableMongoRepositories(value="com.rodionov.cityoffice.repository")
@@ -49,5 +53,10 @@ public class RealDatabaseTestConfiguration extends AbstractMongoConfiguration {
     @Override
     protected String getMappingBasePackage() {
         return "com.rodionov.cityoffice";
+    }
+    
+    @Bean
+    public MailSender getMailSender() {
+    	return mock(MailSender.class);
     }
 }

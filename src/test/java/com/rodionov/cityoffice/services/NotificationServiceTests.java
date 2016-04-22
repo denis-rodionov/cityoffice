@@ -57,7 +57,7 @@ public class NotificationServiceTests {
 		notificationSevice.notifyUserAboutDocument(user, doc);
 		
 		// assert
-		verify(mailService, times(1)).send(Mockito.any(), Mockito.any());
+		verify(mailService, times(1)).send(Mockito.any(), Mockito.any(), Mockito.any());
 	}
 	
 	@Test
@@ -74,6 +74,6 @@ public class NotificationServiceTests {
 		notificationSevice.notifyUserAboutDocument(user, doc);
 		
 		// assert
-		verify(mailService, times(0)).send(Mockito.any(), Mockito.any());
+		verify(mailService, times(0)).send(Mockito.any(), Mockito.any(), Mockito.any());
 	}
 }

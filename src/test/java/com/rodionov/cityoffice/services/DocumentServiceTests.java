@@ -111,6 +111,23 @@ public class DocumentServiceTests {
 		assertThat(actual).hasSize(0);
 	}	
 	
+	@Test
+	public void getDocumentsToNotifyTest_IncludeProject() {
+		// arrange
+		Project prj = projectRepository.save(new Project("A Project", true, "default"));
+		NotificationSchema notification = NotificationHelper.create(NotificationHelper.ONLY_DEADLINE_NOTIFY);
+		notificationSchemaRepository.save(notification);
+		documentRepository.save(DocumentHelper.CreateDocument("1", prj.getId(), LocalDate.of(2000, 1, 1), DocumentStatus.NEW, notification.getId()));
+		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2000, 1, 1));
+		
+		// act
+		List<Document> actual = documentService.getDocumentsToNotify();
+		
+		// assert
+		assertThat(actual).hasSize(1);
+		assertThat(actual.get(0).getProject()).isNotNull();
+	}	
+	
 //	// ------------------------- getUsersToNotifyTest  ----------------------------------
 //	@Test
 //	public void getUsersToNotifyTest() {
