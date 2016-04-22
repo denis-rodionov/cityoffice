@@ -64,6 +64,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
         	.isDetailLink(true),
         nga.field('description')
         	.label('Description')
+        nga.field('notifications', '')
     ]);
     
     notification_schema.editionView().fields(notification_schema.listView().fields())

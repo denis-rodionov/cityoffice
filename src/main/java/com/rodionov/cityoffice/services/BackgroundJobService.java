@@ -25,7 +25,7 @@ public class BackgroundJobService implements ServletContextListener {
     public void contextInitialized(ServletContextEvent event) {
         scheduler = Executors.newSingleThreadScheduledExecutor();
         
-        scheduler.scheduleAtFixedRate(mailingJob, 0, 1, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(mailingJob, 0, 1, TimeUnit.MINUTES);
         logger.info("Scheduller initialized");
     }
 

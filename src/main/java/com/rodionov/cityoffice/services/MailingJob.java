@@ -1,5 +1,6 @@
 package com.rodionov.cityoffice.services;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -13,6 +14,8 @@ import com.rodionov.cityoffice.repository.DocumentRepository;
 @Service
 public class MailingJob implements Runnable {
 
+	private final int START_HOUR = 10;
+	
 	Logger logger = Logger.getLogger(MailingJob.class);
 	
 	@Autowired
@@ -28,6 +31,9 @@ public class MailingJob implements Runnable {
 	public void run() {
 		try 
 		{
+			if (LocalTime.now().getHour() < START_HOUR)
+				return;
+			
 			logger.info("Checking documents for notifiction...");
 		
 			List<Document> docsToNotifyAbout = documentService.getDocumentsToNotify();

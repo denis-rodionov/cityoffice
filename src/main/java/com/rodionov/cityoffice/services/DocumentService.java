@@ -77,11 +77,6 @@ public class DocumentService {
 			})
 			.collect(Collectors.toList());
 		
-		StringBuilder b = new StringBuilder();
-		res.forEach(b::append);
-		
-		logger.debug(b);
-		
 		return res;
 	}
 	
