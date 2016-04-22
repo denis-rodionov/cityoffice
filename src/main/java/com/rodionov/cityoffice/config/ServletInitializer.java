@@ -25,7 +25,7 @@ public class ServletInitializer implements ServletContextInitializer {
 	    encodingFilter.setInitParameter("forceEncoding", "true");
 	    encodingFilter.addMappingForUrlPatterns(null, true, "/*");
 	    
-	    servletContext.addListener(new BackgroundJobService());
+	    //servletContext.addListener(new BackgroundJobService());
     }
 
 }

@@ -1,12 +1,11 @@
 package com.rodionov.cityoffice.services;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
@@ -22,31 +21,41 @@ public class MailService {
 	
 	@Autowired
 	MailSender mailSender;
+	
+	@Autowired
+	SimpleMailMessage messageTemplate;
 
 	public void send(User user, Document doc, Project project) {
 		
 		logger.info("Sending email to " + user.getEmail());
 		
-		SimpleMailMessage message = new SimpleMailMessage();
-		
+		SimpleMailMessage message = new SimpleMailMessage(messageTemplate);
+				
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-		long daysToDeadline = Duration.between(doc.getDeadline(), LocalDate.now()).toDays();		
 		
+		long daysToDeadline = ChronoUnit.DAYS.between(LocalDate.now(), doc.getDeadline());
+				
 		message.setTo(user.getEmail());
 		
-		message.setSubject("Notification for the project " + project.getName());
+		message.setSubject("Deadline in " + project.getName());
 		
 		message.setText("Dear " + user.getUsername() + ",\n" + 
-						"You have notification about '" + doc.getName() + "'\n which has deadline at " +
-						doc.getDeadline().format(formatter) + " (in " + daysToDeadline + " days)!");
+						"You have notification about '" + doc.getName() + "' which has deadline " + formatedDays(daysToDeadline) + " (" +
+						doc.getDeadline().format(formatter) + ")\nProject: " + project.getName());
 		
-		try {
-			mailSender.send(message);
-		}
-		catch (MailException ex) {
-			logger.error(ex);
-		}
-		
+		logger.info(message);
+		mailSender.send(message);		
+	}
+	
+	public String formatedDays(long daysTo) {
+		if (daysTo == 0)
+			return "today";
+		else if (daysTo == 1)
+			return "tomorrow";
+		else if (daysTo == 2)
+			return "in the day after tomorrow";
+		else
+			return "in " + daysTo + " days";
 	}
 
 }

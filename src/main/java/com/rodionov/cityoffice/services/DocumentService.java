@@ -89,6 +89,7 @@ public class DocumentService {
 	 * @return documents which need to be notified about
 	 */
 	public List<Document> getDocumentsToNotify() {
+		
 		List<Document> res = new ArrayList<Document>();
 		
 		List<Document> unfinished = getDocuments(Arrays.asList(DocumentStatus.NEW));
@@ -96,8 +97,6 @@ public class DocumentService {
 		
 		unfinished.forEach(d -> {
 			List<LocalDate> dates = NotificationHelper.getNotificationDates(d.getNotificationSchema(), d);
-			System.out.println(dates);
-			System.out.println(today);
 			if (dates.stream().anyMatch(date -> date.compareTo(today) == 0))
 				res.add(d);					
 		});

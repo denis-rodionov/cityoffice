@@ -28,6 +28,13 @@ public class User {
 		this.username = username;
 		this.email = email;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "User [username=" + username + ", email=" + email + "]";
+	}
 
 	public String getId() {
 		return id;

@@ -6,21 +6,26 @@ import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-@WebListener
+@Service
 public class BackgroundJobService implements ServletContextListener {
 	
 	Logger logger = Logger.getLogger(BackgroundJobService.class);
+	
+	@Autowired
+	private MailingJob mailingJob;
 
     private ScheduledExecutorService scheduler;
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(new MailingJob(), 0, 5, TimeUnit.SECONDS);
+        
+        scheduler.scheduleAtFixedRate(mailingJob, 0, 1, TimeUnit.SECONDS);
         logger.info("Scheduller initialized");
     }
 
