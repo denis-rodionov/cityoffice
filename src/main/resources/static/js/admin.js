@@ -95,7 +95,23 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
  	                          	.targetField(nga.field('description'))
  	                          	.label('Notification Schema')
                              ])
-                             .sortField('status')
+                             .filters([
+                                 nga.field('status', 'choice')
+                                     .label('Status')
+                                     .pinned(true)
+                                     .defaultValue('NEW')
+                                     .choices([
+									        	    { value: 'NEW', label: 'NEW '},
+									        	    { value: 'FINISHED', label: 'FINISHED'}
+									    ]),
+                                 nga.field('name')
+                                 	.label('Name'),
+                                 nga.field('project', 'reference')
+                                 	.label('Project')
+                                 	.targetEntity(project)
+                                 	.targetField(nga.field('name'))
+                             ])
+                             .sortField(nga.field('status'))
                              .sortDir('DESC');
     
     document.creationView().fields([
