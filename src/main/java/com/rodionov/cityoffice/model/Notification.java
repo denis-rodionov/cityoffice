@@ -8,6 +8,8 @@ public class Notification {
 	private int daysBefore;
 	private String name;
 	
+	public Notification() { }
+	
 	public Notification(int daysBefore, String name) {
 		super();
 		this.daysBefore = daysBefore;

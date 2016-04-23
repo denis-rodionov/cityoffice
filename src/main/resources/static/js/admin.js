@@ -59,7 +59,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     notification.listView().fields([
         nga.field('name').label('Name').isDetailLink(true),
-        nga.field('daysBefore', 'number').label("Notification period")
+        nga.field('daysBefore', 'number').label("Notification period").editable(true)
     ]);
     
     notification.editionView().fields(notification.listView().fields())
@@ -78,11 +78,12 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     notification_schema.listView().fields([
         nga.field('name')
         	.label('Schema Name')
-        	.editable(false)
+        	.editable(true)
         	.isDetailLink(true),
-        nga.field('description')
-        	.label('Description')
-        //nga.field('notifications', '')
+        nga.field('notifications', 'reference_many')
+            .targetEntity(notification)
+            .targetField(nga.field('name'))
+            .label('Notifications')
     ]);
     
     notification_schema.editionView().fields(notification_schema.listView().fields())

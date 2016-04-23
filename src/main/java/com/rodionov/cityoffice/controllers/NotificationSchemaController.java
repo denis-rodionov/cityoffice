@@ -58,13 +58,14 @@ public class NotificationSchemaController {
         System.out.println("Updating NotificationSchema " + id);
          
         NotificationSchema currentNotificationSchema = notificationSchemaRepository.findOne(notificationSchema.getId());
-         
+        
         if (currentNotificationSchema == null) {
             System.out.println("NotificationSchema with id " + id + " not found");
             return new ResponseEntity<NotificationSchema>(HttpStatus.NOT_FOUND);
         }
  
         currentNotificationSchema.setDescription(notificationSchema.getDescription());
+        currentNotificationSchema.setNotifications(notificationSchema.getNotifications());
         
         notificationSchemaRepository.save(currentNotificationSchema);
         return new ResponseEntity<NotificationSchema>(currentNotificationSchema, HttpStatus.OK);
