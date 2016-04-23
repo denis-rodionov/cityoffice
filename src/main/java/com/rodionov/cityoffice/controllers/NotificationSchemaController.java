@@ -11,9 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import com.rodionov.cityoffice.controllers.exceptions.AlreadyExistsException;
+import com.rodionov.cityoffice.controllers.exceptions.CrossReferenceException;
 import com.rodionov.cityoffice.model.NotificationSchema;
+import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.repository.NotificationSchemaRepository;
 
 @RestController
@@ -23,6 +28,9 @@ public class NotificationSchemaController {
 	
 	@Autowired
 	private NotificationSchemaRepository notificationSchemaRepository;
+	
+	@Autowired
+	private DocumentRepository documentRepository;
 	
 	//-------------------Retrieve All NotificationSchema --------------------------------------------------------
     
@@ -64,10 +72,56 @@ public class NotificationSchemaController {
             return new ResponseEntity<NotificationSchema>(HttpStatus.NOT_FOUND);
         }
  
-        currentNotificationSchema.setDescription(notificationSchema.getDescription());
+        currentNotificationSchema.setName(notificationSchema.getName());
         currentNotificationSchema.setNotifications(notificationSchema.getNotifications());
         
         notificationSchemaRepository.save(currentNotificationSchema);
         return new ResponseEntity<NotificationSchema>(currentNotificationSchema, HttpStatus.OK);
+    }
+    
+    //-------------------Create a NotificationSchema--------------------------------------------------------
+    
+    @RequestMapping(value = "/notification_schema", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public NotificationSchema createNotificationSchema(
+    		@RequestBody NotificationSchema notificationSchema, 
+    		UriComponentsBuilder ucBuilder) {
+    	
+        System.out.println("Creating NotificationSchema " + notificationSchema.getName());
+        
+        NotificationSchema existing = notificationSchemaRepository.findByName(notificationSchema.getName()).stream().findAny().orElse(null);
+        
+        if (existing != null) {
+            System.out.println("A NotificationSchema with name " + notificationSchema.getName() + " already exist");
+            throw new AlreadyExistsException();
+        }
+ 
+        notificationSchemaRepository.save(notificationSchema);
+ 
+        //HttpHeaders headers = new HttpHeaders();
+        //headers.setLocation(ucBuilder.path("/notificationSchema/{id}").buildAndExpand(notificationSchema.getId()).toUri());
+        //return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        return notificationSchema;
+    }
+    
+    //------------------- Delete a NotificationSchema --------------------------------------------------------
+    
+    @RequestMapping(value = "/notification_schema/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<NotificationSchema> deleteNotificationSchema(@PathVariable("id") String id) 
+    		throws Exception {
+        System.out.println("Fetching & Deleting NotificationSchema with id " + id);
+ 
+        NotificationSchema notificationSchema = notificationSchemaRepository.findOne(id);
+        if (notificationSchema == null) {
+            logger.info("Unable to delete. NotificationSchema with id " + id + " not found");
+            return new ResponseEntity<NotificationSchema>(HttpStatus.NOT_FOUND);
+        }
+        
+        int refCount = documentRepository.findByNotificationSchemaId(notificationSchema.getId()).size();
+        if (refCount != 0)
+        	throw new CrossReferenceException();
+
+        notificationSchemaRepository.delete(id);
+        return new ResponseEntity<NotificationSchema>(HttpStatus.NO_CONTENT);
     }
 }

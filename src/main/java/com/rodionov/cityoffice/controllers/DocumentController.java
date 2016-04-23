@@ -64,6 +64,7 @@ public class DocumentController {
             System.out.println("Document with id " + id + " not found");
             return new ResponseEntity<Document>(HttpStatus.NOT_FOUND);
         }
+        
         return new ResponseEntity<Document>(document, HttpStatus.OK);
     }
      

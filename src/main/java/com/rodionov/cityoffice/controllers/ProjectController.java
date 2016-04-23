@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.rodionov.cityoffice.controllers.exceptions.CrossReferenceException;
 import com.rodionov.cityoffice.model.Project;
 import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.repository.ProjectRepository;
+import com.rodionov.cityoffice.repository.UserRepository;
 
 @RestController
 public class ProjectController {
@@ -28,6 +30,9 @@ public class ProjectController {
 	
 	@Autowired
 	private DocumentRepository documentRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	//-------------------Retrieve All Projects--------------------------------------------------------
     
@@ -110,10 +115,12 @@ public class ProjectController {
         
         int docCount = documentRepository.findByProjectId(project.getId()).size();
         if (docCount != 0) {
-        	String error = "Unable to delete: there are " + docCount + " documents for the project";
-        	logger.info(error);
-        	throw new Exception(error);
+        	throw new CrossReferenceException();
         }
+        
+        int userCount = userRepository.findByProjectIdsIn(project.getId()).size();
+        if (userCount != 0)
+        	throw new CrossReferenceException();
 
         projectRepository.delete(id);
         return new ResponseEntity<Project>(HttpStatus.NO_CONTENT);

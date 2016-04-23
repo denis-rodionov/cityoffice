@@ -1,5 +1,43 @@
 // declare a new module called 'myApp', and make it require the `ng-admin` module as a dependency
 var myApp = angular.module('myApp', ['ng-admin']);
+
+// ------------- Request converting ---------------------------
+myApp.config(['RestangularProvider', function(RestangularProvider) {
+    RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
+    	
+    	if(what == 'notification_schema' && (operation == 'post' || operation == 'put' ) ) {
+    		
+	    	var res = [];
+	    	var source = element.notifications;
+	    	
+	    	for (var i = 0; i < source.length; i++) {
+	    		res.push({"id" : source[i]});
+	    	}
+	    	
+	    	element.notifications = res;
+        }
+    	
+        return { element: element };
+    });
+}]);
+
+// -------------- Response converting -------------------------
+myApp.config(['RestangularProvider', function(RestangularProvider) {
+
+    RestangularProvider.addElementTransformer('notification_schema', function(element) {
+        console.log(element.notifications);
+        
+    	var source = element.notifications;
+    	var result = [];
+    	if (source) {    		
+    		for (var i = 0; i < source.length; i++)
+    			result.push( source[i].id );
+    	}
+    	element['notifications'] = result;
+        return element;
+    });
+}]);
+
 // declare a function to run when the module bootstraps (during the 'config' phase)
 myApp.config(['NgAdminConfigurationProvider', function (nga) {
     // create an admin application
@@ -50,6 +88,8 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     project.showView().fields(project.creationView().fields())
 		.title('Project "{{entry.values.name}}":');
     
+    project.deletionView().title('Delete project "{{entry.values.name}}":');
+    
     admin.addEntity(project);
     
     // ------------- NOTIFICATIONS  -------------------------------
@@ -67,6 +107,8 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     notification.creationView().fields(notification.listView().fields())
 		.title('Creaing notification');
+    
+    notification.deletionView().title('Delete notification "{{entry.values.name}}":');
     
     admin.addEntity(notification);
     
@@ -87,7 +129,12 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     ]);
     
     notification_schema.editionView().fields(notification_schema.listView().fields())
-    	.title('Edit schema "{{entry.values.name}}":');
+    	.title('Edit notification schema "{{entry.values.name}}":');
+    
+    notification_schema.creationView().fields(notification_schema.listView().fields())
+	.title('Create notification schema "{{entry.values.name}}":');
+    
+    notification_schema.deletionView().title('Delete notification schema "{{entry.values.name}}":');
     
     admin.addEntity(notification_schema);
     
@@ -97,42 +144,42 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 		.label("Documents");
     
     document.listView().fields([
- 	                          nga.field('name')
- 	                          	.label('Name')
- 	                          	.editable(true)
- 	                          	.isDetailLink(true),
- 	                          nga.field('deadline', 'date')
- 	                          	.label('Deadline')
- 	                          	.format('dd.MM.yyyy'),
- 	                          nga.field('status')
- 	                          	.label('Status'),
- 	                          nga.field('projectId', 'reference')
- 	                          	.targetEntity(project)
- 	                          	.targetField(nga.field('name'))
- 	                          	.label('Project Name'),
- 	                          nga.field('notificationSchemaId', 'reference')
- 	                          	.targetEntity(notification_schema)
- 	                          	.targetField(nga.field('description'))
- 	                          	.label('Notification Schema')
-                             ])
-                             .filters([
-                                 nga.field('status', 'choice')
-                                     .label('Status')
-                                     .pinned(true)
-                                     .defaultValue('NEW')
-                                     .choices([
-									        	    { value: 'NEW', label: 'NEW '},
-									        	    { value: 'FINISHED', label: 'FINISHED'}
-									    ]),
-                                 nga.field('name')
-                                 	.label('Name'),
-                                 nga.field('project', 'reference')
-                                 	.label('Project')
-                                 	.targetEntity(project)
-                                 	.targetField(nga.field('name'))
-                             ])
-                             .sortField(nga.field('status'))
-                             .sortDir('DESC');
+          nga.field('name')
+          	.label('Name')
+          	.editable(true)
+          	.isDetailLink(true),
+          nga.field('deadline', 'date')
+          	.label('Deadline')
+          	.format('dd.MM.yyyy'),
+          nga.field('status')
+          	.label('Status'),
+          nga.field('projectId', 'reference')
+          	.targetEntity(project)
+          	.targetField(nga.field('name'))
+          	.label('Project Name'),
+          nga.field('notificationSchemaId', 'reference')
+          	.targetEntity(notification_schema)
+          	.targetField(nga.field('name'))
+          	.label('Notification Schema')
+         ])
+         .filters([
+             nga.field('status', 'choice')
+                 .label('Status')
+                 .pinned(true)
+                 .defaultValue('NEW')
+                 .choices([
+				        	    { value: 'NEW', label: 'NEW '},
+				        	    { value: 'FINISHED', label: 'FINISHED'}
+				    ]),
+             nga.field('name')
+             	.label('Name'),
+             nga.field('project', 'reference')
+             	.label('Project')
+             	.targetEntity(project)
+             	.targetField(nga.field('name'))
+         ])
+         .sortField(nga.field('status'))
+         .sortDir('DESC');
     
     document.creationView().fields([
 		nga.field('name')
@@ -157,12 +204,14 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 			.validation({ required: true }),
 		nga.field('notificationSchemaId', 'reference')
            	.targetEntity(notification_schema)
-           	.targetField(nga.field('description'))
+           	.targetField(nga.field('name'))           	
            	.label('Notification Schema')
     ]);
     
     document.editionView().fields(document.creationView().fields())
 		.title('Edit Document "{{entry.values.name}}":');
+    
+    document.deletionView().title('Delete document "{{entry.values.name}}":');
     
     admin.addEntity(document);
     
@@ -210,7 +259,9 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     user.editionView().fields(user.creationView().fields())
 		.title('Edit User "{{entry.values.name}}":');
     
-    admin.addEntity(user);
+    user.deletionView().title('Delete user "{{entry.values.name}}":');
+    
+    admin.addEntity(user);    
     
     // attach the admin application to the DOM and execute it
     nga.configure(admin);

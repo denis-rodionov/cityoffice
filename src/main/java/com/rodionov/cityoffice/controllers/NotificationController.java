@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.rodionov.cityoffice.controllers.exceptions.CrossReferenceException;
 import com.rodionov.cityoffice.model.Notification;
-import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.repository.NotificationRepository;
+import com.rodionov.cityoffice.repository.NotificationSchemaRepository;
 
 @RestController
 public class NotificationController {
@@ -27,7 +28,7 @@ public class NotificationController {
 	private NotificationRepository notificationRepository;
 	
 	@Autowired
-	private DocumentRepository documentRepository;
+	private NotificationSchemaRepository notificationSchemaRepository;
 	
 	//-------------------Retrieve All Notifications--------------------------------------------------------
     
@@ -106,6 +107,10 @@ public class NotificationController {
             logger.info("Unable to delete. Notification with id " + id + " not found");
             return new ResponseEntity<Notification>(HttpStatus.NOT_FOUND);
         }
+        
+        int refCount = notificationSchemaRepository.findByNotificationsIn(notification).size();
+        if (refCount != 0)
+        	throw new CrossReferenceException();
 
         notificationRepository.delete(id);
         return new ResponseEntity<Notification>(HttpStatus.NO_CONTENT);

@@ -20,11 +20,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.rodionov.cityoffice.config.RealDatabaseTestConfiguration;
 import com.rodionov.cityoffice.model.Document;
 import com.rodionov.cityoffice.model.DocumentStatus;
+import com.rodionov.cityoffice.model.Notification;
 import com.rodionov.cityoffice.model.NotificationSchema;
 import com.rodionov.cityoffice.model.Project;
 import com.rodionov.cityoffice.model.helpers.DocumentHelper;
 import com.rodionov.cityoffice.model.helpers.NotificationHelper;
 import com.rodionov.cityoffice.repository.DocumentRepository;
+import com.rodionov.cityoffice.repository.NotificationRepository;
 import com.rodionov.cityoffice.repository.NotificationSchemaRepository;
 import com.rodionov.cityoffice.repository.ProjectRepository;
 
@@ -49,6 +51,9 @@ public class DocumentServiceTests {
 	@Autowired
 	private NotificationSchemaRepository notificationSchemaRepository;
 	
+	@Autowired
+	private NotificationRepository notificationRepository;
+	
 	//@Autowired
 	//private UserRepository userRepository;
 	
@@ -60,6 +65,7 @@ public class DocumentServiceTests {
 		projectRepository.deleteAll();
 		documentRepository.deleteAll();
 		notificationSchemaRepository.deleteAll();
+		notificationRepository.deleteAll();
 		
 		MockitoAnnotations.initMocks(this);
 	}
@@ -69,9 +75,10 @@ public class DocumentServiceTests {
 	@Test
 	public void getDocumentsToNotifyTest_DeadlineNotify() {
 		// arrange
-		NotificationSchema notification = NotificationHelper.create(NotificationHelper.ONLY_DEADLINE_NOTIFY);
-		notificationSchemaRepository.save(notification);
-		documentRepository.save(DocumentHelper.CreateDocument("1", "projectId", LocalDate.of(2000, 1, 1), DocumentStatus.NEW, notification.getId()));
+		Notification notification = notificationRepository.save(new Notification(0, "0"));		
+		NotificationSchema schema = NotificationHelper.create("0", notification);
+		notificationSchemaRepository.save(schema);
+		documentRepository.save(DocumentHelper.CreateDocument("1", "projectId", LocalDate.of(2000, 1, 1), DocumentStatus.NEW, schema.getId()));
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2000, 1, 1));
 		
 		// act
@@ -84,9 +91,10 @@ public class DocumentServiceTests {
 	@Test
 	public void getDocumentsToNotifyTest_AdvanceNotify() {
 		// arrange
-		NotificationSchema notification = NotificationHelper.create(NotificationHelper.DEADLINE_AND_WEEK_BEFORE);
-		notificationSchemaRepository.save(notification);
-		documentRepository.save(DocumentHelper.CreateDocument("1", "projectId", LocalDate.of(2000, 1, 8), DocumentStatus.NEW, notification.getId()));
+		Notification notification = notificationRepository.save(new Notification(7, "7"));		
+		NotificationSchema schema = NotificationHelper.create("week", notification);		
+		notificationSchemaRepository.save(schema);
+		documentRepository.save(DocumentHelper.CreateDocument("1", "projectId", LocalDate.of(2000, 1, 8), DocumentStatus.NEW, schema.getId()));
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2000, 1, 1));
 		
 		// act
@@ -99,9 +107,10 @@ public class DocumentServiceTests {
 	@Test
 	public void getDocumentsToNotifyTest_NotNotifyFinished() {
 		// arrange
-		NotificationSchema notification = NotificationHelper.create(NotificationHelper.ONLY_DEADLINE_NOTIFY);
-		notificationSchemaRepository.save(notification);
-		documentRepository.save(DocumentHelper.CreateDocument("1", "projectId", LocalDate.of(2000, 1, 1), DocumentStatus.FINISHED, notification.getId()));
+		Notification notification = notificationRepository.save(new Notification(0, "0"));		
+		NotificationSchema schema = NotificationHelper.create("0", notification);
+		notificationSchemaRepository.save(schema);
+		documentRepository.save(DocumentHelper.CreateDocument("1", "projectId", LocalDate.of(2000, 1, 1), DocumentStatus.FINISHED, schema.getId()));
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2000, 1, 1));
 		
 		// act
@@ -114,10 +123,11 @@ public class DocumentServiceTests {
 	@Test
 	public void getDocumentsToNotifyTest_IncludeProject() {
 		// arrange
+		Notification notification = notificationRepository.save(new Notification(0, "0"));		
+		NotificationSchema schema = NotificationHelper.create("0", notification);
 		Project prj = projectRepository.save(new Project("A Project", true, "default"));
-		NotificationSchema notification = NotificationHelper.create(NotificationHelper.ONLY_DEADLINE_NOTIFY);
-		notificationSchemaRepository.save(notification);
-		documentRepository.save(DocumentHelper.CreateDocument("1", prj.getId(), LocalDate.of(2000, 1, 1), DocumentStatus.NEW, notification.getId()));
+		notificationSchemaRepository.save(schema);
+		documentRepository.save(DocumentHelper.CreateDocument("1", prj.getId(), LocalDate.of(2000, 1, 1), DocumentStatus.NEW, schema.getId()));
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2000, 1, 1));
 		
 		// act
@@ -127,22 +137,6 @@ public class DocumentServiceTests {
 		assertThat(actual).hasSize(1);
 		assertThat(actual.get(0).getProject()).isNotNull();
 	}	
-	
-//	// ------------------------- getUsersToNotifyTest  ----------------------------------
-//	@Test
-//	public void getUsersToNotifyTest() {
-//		// arrange
-//		NotificationSchema notification = NotificationHelper.create(NotificationHelper.ONLY_DEADLINE_NOTIFY);
-//		notificationSchemaRepository.save(notification);		
-//		String project1 = ProjectHelper.createAndSave("1",  projectRepository);
-//		userRepository.save(new User())		
-//		
-//		documentRepository.save(new Document("1", project1, LocalDate.of(2000, 1, 1), DocumentStatus.FINISHED, notification.getId()));
-//		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2000, 1, 1));
-//	}
-//		
-//	// already notified
-//	// correct user notified
 	
 	// ------------------------- getUnfinishedDocumentsTest  ----------------------------------
 	

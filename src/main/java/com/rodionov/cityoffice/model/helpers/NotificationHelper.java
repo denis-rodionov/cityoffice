@@ -9,25 +9,39 @@ import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 
 import com.rodionov.cityoffice.model.Document;
+import com.rodionov.cityoffice.model.Notification;
 import com.rodionov.cityoffice.model.NotificationSchema;
 
 public class NotificationHelper {
 	
 	private static final Logger logger = Logger.getLogger(NotificationHelper.class);
 
-	public static final String ONLY_DEADLINE_NOTIFY = "Only deadline";
-	public static final String DEADLINE_AND_WEEK_BEFORE = "Week";
-	public static final String DEADLINE_MONTH_BEFORE = "Month";
-	
-	public static List<NotificationSchema> createNotificationSchemes() {
-		return Arrays.asList(
-				new NotificationSchema(ONLY_DEADLINE_NOTIFY),
-				new NotificationSchema(DEADLINE_AND_WEEK_BEFORE),
-				new NotificationSchema(DEADLINE_MONTH_BEFORE));
-	}
-	
 	public static NotificationSchema create(String type) {
 		return new NotificationSchema(type);
+	}
+	
+	public static NotificationSchema create(String name, int... daysBefore) {
+		NotificationSchema schema = new NotificationSchema(name);
+		
+		List<Notification> notifications = new ArrayList<Notification>();
+		
+		for (int i : daysBefore) {
+			Notification notification = new Notification(i, new Integer(i).toString());
+			notification.setId(new Integer(i).toString());
+			notifications.add(notification);
+		}
+		
+		schema.setNotifications(notifications);
+		
+		return schema;
+	}
+	
+	public static NotificationSchema create(String name, Notification... notifications) {
+		NotificationSchema schema = new NotificationSchema(name);
+		
+		schema.setNotifications(new ArrayList<Notification>(Arrays.asList(notifications)));
+		
+		return schema;
 	}
 	
 	public static List<LocalDate> getNotificationDates(NotificationSchema schema, Document doc)  {
@@ -51,15 +65,12 @@ public class NotificationHelper {
 		if (schema == null)
 			return new ArrayList<Integer>();
 		
-		switch (schema.getName()) {
-			case ONLY_DEADLINE_NOTIFY:
-				return Arrays.asList(0);
-			case DEADLINE_AND_WEEK_BEFORE:
-				return Arrays.asList(0, 7);
-			case DEADLINE_MONTH_BEFORE:
-				return Arrays.asList(0, 7, 30);
-			default:
-				throw new Exception("Unknown notification schema");				
-		}
+		List<Integer> days = schema.getNotifications().stream()
+			.map(n -> n.getDaysBefore())
+			.collect(Collectors.toList());
+		
+		//logger.info(days);
+		
+		return days;
 	}
 }

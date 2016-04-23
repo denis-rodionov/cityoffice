@@ -3,6 +3,7 @@ package com.rodionov.cityoffice.model;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class NotificationSchema {
 	
@@ -10,7 +11,9 @@ public class NotificationSchema {
 	private String id;
 	private String name;	
 	private String description;
-	private List<String> notifications;
+	
+	@DBRef
+	private List<Notification> notifications;
 	
 	public NotificationSchema() { }
 	
@@ -19,11 +22,11 @@ public class NotificationSchema {
 	}
 	
 
-	public List<String> getNotifications() {
+	public List<Notification> getNotifications() {
 		return notifications;
 	}
 
-	public void setNotifications(List<String> notifications) {
+	public void setNotifications(List<Notification> notifications) {
 		this.notifications = notifications;
 	}
 
