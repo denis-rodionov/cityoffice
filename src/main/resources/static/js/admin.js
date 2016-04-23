@@ -52,6 +52,24 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     admin.addEntity(project);
     
+    // ------------- NOTIFICATIONS  -------------------------------
+    
+    var notification = nga.entity('notification')
+    	.label('Notifications');
+    
+    notification.listView().fields([
+        nga.field('name').label('Name').isDetailLink(true),
+        nga.field('daysBefore', 'number').label("Notification period")
+    ]);
+    
+    notification.editionView().fields(notification.listView().fields())
+    	.title('Edit notification "{{entry.values.name}}":');
+    
+    notification.creationView().fields(notification.listView().fields())
+		.title('Creaing notification');
+    
+    admin.addEntity(notification);
+    
     // ------------- NOTIFICATION SCHEMAS -------------------------
     
     var notification_schema = nga.entity('notification_schema')
