@@ -32,6 +32,13 @@ public class User {
 		this.email = email;
 	}
 	
+	public User(String id, String username, String email, List<String> projectIds) {
+		this.id = id;
+		this.username = username;
+		this.email = email;
+		this.projectIds = projectIds;
+	}
+	
 	public List<String> getProjectIds() {
 		return projectIds;
 	}

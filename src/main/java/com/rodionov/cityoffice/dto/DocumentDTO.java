@@ -16,6 +16,7 @@ public class DocumentDTO {
 	private boolean isUrgent;
 	private String formatedDeadline;
 	private String projectColor;
+	private String visibility;
 	
 	public DocumentDTO(String id, String name, LocalDate date, String projectName, boolean isUrgent, String projectColor) {
 		
@@ -49,6 +50,14 @@ public class DocumentDTO {
 				d.getProject().getName(),
 				false,
 				d.getProject().getColorName());
+	}	
+
+	public String getVisibility() {
+		return visibility;
+	}
+
+	public void setVisibility(String visibility) {
+		this.visibility = visibility;
 	}
 
 	public int getDateOfMonth() {

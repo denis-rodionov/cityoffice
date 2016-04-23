@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,7 @@ import com.rodionov.cityoffice.repository.UserRepository;
 @Service
 public class DocumentService {
 	
-	private static final Logger logger = Logger.getLogger(DocumentService.class);
+	//private static final Logger logger = Logger.getLogger(DocumentService.class);
 	
 	@Autowired
 	private DocumentRepository documentRepository;
@@ -99,12 +98,5 @@ public class DocumentService {
 		return res;
 	}
 	
-	/**
-	 * Finds out which users must be notified about the document deadline
-	 * @param doc Document to notify about
-	 * @return List of users
-	 */
-	public List<User> getUsersToNotify(Document doc) {
-		return userRepository.findAll();
-	}
+	
 }

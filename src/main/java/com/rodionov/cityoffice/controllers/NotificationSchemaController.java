@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rodionov.cityoffice.model.NotificationSchema;
-import com.rodionov.cityoffice.model.NotificationSchema;
 import com.rodionov.cityoffice.repository.NotificationSchemaRepository;
 
 @RestController

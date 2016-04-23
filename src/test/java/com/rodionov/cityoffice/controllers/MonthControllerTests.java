@@ -154,20 +154,38 @@ public class MonthControllerTests {
 	@Test
 	public void getMonthList_doNotShowPastFinished() {
 		// arrange
-				Project prj = new Project("Project1", true, "123");
-				List<Document> docs = Arrays.asList(
-						new Document("1", "1", LocalDate.of(2012, 2, 24), DocumentStatus.FINISHED, "1", prj),
-						new Document("2", "2", LocalDate.of(2012, 2, 12), DocumentStatus.FINISHED, "1", prj),
-						new Document("3", "3", LocalDate.of(2012, 3, 12), DocumentStatus.FINISHED, "1", prj)
-						);
-				when(documentService.getUnfinishedDocuments()).thenReturn(docs);
-				when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 3,  1));
-				
-				// act
-				List<MonthDTO> actual = monthController.getMonthList(null, false);
-				
-				// assert
-				assertThat(actual).hasSize(1).describedAs("Only March must be shown");
-				assertThat(actual.get(0).getDocuments().get(0).getId()).isEqualTo("3");
+		Project prj = new Project("Project1", true, "123");
+		List<Document> docs = Arrays.asList(
+				new Document("1", "1", LocalDate.of(2012, 2, 24), DocumentStatus.FINISHED, "1", prj),
+				new Document("2", "2", LocalDate.of(2012, 2, 12), DocumentStatus.FINISHED, "1", prj),
+				new Document("3", "3", LocalDate.of(2012, 3, 12), DocumentStatus.FINISHED, "1", prj)
+				);
+		when(documentService.getUnfinishedDocuments()).thenReturn(docs);
+		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 3,  1));
+		
+		// act
+		List<MonthDTO> actual = monthController.getMonthList(null, false);
+		
+		// assert
+		assertThat(actual).hasSize(1).describedAs("Only March must be shown");
+		assertThat(actual.get(0).getDocuments().get(0).getId()).isEqualTo("3");
 	}
+	
+//	@Test
+//	public void getMonthList_visibilityClass() {
+//		// arrange
+//		Project myPrj = new Project("Project1", true, "123");
+//		myPrj.setId("1");		
+//		Project notMyProj = new Project("Project2", true, "567");
+//		notMyProj.setId("2");
+//		
+//		List<Document> docs = Arrays.asList(
+//				new Document("1", "1", LocalDate.of(2012, 3, 24), DocumentStatus.NEW, "1", myPrj),
+//				new Document("2", "2", LocalDate.of(2012, 3, 12), DocumentStatus.NEW, "1", notMyProj)
+//				);
+//		when(documentService.getUnfinishedDocuments()).thenReturn(docs);
+//		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 3,  1));
+//		
+//		
+//	}
 }

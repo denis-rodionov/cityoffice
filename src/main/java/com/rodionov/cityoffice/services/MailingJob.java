@@ -22,7 +22,7 @@ public class MailingJob implements Runnable {
 	private DocumentService documentService;
 	
 	@Autowired
-	private DocumentRepository documentRepository;
+	private ProjectService projectService;
 	
 	@Autowired
 	private NotificationService notificationService;
@@ -42,7 +42,7 @@ public class MailingJob implements Runnable {
 				
 				//logger.info("Notifying about the document " + doc.getName());
 				
-				List<User> usersToNotify = documentService.getUsersToNotify(doc);
+				List<User> usersToNotify = projectService.getUsersToNotify(doc.getProjectId());
 							
 				for (User user : usersToNotify) {
 					//logger.info("Notifying user " + usersToNotify);
