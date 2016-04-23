@@ -49,7 +49,7 @@ public class ProjectController {
     
     @RequestMapping(value = "/project/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Project> getProject(@PathVariable("id") String id) {
-        System.out.println("Fetching Project with id " + id);
+        logger.debug("Fetching Project with id " + id);
         Project project = projectRepository.findOne(id);
         if (project == null) {
             System.out.println("Project with id " + id + " not found");
@@ -62,7 +62,7 @@ public class ProjectController {
      
     @RequestMapping(value = "/project", method = RequestMethod.POST)
     public ResponseEntity<Project> createProject(@RequestBody Project project, UriComponentsBuilder ucBuilder) {
-        System.out.println("Creating Project " + project.getName());
+        logger.info("Creating Project " + project.getName());
         Project existing = projectRepository.findByName(project.getName()).stream().findAny().orElse(null);
         
         if (existing != null) {
@@ -72,9 +72,6 @@ public class ProjectController {
  
         projectRepository.save(project);
  
-        //HttpHeaders headers = new HttpHeaders();
-        //headers.setLocation(ucBuilder.path("/project/{id}").buildAndExpand(project.getId()).toUri());
-        //return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
         return new ResponseEntity<Project>(project, HttpStatus.CREATED);
     }
  
@@ -83,7 +80,7 @@ public class ProjectController {
      
     @RequestMapping(value = "/project/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Project> updateProject(@PathVariable("id") String id, @RequestBody Project project) {
-        System.out.println("Updating Project " + id);
+        logger.info("Updating Project " + project.getName());
          
         Project currentProject = projectRepository.findOne(project.getId());
          
@@ -105,8 +102,6 @@ public class ProjectController {
     @RequestMapping(value = "/project/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Project> deleteProject(@PathVariable("id") String id) 
     		throws Exception {
-        System.out.println("Fetching & Deleting Project with id " + id);
- 
         Project project = projectRepository.findOne(id);
         if (project == null) {
             logger.info("Unable to delete. Project with id " + id + " not found");
@@ -121,6 +116,8 @@ public class ProjectController {
         int userCount = userRepository.findByProjectIdsIn(project.getId()).size();
         if (userCount != 0)
         	throw new CrossReferenceException();
+        
+        logger.info("Deleting Project with username " + project.getName());
 
         projectRepository.delete(id);
         return new ResponseEntity<Project>(HttpStatus.NO_CONTENT);

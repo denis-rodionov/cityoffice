@@ -29,6 +29,7 @@ public class DocumentController {
 	@RequestMapping(value = "/finish/{id}", method = RequestMethod.POST)
 	public ResponseEntity<Document> doneDocument(@PathVariable("id") String id) {
 		logger.info("Make document with id=" + id + " done");
+		
 		Document document = documentRepository.findOne(id);
 		if (document == null) {
 			logger.error("Document '" + id + "' not found");
@@ -124,7 +125,6 @@ public class DocumentController {
      
     @RequestMapping(value = "/document/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Document> deleteDocument(@PathVariable("id") String id) {
-        System.out.println("Fetching & Deleting Document with id " + id);
  
         Document document = documentRepository.findOne(id);
         if (document == null) {
@@ -132,6 +132,7 @@ public class DocumentController {
             return new ResponseEntity<Document>(HttpStatus.NOT_FOUND);
         }
 
+        logger.info("Deleting Document with name " + document.getName());
         documentRepository.delete(id);
         return new ResponseEntity<Document>(HttpStatus.NO_CONTENT);
     }

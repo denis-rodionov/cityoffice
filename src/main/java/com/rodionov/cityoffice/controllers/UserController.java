@@ -61,7 +61,7 @@ public class UserController {
      
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public ResponseEntity<User> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
-        System.out.println("Creating User " + user.getUsername());
+        logger.info("Creating User " + user.getUsername());
         User existing = userRepository.findByUsername(user.getUsername()).stream().findAny().orElse(null);
         User existingByEmail = userRepository.findByEmail(user.getUsername()).stream().findAny().orElse(null); 
         
@@ -71,10 +71,7 @@ public class UserController {
         }
  
         userRepository.save(user);
- 
-        //HttpHeaders headers = new HttpHeaders();
-        //headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
-        //return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        
         return new ResponseEntity<User>(user, HttpStatus.CREATED);
     }
  
@@ -83,7 +80,7 @@ public class UserController {
      
     @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
     public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody User user) {
-        System.out.println("Updating User " + id);
+    	logger.info("Updating User " + user.getUsername());
          
         User currentUser = userRepository.findOne(user.getId());
          
@@ -105,13 +102,14 @@ public class UserController {
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<User> deleteUser(@PathVariable("id") String id) 
     		throws Exception {
-        System.out.println("Fetching & Deleting User with id " + id);
- 
         User user = userRepository.findOne(id);
+        
         if (user == null) {
             logger.info("Unable to delete. User with id " + id + " not found");
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
+        
+        logger.info("Deleting User with username " + user.getUsername());
 
         userRepository.delete(id);
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
