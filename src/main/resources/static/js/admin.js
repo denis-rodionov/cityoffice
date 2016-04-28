@@ -238,7 +238,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     user.creationView().fields([
        nga.field('username')
-           .label('Username')
+           .label('Full name')
            .validation({ required : true }),
        nga.field('email', 'email')
            .label('E-mail')
@@ -262,7 +262,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     user.showView().fields([
         nga.field('username')
-            .label('Username')
+            .label('Full name')
             .validation({ required : true }),
         nga.field('email', 'email')
             .label('E-mail')
@@ -270,9 +270,9 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
      ]);
     
     user.editionView().fields(user.creationView().fields())
-		.title('Edit User "{{entry.values.name}}":');
+		.title('Edit User "{{entry.values.username}}":');
     
-    user.deletionView().title('Delete user "{{entry.values.name}}":');
+    user.deletionView().title('Delete user "{{entry.values.username}}":');
     
     admin.addEntity(user);    
     
