@@ -26,9 +26,15 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@RequestMapping("/getuser")
+	@RequestMapping(value = "/getuser", method = RequestMethod.GET)
 	public Principal user(Principal user) {
 		logger.debug("UserController.User accessed by '" + user + "'");
+		
+//		Map<String, Object> map = new LinkedHashMap<String, Object>();
+//	    map.put("name", user.getName());
+//	    map.put("roles", AuthorityUtils.authorityListToSet(((Authentication) user)
+//	        .getAuthorities()));
+//	    return map;
 		
 		return user;
 	}
@@ -62,8 +68,8 @@ public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public ResponseEntity<User> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
         logger.info("Creating User " + user.getUsername());
-        User existing = userRepository.findByUsername(user.getUsername()).stream().findAny().orElse(null);
-        User existingByEmail = userRepository.findByEmail(user.getUsername()).stream().findAny().orElse(null); 
+        User existing = userRepository.findByUsername(user.getUsername());
+        User existingByEmail = userRepository.findByEmail(user.getUsername());
         
         if (existing != null || existingByEmail != null) {
             System.out.println("A User with name " + user.getUsername() + " or email already exist");

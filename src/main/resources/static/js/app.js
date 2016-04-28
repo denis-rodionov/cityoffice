@@ -1,5 +1,7 @@
 angular.module('app', [ 'ngRoute', 'services'])
 	  .config(function($routeProvider, $httpProvider) {
+		  
+		//$locationProvider.html5Mode(true);
 	
 	    $routeProvider.when('/', {
 	      templateUrl : 'home.html',
@@ -43,16 +45,21 @@ angular.module('app', [ 'ngRoute', 'services'])
     }])
   	.controller('navigation',
   		function($rootScope, $http, $location) {
-
+  		  console.log("navigation controller");
+  		
   		  var self = this;
 
   		  var authenticate = function(credentials, callback) {
+  			  
+  			console.log("authenticate() { credentials : " + credentials + "}");
 
   		    var headers = credentials ? {authorization : "Basic "
   		        + btoa(credentials.username + ":" + credentials.password)
   		    } : {};
 
-  		    $http.get('getuser', {headers : headers}).then(function(response) {
+  		    console.log("sending request...");
+  		    $http.post('getuser', {headers : headers}).then(function(response) {
+  		      console.log("getuser succedd");
   		      if (response.data.name) {
   		        $rootScope.authenticated = true;
   		      } else {
@@ -60,6 +67,8 @@ angular.module('app', [ 'ngRoute', 'services'])
   		      }
   		      callback && callback();
   		    }, function() {
+  		      console.log("getuser failed");
+  		    	
   		      $rootScope.authenticated = false;
   		      callback && callback();
   		    });
@@ -70,11 +79,17 @@ angular.module('app', [ 'ngRoute', 'services'])
   		  self.credentials = {};
   		  
   		  self.login = function() {
+  			  console.log("login");
   		      authenticate(self.credentials, function() {
+  		    	console.log("authentificate callback");
+  		    	
+  		    	
   		        if ($rootScope.authenticated) {
+  		          console.log("redirection to documents");
   		          $location.path("/");
   		          self.error = false;
   		        } else {
+  		          console.log("redirection to login page");
   		          $location.path("/login");
   		          self.error = true;
   		        }

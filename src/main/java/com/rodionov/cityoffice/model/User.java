@@ -3,6 +3,7 @@ package com.rodionov.cityoffice.model;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import lombok.Data;
 
@@ -13,9 +14,15 @@ public class User {
 	
 	@Id
 	private String id;
+	
 	private String username;
-	private String email;
+	
+	@Indexed(unique = true)
+	private String email;	
+	
 	private List<String> projectIds;
+	
+	private String password;
 	
 	public User() { }
 	
@@ -39,6 +46,15 @@ public class User {
 		this.projectIds = projectIds;
 	}
 	
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public List<String> getProjectIds() {
 		return projectIds;
 	}
