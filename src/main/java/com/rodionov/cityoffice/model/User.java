@@ -24,6 +24,8 @@ public class User {
 	
 	private String password;
 	
+	private String role;
+	
 	public User() { }
 	
 	public User(String id, String username, String email) {
@@ -46,7 +48,14 @@ public class User {
 		this.projectIds = projectIds;
 	}
 	
-	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	public String getPassword() {
 		return password;
 	}

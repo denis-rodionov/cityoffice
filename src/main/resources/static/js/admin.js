@@ -231,7 +231,9 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
         nga.field('projectIds', 'reference_many')
            .targetEntity(project)
            .targetField(nga.field('name'))
-           .label('Projects')
+           .label('Projects'),
+        nga.field('role')
+       	   .label('Role')
     ]);
     
     user.creationView().fields([
@@ -244,7 +246,18 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
        nga.field('projectIds', 'reference_many')
        	   .targetEntity(project)
        	   .targetField(nga.field('name'))   	
-       	   .label('Projects')
+       	   .label('Projects'),
+       nga.field('role', 'choice')
+       	   .label('Role')
+       	   .choices([
+        	    { value: 'USER', label: 'USER '},
+        	    { value: 'ADMIN', label: 'ADMIN'}
+		    ])
+		   .defaultValue('USER')
+		   .validation({ required : true }),
+       nga.field('password', 'password')
+       	   .label('Password')
+       	   .validation({ required : true })
     ]);
     
     user.showView().fields([

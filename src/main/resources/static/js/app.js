@@ -58,7 +58,7 @@ angular.module('app', [ 'ngRoute', 'services'])
   		    } : {};
 
   		    console.log("sending request...");
-  		    $http.post('getuser', {headers : headers}).then(function(response) {
+  		    $http.get('getuser', {headers : headers}).then(function(response) {
   		      console.log("getuser succedd");
   		      if (response.data.name) {
   		        $rootScope.authenticated = true;

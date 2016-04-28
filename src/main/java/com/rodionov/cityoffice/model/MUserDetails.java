@@ -12,7 +12,8 @@ public class MUserDetails implements UserDetails {
 	
 	private static final long serialVersionUID = 8493307231603178227L;
 
-	private final String DEFAULT_ROLE = "USER";
+	public static final String ADMIN_ROLE = "ADMIN";
+	public static final String USER_ROLE = "USER";
 	
 	private User user;
 	
@@ -25,14 +26,18 @@ public class MUserDetails implements UserDetails {
 
 		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 		
-		authorities.add(new SimpleGrantedAuthority(DEFAULT_ROLE));
+		String role = user.getRole();
+		if (role == null)
+			role = USER_ROLE;
+		
+		authorities.add(new SimpleGrantedAuthority(role));
 		
 		return authorities;
 	}
 
 	@Override
 	public String getPassword() {
-		return "123";
+		return user.getPassword();
 	}
 
 	@Override

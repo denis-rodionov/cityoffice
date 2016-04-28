@@ -98,6 +98,8 @@ public class UserController {
         currentUser.setUsername(user.getUsername());
         currentUser.setEmail(user.getEmail());
         currentUser.setProjectIds(user.getProjectIds());
+        currentUser.setRole(user.getRole());
+        currentUser.setPassword(user.getPassword());
                 
         userRepository.save(currentUser);
         return new ResponseEntity<User>(currentUser, HttpStatus.OK);
