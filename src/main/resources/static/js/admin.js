@@ -145,7 +145,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     user.listView().fields([
         nga.field('username')
-           .label('Username')
+           .label('Full name')
            .isDetailLink(true)
            .validation({ required : true }),
         nga.field('email', 'email')

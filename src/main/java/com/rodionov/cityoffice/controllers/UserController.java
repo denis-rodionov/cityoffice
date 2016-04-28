@@ -99,9 +99,11 @@ public class UserController {
  
         dbUser.setUsername(user.getUsername());
         dbUser.setEmail(user.getEmail());
-        dbUser.setProjectIds(user.getProjectIds());
-        dbUser.setRole(user.getRole());
+        dbUser.setProjectIds(user.getProjectIds());        
         dbUser.setPassword(user.getPassword());
+        
+        if (userDetailsService.isAdmin(principal))
+        	dbUser.setRole(user.getRole());
                 
         userRepository.save(dbUser);
         return dbUser;
