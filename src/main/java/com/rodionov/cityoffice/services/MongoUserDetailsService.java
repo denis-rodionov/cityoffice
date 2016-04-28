@@ -1,5 +1,7 @@
 package com.rodionov.cityoffice.services;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,5 +30,9 @@ public class MongoUserDetailsService implements UserDetailsService {
             UserDetails details = new MUserDetails(user);
             return details;
         }
+    }
+    
+    public User getUserByPrincipal(Principal principal) {
+    	return userRepository.findByEmail(principal.getName());
     }
 }

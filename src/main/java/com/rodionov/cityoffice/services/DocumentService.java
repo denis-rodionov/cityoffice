@@ -18,7 +18,6 @@ import com.rodionov.cityoffice.model.helpers.NotificationHelper;
 import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.repository.NotificationSchemaRepository;
 import com.rodionov.cityoffice.repository.ProjectRepository;
-import com.rodionov.cityoffice.repository.UserRepository;
 
 @Service
 public class DocumentService {
@@ -35,35 +34,35 @@ public class DocumentService {
 	private DateService dateService;
 	
 	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
 	private NotificationSchemaRepository notificationSchemaRepository;
 	
 	/**
+	 * @param user For document filtering
 	 * @return All not done documents
 	 */
-	public List<Document> getUnfinishedDocuments() {
-		return getDocuments(Arrays.asList( DocumentStatus.NEW)); 
+	public List<Document> getUnfinishedDocuments(User user) {
+		return getDocuments(user, Arrays.asList(DocumentStatus.NEW)); 
 	}
 	
 	/**
 	 * @return All documents in database
 	 */
-	public List<Document> getAllDocuments() {
-		return getDocuments(Arrays.asList(DocumentStatus.values()));
+	public List<Document> getAllDocuments(User user) {
+		return getDocuments(user, Arrays.asList(DocumentStatus.values()));
 	}
 		
 	/**
+	 * @param user For document filtering by project where user is taking part
 	 * @return All documents which match the criterias
 	 */
-	public List<Document> getDocuments(List<DocumentStatus> statuses) {
+	public List<Document> getDocuments(User user, List<DocumentStatus> statuses) {
 		
 		List<Document> res = new ArrayList<>();
 		for (DocumentStatus s : statuses)
 			res.addAll(0, documentRepository.findByStatus(s));		
 		
 		res = res.stream()
+			.filter(d -> isAccessible(d, user))
 			.map((Document d) -> {
 				Project proj = projectRepository.findOne(d.getProjectId());
 				d.setProject(proj);
@@ -86,7 +85,7 @@ public class DocumentService {
 		
 		List<Document> res = new ArrayList<Document>();
 		
-		List<Document> unfinished = getDocuments(Arrays.asList(DocumentStatus.NEW));
+		List<Document> unfinished = getDocuments(null, Arrays.asList(DocumentStatus.NEW));
 		LocalDate today = dateService.getCurrentDate();
 		
 		unfinished.forEach(d -> {
@@ -96,6 +95,13 @@ public class DocumentService {
 		});
 		
 		return res;
+	}
+	
+	private boolean isAccessible(Document document, User user) {
+		if (user == null)
+			return true;
+		
+		return user.getProjectIds().contains(document.getProjectId());
 	}
 	
 	

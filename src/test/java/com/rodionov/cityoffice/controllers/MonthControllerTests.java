@@ -53,7 +53,7 @@ public class MonthControllerTests {
 				new Document("2", "2", LocalDate.of(2012, 3, 12), DocumentStatus.NEW, "1", prj),
 				new Document("3", "3", LocalDate.of(2012, 2, 12), DocumentStatus.NEW, "1", prj)
 				);
-		when(documentService.getUnfinishedDocuments()).thenReturn(docs);
+		when(documentService.getUnfinishedDocuments(null)).thenReturn(docs);
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 2,  13));
 		
 		// act
@@ -75,7 +75,7 @@ public class MonthControllerTests {
 				new Document("2", "2", LocalDate.of(2012, 3, 12), DocumentStatus.NEW, "1", prj),
 				new Document("3", "3", LocalDate.of(2012, 2, 12), DocumentStatus.NEW, "1", prj)
 				);
-		when(documentService.getUnfinishedDocuments()).thenReturn(docs);
+		when(documentService.getUnfinishedDocuments(null)).thenReturn(docs);
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 3,  1));
 		
 		// act
@@ -96,7 +96,7 @@ public class MonthControllerTests {
 				new Document("2", "2", LocalDate.of(2012, 4, 12), DocumentStatus.NEW, "1", prj),
 				new Document("3", "3", LocalDate.of(2012, 2, 12), DocumentStatus.NEW, "1", prj)
 				);
-		when(documentService.getUnfinishedDocuments()).thenReturn(docs);
+		when(documentService.getUnfinishedDocuments(null)).thenReturn(docs);
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 3,  1));		
 		
 		// act
@@ -118,7 +118,7 @@ public class MonthControllerTests {
 				new Document("2", "2", LocalDate.of(2013, 3, 12), DocumentStatus.NEW, "1", prj),
 				new Document("3", "3", LocalDate.of(2013, 2, 28), DocumentStatus.NEW, "1", prj)
 				);
-		when(documentService.getUnfinishedDocuments()).thenReturn(docs);
+		when(documentService.getUnfinishedDocuments(null)).thenReturn(docs);
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 3,  30));
 		
 		// act
@@ -137,7 +137,7 @@ public class MonthControllerTests {
 						new Document("2", "2", LocalDate.of(2012, 3, 12), DocumentStatus.FINISHED, "1", prj),
 						new Document("3", "3", LocalDate.of(2012, 4, 12), DocumentStatus.FINISHED, "1", prj)
 						);
-				when(documentService.getUnfinishedDocuments()).thenReturn(docs);
+				when(documentService.getUnfinishedDocuments(null)).thenReturn(docs);
 				when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 3,  20));
 				
 				// act
@@ -160,7 +160,7 @@ public class MonthControllerTests {
 				new Document("2", "2", LocalDate.of(2012, 2, 12), DocumentStatus.FINISHED, "1", prj),
 				new Document("3", "3", LocalDate.of(2012, 3, 12), DocumentStatus.FINISHED, "1", prj)
 				);
-		when(documentService.getUnfinishedDocuments()).thenReturn(docs);
+		when(documentService.getUnfinishedDocuments(null)).thenReturn(docs);
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 3,  1));
 		
 		// act

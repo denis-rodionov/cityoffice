@@ -18,8 +18,11 @@ import com.rodionov.cityoffice.dto.DocumentDTO;
 import com.rodionov.cityoffice.dto.MonthDTO;
 import com.rodionov.cityoffice.model.Document;
 import com.rodionov.cityoffice.model.DocumentStatus;
+import com.rodionov.cityoffice.model.User;
+import com.rodionov.cityoffice.repository.UserRepository;
 import com.rodionov.cityoffice.services.DateService;
 import com.rodionov.cityoffice.services.DocumentService;
+import com.rodionov.cityoffice.services.MongoUserDetailsService;
 
 @RestController
 public class MonthController {
@@ -32,6 +35,9 @@ public class MonthController {
 	@Autowired
 	private DateService dateService;
 	
+	@Autowired
+	private MongoUserDetailsService mongoUserDetailsService;
+	
 	@RequestMapping("/month")
 	public List<MonthDTO> getMonthList(
 			Principal principal,
@@ -42,7 +48,9 @@ public class MonthController {
 		if (includePast == null)
 			includePast = false;
 		
-		Map<String, List<Document>> groupedDocs = documentService.getUnfinishedDocuments()
+		User user = principal != null ? mongoUserDetailsService.getUserByPrincipal(principal) : null;
+		
+		Map<String, List<Document>> groupedDocs = documentService.getUnfinishedDocuments(user)
 				.stream()
 				.filter(this::isYearPerspective)
 				.filter(this::isNotPastFinished)

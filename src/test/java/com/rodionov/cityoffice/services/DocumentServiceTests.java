@@ -5,6 +5,7 @@ import static org.fest.assertions.api.Assertions.extractProperty;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -23,12 +24,14 @@ import com.rodionov.cityoffice.model.DocumentStatus;
 import com.rodionov.cityoffice.model.Notification;
 import com.rodionov.cityoffice.model.NotificationSchema;
 import com.rodionov.cityoffice.model.Project;
+import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.model.helpers.DocumentHelper;
 import com.rodionov.cityoffice.model.helpers.NotificationHelper;
 import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.repository.NotificationRepository;
 import com.rodionov.cityoffice.repository.NotificationSchemaRepository;
 import com.rodionov.cityoffice.repository.ProjectRepository;
+import com.rodionov.cityoffice.repository.UserRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { RealDatabaseTestConfiguration.class })
@@ -54,8 +57,8 @@ public class DocumentServiceTests {
 	@Autowired
 	private NotificationRepository notificationRepository;
 	
-	//@Autowired
-	//private UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Mock
 	private DateService dateService;
@@ -152,7 +155,7 @@ public class DocumentServiceTests {
 				"3",  prj.getId(),  LocalDate.of(2050, 1, 1), DocumentStatus.NEW));
 		
 		// act
-		List<Document> actual = documentService.getUnfinishedDocuments();
+		List<Document> actual = documentService.getUnfinishedDocuments(null);
 		
 		// assert
 		assertThat(actual).hasSize(1);
@@ -171,7 +174,7 @@ public class DocumentServiceTests {
 				"3",  prj.getId(),  LocalDate.of(2050, 1, 1), DocumentStatus.NEW));
 		
 		// act
-		List<Document> actual = documentService.getUnfinishedDocuments();
+		List<Document> actual = documentService.getUnfinishedDocuments(null);
 		
 		// assert
 		assertThat(actual).hasSize(3);
@@ -185,7 +188,7 @@ public class DocumentServiceTests {
 				"1", prj.getId(), LocalDate.of(1999, 1, 1), DocumentStatus.NEW));
 		
 		// act
-		Document actual = documentService.getUnfinishedDocuments().get(0);
+		Document actual = documentService.getUnfinishedDocuments(null).get(0);
 		
 		// assert
 		assertThat(actual.getProject()).isNotNull();
@@ -205,10 +208,32 @@ public class DocumentServiceTests {
 				"3",  prj.getId(),  LocalDate.of(2050, 1, 1), DocumentStatus.NEW));
 		
 		// act
-		List<Document> actual = documentService.getAllDocuments();
+		List<Document> actual = documentService.getAllDocuments(null);
 		
 		// assert
 		assertThat(actual).hasSize(3);
+	}
+	
+	@Test
+	public void getAllDocuments_getByUserTest() {
+		// arrange
+		Project prj1 = projectRepository.save(new Project("1", true, "primary"));
+		Project prj2 = projectRepository.save(new Project("2", true, "primary"));
+		User user = userRepository.save(new User("1", "name", "email", Arrays.asList(prj1.getId())));
+		
+		documentRepository.save(DocumentHelper.CreateDocument(
+				"1", prj1.getId(), LocalDate.of(1999, 1, 1), DocumentStatus.NEW));
+		documentRepository.save(DocumentHelper.CreateDocument(
+				"2",  prj2.getId(),  LocalDate.of(2050, 1, 1), DocumentStatus.NEW));
+		documentRepository.save(DocumentHelper.CreateDocument(
+				"3",  prj2.getId(),  LocalDate.of(2050, 1, 1), DocumentStatus.NEW));
+		
+		// act
+		List<Document> actual = documentService.getAllDocuments(user);
+		
+		// assert
+		assertThat(actual).hasSize(1);
+		assertThat(actual.get(0).getName()).isEqualTo("1");
 	}
 	
 	@Test
@@ -219,7 +244,7 @@ public class DocumentServiceTests {
 				"1", prj.getId(), LocalDate.of(1999, 1, 1), DocumentStatus.NEW));
 		
 		// act
-		Document actual = documentService.getAllDocuments().get(0);
+		Document actual = documentService.getAllDocuments(null).get(0);
 		
 		// assert
 		assertThat(actual.getProject()).isNotNull();
