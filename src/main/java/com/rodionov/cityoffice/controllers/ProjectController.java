@@ -1,5 +1,6 @@
 package com.rodionov.cityoffice.controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -16,9 +17,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.rodionov.cityoffice.controllers.exceptions.CrossReferenceException;
 import com.rodionov.cityoffice.model.Project;
+import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.repository.ProjectRepository;
 import com.rodionov.cityoffice.repository.UserRepository;
+import com.rodionov.cityoffice.services.MongoUserDetailsService;
 
 @RestController
 public class ProjectController {
@@ -34,15 +37,24 @@ public class ProjectController {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired
+	private MongoUserDetailsService userDetailsService;
+	
 	//-------------------Retrieve All Projects--------------------------------------------------------
     
     @RequestMapping(value = "/project", method = RequestMethod.GET)
-    public ResponseEntity<List<Project>> listAllProjects() {
-        List<Project> projects = projectRepository.findAll();
-        if(projects.isEmpty()){
-            return new ResponseEntity<List<Project>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
-        }
-        return new ResponseEntity<List<Project>>(projects, HttpStatus.OK);
+    public List<Project> listAllProjects(Principal principal) {
+    	
+    	List<Project> projects;
+    	
+    	User currentUser = userDetailsService.getUserByPrincipal(principal);
+    	
+    	if (userDetailsService.isAdmin(principal))
+    		projects = projectRepository.findAll();
+    	else
+    		projects = projectRepository.findByIdIn(currentUser.getProjectIds()); 	
+         
+        return projects;
     }
     
     //-------------------Retrieve Single Project--------------------------------------------------------

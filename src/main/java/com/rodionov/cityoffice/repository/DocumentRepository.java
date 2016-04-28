@@ -19,5 +19,7 @@ public interface DocumentRepository extends MongoRepository<Document, String> {
 	
 	List<Document> findByProjectId(String projectId);
 	
+	List<Document> findByProjectIdIn(List<String> projectIds);
+	
 	List<Document> findByNotificationSchemaId(String notificationSchemaId);
 }

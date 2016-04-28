@@ -1,5 +1,6 @@
 package com.rodionov.cityoffice.controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -16,7 +17,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.rodionov.cityoffice.model.Document;
 import com.rodionov.cityoffice.model.DocumentStatus;
+import com.rodionov.cityoffice.model.Project;
+import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.repository.DocumentRepository;
+import com.rodionov.cityoffice.services.MongoUserDetailsService;
 
 @RestController
 public class DocumentController {
@@ -25,6 +29,9 @@ public class DocumentController {
 	
 	@Autowired
 	private DocumentRepository documentRepository;
+	
+	@Autowired
+	private MongoUserDetailsService userDetailsService;
 	
 	@RequestMapping(value = "/finish/{id}", method = RequestMethod.POST)
 	public ResponseEntity<Document> doneDocument(@PathVariable("id") String id) {
@@ -45,14 +52,21 @@ public class DocumentController {
 	//-------------------Retrieve All Documents --------------------------------------------------------
     
     @RequestMapping(value = "/document", method = RequestMethod.GET)
-    public ResponseEntity<List<Document>> listAllDocuments() {
-        List<Document> docs = documentRepository.findAll();
+    public List<Document> listAllDocuments(Principal principal) {
+        
+    	List<Document> docs;
+    	
+    	User currentUser = userDetailsService.getUserByPrincipal(principal);
+    	
+    	if (userDetailsService.isAdmin(principal))
+    		docs = documentRepository.findAll();
+    	else
+    		docs = documentRepository.findByProjectIdIn(currentUser.getProjectIds()); 
+    	
+        
         docs.sort((d1, d2) -> d1.getDeadline().compareTo(d2.getDeadline()));
         
-        if(docs.isEmpty()){
-            return new ResponseEntity<List<Document>>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<List<Document>>(docs, HttpStatus.OK);
+        return docs;
     }
     
   //-------------------Retrieve Single Document--------------------------------------------------------

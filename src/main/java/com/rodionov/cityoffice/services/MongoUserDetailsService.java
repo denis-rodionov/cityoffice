@@ -2,12 +2,14 @@ package com.rodionov.cityoffice.services;
 
 import java.security.Principal;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.rodionov.cityoffice.controllers.UserController;
 import com.rodionov.cityoffice.model.MUserDetails;
 import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.repository.UserRepository;
@@ -16,6 +18,9 @@ import com.rodionov.cityoffice.repository.UserRepository;
 
 @Service
 public class MongoUserDetailsService implements UserDetailsService {
+	
+	private static final Logger logger = Logger.getLogger(MongoUserDetailsService.class);
+	
 	@Autowired
     private UserRepository userRepository;
 
@@ -34,5 +39,11 @@ public class MongoUserDetailsService implements UserDetailsService {
     
     public User getUserByPrincipal(Principal principal) {
     	return userRepository.findByEmail(principal.getName());
+    }
+    
+    public boolean isAdmin(Principal principal) {
+    	User user = getUserByPrincipal(principal);
+    	logger.info("user: " + user);
+    	return user.getRole().equals(MUserDetails.ADMIN_ROLE);
     }
 }

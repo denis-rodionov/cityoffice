@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.rodionov.cityoffice.controllers.exceptions.NotEnoughtRightsException;
+import com.rodionov.cityoffice.controllers.exceptions.NotFoundException;
 import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.repository.UserRepository;
+import com.rodionov.cityoffice.services.MongoUserDetailsService;
 
 @RestController
 public class UserController {
@@ -26,15 +29,12 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired
+	private MongoUserDetailsService userDetailsService;
+	
 	@RequestMapping(value = "/getuser", method = RequestMethod.GET)
 	public Principal user(Principal user) {
 		logger.debug("UserController.User accessed by '" + user + "'");
-		
-//		Map<String, Object> map = new LinkedHashMap<String, Object>();
-//	    map.put("name", user.getName());
-//	    map.put("roles", AuthorityUtils.authorityListToSet(((Authentication) user)
-//	        .getAuthorities()));
-//	    return map;
 		
 		return user;
 	}
@@ -42,12 +42,11 @@ public class UserController {
 //-------------------Retrieve All Users--------------------------------------------------------
     
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public ResponseEntity<List<User>> listAllUsers() {
-        List<User> users = userRepository.findAll();
-        if(users.isEmpty()){
-            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
-        }
-        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+    public List<User> listAllUsers(Principal principal) {
+    	
+    	List<User> users = userRepository.findAll();
+    	
+        return users;
     }
     
   //-------------------Retrieve Single User--------------------------------------------------------
@@ -85,36 +84,43 @@ public class UserController {
     //------------------- Update a User --------------------------------------------------------
      
     @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody User user) {
+    public User updateUser(Principal principal, @PathVariable("id") String id, @RequestBody User user) {
     	logger.info("Updating User " + user.getUsername());
+    	
+    	User currentUser = userDetailsService.getUserByPrincipal(principal);
+    	
+    	if (!userDetailsService.isAdmin(principal) && !currentUser.getEmail().equals(user.getEmail()))
+    		throw new NotEnoughtRightsException();
          
-        User currentUser = userRepository.findOne(user.getId());
+        User dbUser = userRepository.findOne(user.getId());
          
-        if (currentUser == null) {
-            System.out.println("User with id " + id + " not found");
-            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-        }
+        if (dbUser == null) 
+            throw new NotFoundException();        
  
-        currentUser.setUsername(user.getUsername());
-        currentUser.setEmail(user.getEmail());
-        currentUser.setProjectIds(user.getProjectIds());
-        currentUser.setRole(user.getRole());
-        currentUser.setPassword(user.getPassword());
+        dbUser.setUsername(user.getUsername());
+        dbUser.setEmail(user.getEmail());
+        dbUser.setProjectIds(user.getProjectIds());
+        dbUser.setRole(user.getRole());
+        dbUser.setPassword(user.getPassword());
                 
-        userRepository.save(currentUser);
-        return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+        userRepository.save(dbUser);
+        return dbUser;
     }
  
     //------------------- Delete a User --------------------------------------------------------
      
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<User> deleteUser(@PathVariable("id") String id) 
+    public ResponseEntity<User> deleteUser(Principal principal, @PathVariable("id") String id) 
     		throws Exception {
+    	
+    	if (!userDetailsService.isAdmin(principal))
+    		throw new NotEnoughtRightsException();
+    	
         User user = userRepository.findOne(id);
         
         if (user == null) {
             logger.info("Unable to delete. User with id " + id + " not found");
-            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+            throw new NotFoundException();
         }
         
         logger.info("Deleting User with username " + user.getUsername());

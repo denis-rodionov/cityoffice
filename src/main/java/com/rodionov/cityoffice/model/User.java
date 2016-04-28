@@ -48,6 +48,12 @@ public class User {
 		this.projectIds = projectIds;
 	}
 	
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", email=" + email + ", projectIds=" + projectIds
+				+ ", role=" + role + "]";
+	}
+
 	public String getRole() {
 		return role;
 	}
@@ -70,11 +76,6 @@ public class User {
 
 	public void setProjectIds(List<String> projectIds) {
 		this.projectIds = projectIds;
-	}
-
-	@Override
-	public String toString() {
-		return "User [username=" + username + ", email=" + email + "]";
 	}
 
 	public String getId() {
