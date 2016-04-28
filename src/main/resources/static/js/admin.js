@@ -138,6 +138,67 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     admin.addEntity(notification_schema);
     
+// ------------- USERS -------------------------
+    
+    var user = nga.entity('user')
+		.label("Users");
+    
+    user.listView().fields([
+        nga.field('username')
+           .label('Username')
+           .isDetailLink(true)
+           .validation({ required : true }),
+        nga.field('email', 'email')
+           .label('E-mail')
+           .validation({ reuqired : true }),
+        nga.field('projectIds', 'reference_many')
+           .targetEntity(project)
+           .targetField(nga.field('name'))
+           .label('Projects'),
+        nga.field('role')
+       	   .label('Role')
+    ]);
+    
+    user.creationView().fields([
+       nga.field('username')
+           .label('Full name')
+           .validation({ required : true }),
+       nga.field('email', 'email')
+           .label('E-mail')
+           .validation({ reuqired : true }),
+       nga.field('projectIds', 'reference_many')
+       	   .targetEntity(project)
+       	   .targetField(nga.field('name'))   	
+       	   .label('Projects'),
+       nga.field('role', 'choice')
+       	   .label('Role')
+       	   .choices([
+        	    { value: 'USER', label: 'USER '},
+        	    { value: 'ADMIN', label: 'ADMIN'}
+		    ])
+		   .defaultValue('USER')
+		   .validation({ required : true }),
+       nga.field('password', 'password')
+       	   .label('Password')
+       	   .validation({ required : true })
+    ]);
+    
+    user.showView().fields([
+        nga.field('username')
+            .label('Full name')
+            .validation({ required : true }),
+        nga.field('email', 'email')
+            .label('E-mail')
+            .validation({ reuqired : true })
+     ]);
+    
+    user.editionView().fields(user.creationView().fields())
+		.title('Edit User "{{entry.values.username}}":');
+    
+    user.deletionView().title('Delete user "{{entry.values.username}}":');
+    
+    admin.addEntity(user);    
+    
     // ------------- DOCUMENTS -------------------------
     
     var document = nga.entity('document')
@@ -205,7 +266,12 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 		nga.field('notificationSchemaId', 'reference')
            	.targetEntity(notification_schema)
            	.targetField(nga.field('name'))           	
-           	.label('Notification Schema')
+           	.label('Notification Schema'),
+        nga.field('finishedUserId', 'reference')
+           	.label('Responsible')
+           	.targetEntity(user)
+           	.targetField(nga.field('username'))
+           	.editable(false)
     ]);
     
     document.editionView().fields(document.creationView().fields())
@@ -215,66 +281,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     admin.addEntity(document);
     
-// ------------- USERS -------------------------
-    
-    var user = nga.entity('user')
-		.label("Users");
-    
-    user.listView().fields([
-        nga.field('username')
-           .label('Username')
-           .isDetailLink(true)
-           .validation({ required : true }),
-        nga.field('email', 'email')
-           .label('E-mail')
-           .validation({ reuqired : true }),
-        nga.field('projectIds', 'reference_many')
-           .targetEntity(project)
-           .targetField(nga.field('name'))
-           .label('Projects'),
-        nga.field('role')
-       	   .label('Role')
-    ]);
-    
-    user.creationView().fields([
-       nga.field('username')
-           .label('Full name')
-           .validation({ required : true }),
-       nga.field('email', 'email')
-           .label('E-mail')
-           .validation({ reuqired : true }),
-       nga.field('projectIds', 'reference_many')
-       	   .targetEntity(project)
-       	   .targetField(nga.field('name'))   	
-       	   .label('Projects'),
-       nga.field('role', 'choice')
-       	   .label('Role')
-       	   .choices([
-        	    { value: 'USER', label: 'USER '},
-        	    { value: 'ADMIN', label: 'ADMIN'}
-		    ])
-		   .defaultValue('USER')
-		   .validation({ required : true }),
-       nga.field('password', 'password')
-       	   .label('Password')
-       	   .validation({ required : true })
-    ]);
-    
-    user.showView().fields([
-        nga.field('username')
-            .label('Full name')
-            .validation({ required : true }),
-        nga.field('email', 'email')
-            .label('E-mail')
-            .validation({ reuqired : true })
-     ]);
-    
-    user.editionView().fields(user.creationView().fields())
-		.title('Edit User "{{entry.values.username}}":');
-    
-    user.deletionView().title('Delete user "{{entry.values.username}}":');
-    
-    admin.addEntity(user);    
+
     
     // attach the admin application to the DOM and execute it
     nga.configure(admin);

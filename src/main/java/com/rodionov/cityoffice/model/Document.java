@@ -28,6 +28,7 @@ public class Document {
 	private DocumentStatus status;
 	private String projectId;
 	private String notificationSchemaId;
+	private String finishedUserId;
 		
 	@Transient
 	private Project project;
@@ -106,6 +107,14 @@ public class Document {
 			return false;
 		
 		return true;
+	}
+
+	public String getFinishedUserId() {
+		return finishedUserId;
+	}
+
+	public void setFinishedUserId(String finishedUserId) {
+		this.finishedUserId = finishedUserId;
 	}
 
 	public DocumentStatus getStatus() {

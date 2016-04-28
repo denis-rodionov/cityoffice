@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.rodionov.cityoffice.controllers.exceptions.NotFoundException;
 import com.rodionov.cityoffice.model.Document;
 import com.rodionov.cityoffice.model.DocumentStatus;
-import com.rodionov.cityoffice.model.Project;
 import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.services.MongoUserDetailsService;
@@ -34,19 +34,18 @@ public class DocumentController {
 	private MongoUserDetailsService userDetailsService;
 	
 	@RequestMapping(value = "/finish/{id}", method = RequestMethod.POST)
-	public ResponseEntity<Document> doneDocument(@PathVariable("id") String id) {
+	public Document doneDocument(Principal principal, @PathVariable("id") String id) {
 		logger.info("Make document with id=" + id + " done");
 		
 		Document document = documentRepository.findOne(id);
-		if (document == null) {
-			logger.error("Document '" + id + "' not found");
-			return new ResponseEntity<Document>(HttpStatus.NOT_FOUND);
-		}
+		if (document == null) 
+			throw new NotFoundException();
 		
 		document.setStatus(DocumentStatus.FINISHED);
+		document.setFinishedUserId(userDetailsService.getUserByPrincipal(principal).getId());
 		documentRepository.save(document);
 		
-		return new ResponseEntity<Document>(document, HttpStatus.OK);
+		return document;
 	}
 	
 	//-------------------Retrieve All Documents --------------------------------------------------------
