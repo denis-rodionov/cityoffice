@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.rodionov.cityoffice.controllers.UserController;
 import com.rodionov.cityoffice.model.MUserDetails;
 import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.repository.UserRepository;

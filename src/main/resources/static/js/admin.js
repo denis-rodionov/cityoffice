@@ -267,11 +267,12 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
            	.targetEntity(notification_schema)
            	.targetField(nga.field('name'))           	
            	.label('Notification Schema'),
-        nga.field('finishedUserId', 'reference')
+        nga.field('assigneeId', 'reference')
            	.label('Responsible')
            	.targetEntity(user)
-           	.targetField(nga.field('username'))
-           	.editable(false)
+           	.targetField(nga.field('username')),
+        nga.field('description', 'text')
+        	.label('Description')
     ]);
     
     document.editionView().fields(document.creationView().fields())

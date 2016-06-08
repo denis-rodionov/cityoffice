@@ -17,8 +17,9 @@ public class DocumentDTO {
 	private String formatedDeadline;
 	private String projectColor;
 	private String visibility;
+	private String assignee;
 	
-	public DocumentDTO(String id, String name, LocalDate date, String projectName, boolean isUrgent, String projectColor) {
+	public DocumentDTO(String id, String name, LocalDate date, String projectName, boolean isUrgent, String projectColor, String assignee) {
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");	
 		
@@ -32,6 +33,7 @@ public class DocumentDTO {
 		this.isUrgent = isUrgent;
 		this.formatedDeadline = date.format(formatter);
 		this.projectColor = projectColor;
+		this.setAssignee(assignee);
 	}
 
 	@Override
@@ -43,13 +45,16 @@ public class DocumentDTO {
 	}
 
 	public static DocumentDTO of(Document d) {
+		String assigneeName = d.getAssignee() == null ? null : d.getAssignee().getUsername();
+		
 		return new DocumentDTO(
 				d.getId(), 
 				d.getName(), 
 				d.getDeadline(),
 				d.getProject().getName(),
 				false,
-				d.getProject().getColorName());
+				d.getProject().getColorName(),
+				assigneeName);
 	}	
 
 	public String getVisibility() {
@@ -138,6 +143,14 @@ public class DocumentDTO {
 
 	public void setProjectColor(String projectColor) {
 		this.projectColor = projectColor;
+	}
+
+	public String getAssignee() {
+		return assignee;
+	}
+
+	public void setAssignee(String assignee) {
+		this.assignee = assignee;
 	}
 
 	

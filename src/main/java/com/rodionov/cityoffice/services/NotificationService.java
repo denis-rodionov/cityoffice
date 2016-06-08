@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rodionov.cityoffice.model.Document;
-import com.rodionov.cityoffice.model.Project;
 import com.rodionov.cityoffice.model.SentNotification;
 import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.repository.SentNotificationRepository;

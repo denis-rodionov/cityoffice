@@ -18,6 +18,7 @@ import com.rodionov.cityoffice.model.helpers.NotificationHelper;
 import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.repository.NotificationSchemaRepository;
 import com.rodionov.cityoffice.repository.ProjectRepository;
+import com.rodionov.cityoffice.repository.UserRepository;
 
 @Service
 public class DocumentService {
@@ -32,6 +33,9 @@ public class DocumentService {
 	
 	@Autowired
 	private DateService dateService;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Autowired
 	private NotificationSchemaRepository notificationSchemaRepository;
@@ -64,12 +68,10 @@ public class DocumentService {
 		res = res.stream()
 			.filter(d -> isAccessible(d, user))
 			.map((Document d) -> {
-				Project proj = projectRepository.findOne(d.getProjectId());
-				d.setProject(proj);
-				if (d.getNotificationSchemaId() != null) {
-					NotificationSchema n = notificationSchemaRepository.findOne(d.getNotificationSchemaId());
-					d.setNotificationSchema(n);
-				}
+				
+				eagerLoadDocument(d);
+				
+				
 				
 				return d;
 			})
@@ -78,6 +80,21 @@ public class DocumentService {
 		return res;
 	}
 	
+	private void eagerLoadDocument(Document d) {
+		
+		Project proj = projectRepository.findOne(d.getProjectId());
+		d.setProject(proj);
+		
+		if (d.getNotificationSchemaId() != null) {
+			NotificationSchema n = notificationSchemaRepository.findOne(d.getNotificationSchemaId());
+			d.setNotificationSchema(n);
+		}
+		
+		if (d.getAssigneeId() != null) {
+			d.setAssignee(userRepository.findOne(d.getAssigneeId()));
+		}
+	}
+
 	/**
 	 * @return documents which need to be notified about
 	 */

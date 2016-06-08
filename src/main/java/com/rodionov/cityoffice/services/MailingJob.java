@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.rodionov.cityoffice.model.Document;
 import com.rodionov.cityoffice.model.User;
-import com.rodionov.cityoffice.repository.DocumentRepository;
 
 @Service
 public class MailingJob implements Runnable {

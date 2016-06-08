@@ -19,7 +19,6 @@ import com.rodionov.cityoffice.dto.MonthDTO;
 import com.rodionov.cityoffice.model.Document;
 import com.rodionov.cityoffice.model.DocumentStatus;
 import com.rodionov.cityoffice.model.User;
-import com.rodionov.cityoffice.repository.UserRepository;
 import com.rodionov.cityoffice.services.DateService;
 import com.rodionov.cityoffice.services.DocumentService;
 import com.rodionov.cityoffice.services.MongoUserDetailsService;

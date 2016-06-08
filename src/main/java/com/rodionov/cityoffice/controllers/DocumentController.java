@@ -25,7 +25,7 @@ import com.rodionov.cityoffice.services.MongoUserDetailsService;
 @RestController
 public class DocumentController {
 
-	private static final Logger logger = Logger.getLogger(MonthController.class);
+	private static final Logger logger = Logger.getLogger(DocumentController.class);
 	
 	@Autowired
 	private DocumentRepository documentRepository;
@@ -42,7 +42,7 @@ public class DocumentController {
 			throw new NotFoundException();
 		
 		document.setStatus(DocumentStatus.FINISHED);
-		document.setFinishedUserId(userDetailsService.getUserByPrincipal(principal).getId());
+		document.setAssigneeId(userDetailsService.getUserByPrincipal(principal).getId());
 		documentRepository.save(document);
 		
 		return document;
@@ -107,7 +107,7 @@ public class DocumentController {
      
     @RequestMapping(value = "/document/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Document> updateDocument(@PathVariable("id") String id, @RequestBody Document document) {
-        System.out.println("Updating Document " + id);
+        logger.info("Updating Document " + document);
          
         Document currentDocument = documentRepository.findOne(document.getId());
          
@@ -121,6 +121,8 @@ public class DocumentController {
         currentDocument.setProject(document.getProject());
         currentDocument.setStatus(document.getStatus());
         currentDocument.setNotificationSchemaId(document.getNotificationSchemaId());
+        currentDocument.setAssigneeId(document.getAssigneeId());
+        currentDocument.setDescription(document.getDescription());
         
         if (document.getDeadline() != null)
         	currentDocument.setDeadline(document.getDeadline());
