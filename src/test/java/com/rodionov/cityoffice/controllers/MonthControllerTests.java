@@ -22,6 +22,7 @@ import com.rodionov.cityoffice.dto.MonthDTO;
 import com.rodionov.cityoffice.model.Document;
 import com.rodionov.cityoffice.model.DocumentStatus;
 import com.rodionov.cityoffice.model.Project;
+import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.services.DateService;
 import com.rodionov.cityoffice.services.DocumentService;
 
@@ -49,9 +50,9 @@ public class MonthControllerTests {
 		// arrange
 		Project prj = new Project("Project1", true, "123");
 		List<Document> docs = Arrays.asList(
-				new Document("1", "1", LocalDate.of(2012, 3, 24), DocumentStatus.NEW, "1", prj),
-				new Document("2", "2", LocalDate.of(2012, 3, 12), DocumentStatus.NEW, "1", prj),
-				new Document("3", "3", LocalDate.of(2012, 2, 12), DocumentStatus.NEW, "1", prj)
+				new Document("1", "1", LocalDate.of(2012, 3, 24), DocumentStatus.NEW, "1", prj, null, null),
+				new Document("2", "2", LocalDate.of(2012, 3, 12), DocumentStatus.NEW, "1", prj, null, null),
+				new Document("3", "3", LocalDate.of(2012, 2, 12), DocumentStatus.NEW, "1", prj, null, null)
 				);
 		when(documentService.getUnfinishedDocuments(null)).thenReturn(docs);
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 2,  13));
@@ -71,9 +72,9 @@ public class MonthControllerTests {
 		// arrange
 		Project prj = new Project("Project1", true, "123");
 		List<Document> docs = Arrays.asList(
-				new Document("1", "1", LocalDate.of(2012, 3, 24), DocumentStatus.NEW, "1", prj),
-				new Document("2", "2", LocalDate.of(2012, 3, 12), DocumentStatus.NEW, "1", prj),
-				new Document("3", "3", LocalDate.of(2012, 2, 12), DocumentStatus.NEW, "1", prj)
+				new Document("1", "1", LocalDate.of(2012, 3, 24), DocumentStatus.NEW, "1", prj, null, null),
+				new Document("2", "2", LocalDate.of(2012, 3, 12), DocumentStatus.NEW, "1", prj, null, null),
+				new Document("3", "3", LocalDate.of(2012, 2, 12), DocumentStatus.NEW, "1", prj, null, null)
 				);
 		when(documentService.getUnfinishedDocuments(null)).thenReturn(docs);
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 3,  1));
@@ -92,9 +93,9 @@ public class MonthControllerTests {
 		// arrange
 		Project prj = new Project("Project1", true, "123");
 		List<Document> docs = Arrays.asList(
-				new Document("1", "1", LocalDate.of(2012, 4, 24), DocumentStatus.NEW, "1", prj),
-				new Document("2", "2", LocalDate.of(2012, 4, 12), DocumentStatus.NEW, "1", prj),
-				new Document("3", "3", LocalDate.of(2012, 2, 12), DocumentStatus.NEW, "1", prj)
+				new Document("1", "1", LocalDate.of(2012, 4, 24), DocumentStatus.NEW, "1", prj, null, null),
+				new Document("2", "2", LocalDate.of(2012, 4, 12), DocumentStatus.NEW, "1", prj, null, null),
+				new Document("3", "3", LocalDate.of(2012, 2, 12), DocumentStatus.NEW, "1", prj, null, null)
 				);
 		when(documentService.getUnfinishedDocuments(null)).thenReturn(docs);
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 3,  1));		
@@ -114,9 +115,9 @@ public class MonthControllerTests {
 		// arrange
 		Project prj = new Project("Project1", true, "123");
 		List<Document> docs = Arrays.asList(
-				new Document("1", "1", LocalDate.of(2012, 3, 24), DocumentStatus.NEW, "1", prj),
-				new Document("2", "2", LocalDate.of(2013, 3, 12), DocumentStatus.NEW, "1", prj),
-				new Document("3", "3", LocalDate.of(2013, 2, 28), DocumentStatus.NEW, "1", prj)
+				new Document("1", "1", LocalDate.of(2012, 3, 24), DocumentStatus.NEW, "1", prj, null, null),
+				new Document("2", "2", LocalDate.of(2013, 3, 12), DocumentStatus.NEW, "1", prj, null, null),
+				new Document("3", "3", LocalDate.of(2013, 2, 28), DocumentStatus.NEW, "1", prj, null, null)
 				);
 		when(documentService.getUnfinishedDocuments(null)).thenReturn(docs);
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 3,  30));
@@ -133,9 +134,9 @@ public class MonthControllerTests {
 		// arrange
 				Project prj = new Project("Project1", true, "123");
 				List<Document> docs = Arrays.asList(
-						new Document("1", "1", LocalDate.of(2012, 3, 24), DocumentStatus.FINISHED, "1", prj),
-						new Document("2", "2", LocalDate.of(2012, 3, 12), DocumentStatus.FINISHED, "1", prj),
-						new Document("3", "3", LocalDate.of(2012, 4, 12), DocumentStatus.FINISHED, "1", prj)
+						new Document("1", "1", LocalDate.of(2012, 3, 24), DocumentStatus.FINISHED, "1", prj, null, null),
+						new Document("2", "2", LocalDate.of(2012, 3, 12), DocumentStatus.FINISHED, "1", prj, null, null),
+						new Document("3", "3", LocalDate.of(2012, 4, 12), DocumentStatus.FINISHED, "1", prj, null, null)
 						);
 				when(documentService.getUnfinishedDocuments(null)).thenReturn(docs);
 				when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 3,  20));
@@ -156,9 +157,9 @@ public class MonthControllerTests {
 		// arrange
 		Project prj = new Project("Project1", true, "123");
 		List<Document> docs = Arrays.asList(
-				new Document("1", "1", LocalDate.of(2012, 2, 24), DocumentStatus.FINISHED, "1", prj),
-				new Document("2", "2", LocalDate.of(2012, 2, 12), DocumentStatus.FINISHED, "1", prj),
-				new Document("3", "3", LocalDate.of(2012, 3, 12), DocumentStatus.FINISHED, "1", prj)
+				new Document("1", "1", LocalDate.of(2012, 2, 24), DocumentStatus.FINISHED, "1", prj, null, null),
+				new Document("2", "2", LocalDate.of(2012, 2, 12), DocumentStatus.FINISHED, "1", prj, null, null),
+				new Document("3", "3", LocalDate.of(2012, 3, 12), DocumentStatus.FINISHED, "1", prj, null, null)
 				);
 		when(documentService.getUnfinishedDocuments(null)).thenReturn(docs);
 		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 3,  1));
@@ -171,21 +172,21 @@ public class MonthControllerTests {
 		assertThat(actual.get(0).getDocuments().get(0).getId()).isEqualTo("3");
 	}
 	
-//	@Test
-//	public void getMonthList_visibilityClass() {
-//		// arrange
-//		Project myPrj = new Project("Project1", true, "123");
-//		myPrj.setId("1");		
-//		Project notMyProj = new Project("Project2", true, "567");
-//		notMyProj.setId("2");
-//		
-//		List<Document> docs = Arrays.asList(
-//				new Document("1", "1", LocalDate.of(2012, 3, 24), DocumentStatus.NEW, "1", myPrj),
-//				new Document("2", "2", LocalDate.of(2012, 3, 12), DocumentStatus.NEW, "1", notMyProj)
-//				);
-//		when(documentService.getUnfinishedDocuments()).thenReturn(docs);
-//		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 3,  1));
-//		
-//		
-//	}
+	@Test
+	public void getMonthList_showAssignee() {
+		// arrange
+		Project prj = new Project("Project1", true, "123");
+		User user = new User("User #1", "user@gmail.com");
+		List<Document> docs = Arrays.asList(
+				new Document("1", "1", LocalDate.of(2012, 2, 24), DocumentStatus.FINISHED, "1", prj, null, user)
+				);
+		when(documentService.getUnfinishedDocuments(null)).thenReturn(docs);
+		when(dateService.getCurrentDate()).thenReturn(LocalDate.of(2012, 2,  1));
+		
+		// act
+		List<MonthDTO> actual = monthController.getMonthList(null, false);
+		
+		// assert
+		assertThat(actual.get(0).getDocuments().get(0).getAssignee()).isEqualTo(user.getUsername());
+	}
 }

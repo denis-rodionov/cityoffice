@@ -41,7 +41,8 @@ public class MailService {
 		
 		message.setText("Dear " + user.getUsername() + ",\n" + 
 						"You have notification about '" + doc.getName() + "' which has deadline " + formatedDays(daysToDeadline) + " (" +
-						doc.getDeadline().format(formatter) + ")\nProject: " + project.getName());
+						doc.getDeadline().format(formatter) + ")\nProject: " + project.getName() + 
+						"\n\nMore details on http://cityoffice.loc");
 		
 		logger.info(message);
 		mailSender.send(message);		

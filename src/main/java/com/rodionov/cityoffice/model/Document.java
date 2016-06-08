@@ -28,7 +28,8 @@ public class Document {
 	private DocumentStatus status;
 	private String projectId;
 	private String notificationSchemaId;
-	private String finishedUserId;
+	private String assigneeId;
+	private String description;
 		
 	@Transient
 	private Project project;
@@ -36,10 +37,20 @@ public class Document {
 	@Transient
 	private NotificationSchema notificationSchema;
 	
+	@Transient 
+	private User assignee;
+	
 	public Document() { }
 	
 	@PersistenceConstructor	
-	public Document(String id, String name, LocalDate deadline, DocumentStatus status, String projectId, String notificationSchemaId) {
+	public Document(
+			String id, 
+			String name, 
+			LocalDate deadline, 
+			DocumentStatus status, 
+			String projectId, 
+			String notificationSchemaId,
+			String assigneeId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -47,6 +58,7 @@ public class Document {
 		this.status = status;
 		this.projectId = projectId;
 		this.notificationSchemaId = notificationSchemaId;
+		this.assigneeId = assigneeId;
 	}	
 	
 	public Document(
@@ -55,7 +67,9 @@ public class Document {
 			LocalDate deadline, 
 			DocumentStatus status, 
 			String projectId, 
-			Project project) {
+			Project project,
+			String assigneeId,
+			User assignee) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -63,6 +77,8 @@ public class Document {
 		this.status = status;
 		this.projectId = projectId;
 		this.project = project;
+		this.assigneeId = assigneeId;
+		this.assignee = assignee;
 	}	
 
 	public Document(String name, LocalDate deadline, DocumentStatus status, String projectId) {
@@ -84,15 +100,19 @@ public class Document {
 	
 	public Document(Document document) {
 		this(document.id, document.name, document.deadline, document.status,
-			document.projectId, document.notificationSchemaId);
+			document.projectId, document.notificationSchemaId, document.assigneeId);
 	}
-
+	
+	
+	
 	@Override
 	public String toString() {
 		return "Document [id=" + id + ", name=" + name + ", deadline=" + deadline + ", status=" + status
-				+ ", projectId=" + projectId + ", project=" + project + "]";
+				+ ", projectId=" + projectId + ", notificationSchemaId=" + notificationSchemaId + ", assigneeId="
+				+ assigneeId + ", description=" + description + ", project=" + project + ", notificationSchema="
+				+ notificationSchema + "]";
 	}
-	
+
 	@JsonIgnore
 	public String getSortableMonth() {
 		if (deadline == null) {
@@ -109,12 +129,20 @@ public class Document {
 		return true;
 	}
 
-	public String getFinishedUserId() {
-		return finishedUserId;
+	public String getAssigneeId() {
+		return assigneeId;
 	}
 
-	public void setFinishedUserId(String finishedUserId) {
-		this.finishedUserId = finishedUserId;
+	public void setAssigneeId(String assigneeId) {
+		this.assigneeId = assigneeId;
+	}
+	
+	public User getAssignee() {
+		return assignee;
+	}
+
+	public void setAssignee(User assignee) {
+		this.assignee = assignee;
 	}
 
 	public DocumentStatus getStatus() {
@@ -174,5 +202,13 @@ public class Document {
 
 	public void setNotificationSchema(NotificationSchema notificationSchema) {
 		this.notificationSchema = notificationSchema;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }
