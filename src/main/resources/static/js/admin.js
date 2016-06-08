@@ -221,7 +221,11 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
           nga.field('notificationSchemaId', 'reference')
           	.targetEntity(notification_schema)
           	.targetField(nga.field('name'))
-          	.label('Notification Schema')
+          	.label('Notification Schema'),
+          nga.field('assigneeId', 'reference')
+            .targetEntity(user)
+        	.targetField(nga.field('username'))
+        	.label('Responsible')
          ])
          .filters([
              nga.field('status', 'choice')

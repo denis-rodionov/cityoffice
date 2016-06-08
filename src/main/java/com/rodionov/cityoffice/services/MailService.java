@@ -39,9 +39,11 @@ public class MailService {
 		
 		message.setSubject("Deadline in " + project.getName());
 		
+		String assignee = doc.getAssignee() != null ? "\nResponsible: " + doc.getAssignee().getUsername() : "";
 		message.setText("Dear " + user.getUsername() + ",\n" + 
 						"You have notification about '" + doc.getName() + "' which has deadline " + formatedDays(daysToDeadline) + " (" +
 						doc.getDeadline().format(formatter) + ")\nProject: " + project.getName() + 
+						assignee +
 						"\n\nMore details on http://cityoffice.loc");
 		
 		logger.info(message);

@@ -49,7 +49,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
 		auth.userDetailsService(userDetailsService);
 	}
     
-    private CsrfTokenRepository csrfTokenRepository() {
+    @SuppressWarnings("unused")
+	private CsrfTokenRepository csrfTokenRepository() {
     	  HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
     	  repository.setHeaderName("X-XSRF-TOKEN");
     	  return repository;

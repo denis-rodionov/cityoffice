@@ -9,8 +9,6 @@ import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import com.rodionov.cityoffice.services.BackgroundJobService;
-
 @Configuration
 public class ServletInitializer implements ServletContextInitializer {
 
