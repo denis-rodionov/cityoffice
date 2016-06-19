@@ -1,0 +1,9 @@
+v0.1.2 (08.06.2016)
+ - responsible in email and in admin list [Denis Rodionov]
+
+v0.1.1 (08.06.2016)
+ - added description and assignee to the document [Denis Rodionov]
+
+v.0.1.0 (28.04.2016)
+ - first release
+ - added users, docuemnts notifications, projects and roles [Denis Rodionov]
