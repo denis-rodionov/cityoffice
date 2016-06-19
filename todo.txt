@@ -1,0 +1,8 @@
+SLF4j - логер над логгерами
+swagger - конструктор REST API
+
+убрать System.Out
+выделить UserService
+разобрать DocumentHelper
+SSO - сервер для авторизации (CautchBase)
+BackgroundJob - лучше по крону запускать прогу

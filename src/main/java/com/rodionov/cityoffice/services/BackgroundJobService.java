@@ -25,6 +25,8 @@ public class BackgroundJobService implements ServletContextListener {
     public void contextInitialized(ServletContextEvent event) {
         scheduler = Executors.newSingleThreadScheduledExecutor();
         
+        // TODO: in case using CI need to extract launching job here and 
+        // set up launching by cron
         scheduler.scheduleAtFixedRate(mailingJob, 0, 1, TimeUnit.MINUTES);
         logger.info("Scheduller initialized");
     }

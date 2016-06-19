@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.rodionov.cityoffice.controllers.exceptions.AlreadyExistsException;
 import com.rodionov.cityoffice.controllers.exceptions.NotEnoughtRightsException;
 import com.rodionov.cityoffice.controllers.exceptions.NotFoundException;
 import com.rodionov.cityoffice.model.User;
@@ -34,12 +35,12 @@ public class UserController {
 	
 	@RequestMapping(value = "/getuser", method = RequestMethod.GET)
 	public Principal user(Principal user) {
-		logger.debug("UserController.User accessed by '" + user + "'");
+		logger.info("UserController.User accessed by '" + user + "'");
 		
 		return user;
 	}
 	
-//-------------------Retrieve All Users--------------------------------------------------------
+	//-------------------Retrieve All Users--------------------------------------------------------
     
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public List<User> listAllUsers(Principal principal) {
@@ -49,40 +50,44 @@ public class UserController {
         return users;
     }
     
-  //-------------------Retrieve Single User--------------------------------------------------------
+    //-------------------Retrieve Single User--------------------------------------------------------
     
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUser(@PathVariable("id") String id) {
-        System.out.println("Fetching User with id " + id);
+    public User getUser(@PathVariable("id") String id) {
+        logger.info("Fetching User with id " + id);
+        
         User user = userRepository.findOne(id);
+        
         if (user == null) {
-            System.out.println("User with id " + id + " not found");
-            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+            logger.info("User with id " + id + " not found");
+            throw new NotFoundException();
         }
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        
+        return user;
     }
      
     //-------------------Create a User--------------------------------------------------------
      
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public ResponseEntity<User> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
+    public User createUser(@RequestBody User user) {
         logger.info("Creating User " + user.getUsername());
+        
         User existing = userRepository.findByUsername(user.getUsername());
         User existingByEmail = userRepository.findByEmail(user.getUsername());
         
         if (existing != null || existingByEmail != null) {
-            System.out.println("A User with name " + user.getUsername() + " or email already exist");
-            return new ResponseEntity<User>(HttpStatus.CONFLICT);
+            logger.info("A User with name " + user.getUsername() + " or email already exist");
+            throw new AlreadyExistsException();
         }
  
         userRepository.save(user);
         
-        return new ResponseEntity<User>(user, HttpStatus.CREATED);
+        return user;
     }
  
      
     //------------------- Update a User --------------------------------------------------------
-     
+    
     @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
     public User updateUser(Principal principal, @PathVariable("id") String id, @RequestBody User user) {
     	logger.info("Updating User " + user.getUsername());
