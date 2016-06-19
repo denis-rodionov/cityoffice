@@ -26,6 +26,8 @@ public class User {
 	
 	private String role;
 	
+	private List<UserProject> resourcePlanning;
+	
 	public User() { }
 	
 	public User(String id, String username, String email) {
@@ -100,6 +102,14 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<UserProject> getResourcePlanning() {
+		return resourcePlanning;
+	}
+
+	public void setResourcePlanning(List<UserProject> resourcePlanning) {
+		this.resourcePlanning = resourcePlanning;
 	}
 	
 	
