@@ -16,7 +16,7 @@ public class ProjectService {
 	private UserRepository userRepository;
 	
 	/**
-	 * Finds out which users must be notified about the document deadline
+	 * Finds out which users must be notified about the document deadline regardles about double notifications
 	 * @param doc Document to notify about
 	 * @return List of users
 	 */
