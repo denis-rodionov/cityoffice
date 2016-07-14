@@ -1,6 +1,7 @@
 package com.rodionov.cityoffice.controllers;
 
 import java.security.Principal;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class MonthController {
 			LocalDate monthDate = entry.getValue().get(0).getDeadline();
 			
 			List<DocumentDTO> docs = entry.getValue().stream()
-					.sorted((f1, f2) -> Period.between(f2.getDeadline(), f1.getDeadline()).getDays())
+					.sorted((f1, f2) -> (int)ChronoUnit.DAYS.between(f2.getDeadline(), f1.getDeadline()))
 					.map(DocumentDTO::of)					
 					.collect(Collectors.toList());
 							
@@ -119,7 +120,7 @@ public class MonthController {
 				months.add(currentMonth);
 			}
 			else {
-				currentMonth.getDocuments().addAll(lastMonthsDocuments);
+				currentMonth.getDocuments().addAll(0, lastMonthsDocuments);
 			}
 		}
 	}
