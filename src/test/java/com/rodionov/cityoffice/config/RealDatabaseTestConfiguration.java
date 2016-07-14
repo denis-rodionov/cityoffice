@@ -13,6 +13,8 @@ import org.springframework.mail.SimpleMailMessage;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
+import com.rodionov.cityoffice.services.mail.DeadlineMailTemplate;
+import com.rodionov.cityoffice.services.mail.EnGeneralTemplate;
 
 @Configuration
 @EnableMongoRepositories(value="com.rodionov.cityoffice.repository")
@@ -35,20 +37,6 @@ public class RealDatabaseTestConfiguration extends AbstractMongoConfiguration {
          */
 
         return new MongoClient();
-
-
-        /**
-         *
-         * This is for a relset of db's
-         */
-
-//        return new Mongo(new ArrayList<ServerAddress>() {
-//        	{ 
-//	        	add(new ServerAddress("127.0.0.1", 27017)); 
-//	        	add(new ServerAddress("127.0.0.1", 27027)); 
-//	        	add(new ServerAddress("127.0.0.1", 27037)); 
-//	        }
-//       	});
     }
 
     @Override
@@ -62,5 +50,10 @@ public class RealDatabaseTestConfiguration extends AbstractMongoConfiguration {
     
     @Bean public SimpleMailMessage getMailMessage() {
     	return mock(SimpleMailMessage.class);
+    }
+    
+    @Bean
+    public DeadlineMailTemplate getDeadlineMailTemplate() {
+    	return new EnGeneralTemplate();
     }
 }

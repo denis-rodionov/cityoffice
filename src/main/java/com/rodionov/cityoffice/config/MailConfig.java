@@ -9,6 +9,9 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import com.rodionov.cityoffice.services.mail.DeadlineMailTemplate;
+import com.rodionov.cityoffice.services.mail.EnGeneralTemplate;
+
 @Configuration 
 public class MailConfig {
 
@@ -44,5 +47,10 @@ public class MailConfig {
     	message.setFrom(from);;
     	
     	return message;
+    }
+    
+    @Bean
+    public DeadlineMailTemplate getDeadlineMailTemplate() {
+    	return new EnGeneralTemplate();
     }
 }

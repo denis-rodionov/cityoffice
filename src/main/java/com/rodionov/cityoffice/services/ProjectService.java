@@ -23,7 +23,14 @@ public class ProjectService {
 	public List<User> getUsersToNotify(String projectId) {
 		return userRepository.findAll()
 				.stream()
-				.filter(u -> u.getProjectIds().stream().anyMatch(p -> p.equals(projectId)))
+				.filter(u -> {
+					List<String> projectIds = u.getProjectIds();
+					
+					if (projectIds == null)
+						return false;
+					
+					return projectIds.stream().anyMatch(p -> p.equals(projectId));
+				})
 				.collect(Collectors.toList());
 	}
 }
