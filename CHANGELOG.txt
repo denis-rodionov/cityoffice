@@ -1,5 +1,6 @@
 (unreleased)
 
+ - fixed sorting problem [Denis Rodionov]
  - russian notifications [Denis Rodionov]
  - mailing refactoring [Denis Rodionov]
 v0.1.2 (08.06.2016)
