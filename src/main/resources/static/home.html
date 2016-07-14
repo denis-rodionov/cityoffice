@@ -9,7 +9,7 @@
 	  <!-- List group -->
 	  <ul class="list-group" ng-repeat="doc in month.documents">
 	    <li class="list-group-item">	    	
-			<strong>{{doc.formatedDeadline}}</strong>
+			<strong style="color: {{ month.monthNumber != doc.monthNumber ? 'red' : '' }}">{{doc.formatedDeadline}}</strong>
 			  	{{doc.name}}	    
 			    <span class="label label-{{doc.projectColor}}">{{doc.projectName}}</span>
 			    <span class="label label-default">{{doc.assignee}}</span>

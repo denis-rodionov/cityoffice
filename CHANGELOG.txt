@@ -1,5 +1,6 @@
 (unreleased)
 
+ - show red expired last month's documents [Denis Rodionov]
  - fixed sorting problem [Denis Rodionov]
  - russian notifications [Denis Rodionov]
  - mailing refactoring [Denis Rodionov]
