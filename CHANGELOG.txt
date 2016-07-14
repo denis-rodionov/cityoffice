@@ -1,5 +1,6 @@
 (unreleased)
 
+v0.2.0
  - notify responsible [Denis Rodionov]
  - show red expired last month's documents [Denis Rodionov]
  - fixed sorting problem [Denis Rodionov]
