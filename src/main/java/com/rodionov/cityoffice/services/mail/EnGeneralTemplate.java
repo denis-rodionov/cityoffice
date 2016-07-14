@@ -11,7 +11,7 @@ public class EnGeneralTemplate extends DeadlineMailTemplate {
 	public String getMailBody() {
 		
 		String assigneeText = assignee != null ? 
-				"\nResponsible: " + assignee : "";
+				"\n<b>Responsible</b>: " + assignee : "";
 		
 		return "Dear " + addressee + ",\n" + 
 		"You have notification about '" + documentName + "' which has deadline " + 
@@ -30,5 +30,11 @@ public class EnGeneralTemplate extends DeadlineMailTemplate {
 			return "in the day after tomorrow";
 		else
 			return "in " + daysTo + " days";
+	}
+
+	@Override
+	public String getContentType() {
+		return "text/plain; charset=utf-8";
+		//return "text/html; charset=utf-8";
 	}
 }

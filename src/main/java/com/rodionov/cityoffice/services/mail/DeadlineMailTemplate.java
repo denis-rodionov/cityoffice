@@ -79,4 +79,10 @@ public abstract class DeadlineMailTemplate {
 	 * @return The email test
 	 */
 	public abstract String getMailBody();
+
+	/**
+	 * Content type of mime email
+	 * @return
+	 */
+	public abstract String getContentType();
 }

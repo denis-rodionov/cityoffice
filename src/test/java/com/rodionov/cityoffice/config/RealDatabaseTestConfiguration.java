@@ -2,6 +2,8 @@ package com.rodionov.cityoffice.config;
 
 import static org.mockito.Mockito.mock;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +11,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
@@ -48,8 +49,8 @@ public class RealDatabaseTestConfiguration extends AbstractMongoConfiguration {
     	return mock(MailSender.class);
     }
     
-    @Bean public SimpleMailMessage getMailMessage() {
-    	return mock(SimpleMailMessage.class);
+    @Bean public MimeMessage getMailMessage() {
+    	return mock(MimeMessage.class);
     }
     
     @Bean
