@@ -11,7 +11,7 @@ public class EnGeneralTemplate extends DeadlineMailTemplate {
 	public String getMailBody() {
 		
 		String assigneeText = assignee != null ? 
-				"\n<b>Responsible</b>: " + assignee : "";
+				"\nResponsible: " + assignee : "";
 		
 		return "Dear " + addressee + ",\n" + 
 		"You have notification about '" + documentName + "' which has deadline " + 

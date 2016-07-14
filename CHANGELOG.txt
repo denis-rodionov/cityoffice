@@ -1,3 +1,7 @@
+(unreleased)
+
+ - russian notifications [Denis Rodionov]
+ - mailing refactoring [Denis Rodionov]
 v0.1.2 (08.06.2016)
  - responsible in email and in admin list [Denis Rodionov]
 

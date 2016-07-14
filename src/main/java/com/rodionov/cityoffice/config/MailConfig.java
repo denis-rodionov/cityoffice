@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.rodionov.cityoffice.services.mail.DeadlineMailTemplate;
 import com.rodionov.cityoffice.services.mail.EnGeneralTemplate;
+import com.rodionov.cityoffice.services.mail.RuGeneralTemplate;
 
 @Configuration 
 public class MailConfig {
@@ -50,7 +51,7 @@ public class MailConfig {
     
     @Bean
     public DeadlineMailTemplate getDeadlineMailTemplate() {
-    	return new EnGeneralTemplate();
+    	return new RuGeneralTemplate();
     }
     
     private Properties getMailProperties() {
