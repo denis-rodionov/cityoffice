@@ -12,6 +12,7 @@
     "ng-admin": "^0.9.1"
   },
   "devDependencies": {
+    "angular-translate": "^2.11.1",
     "webpack": "^1.13.0"
   }
 }

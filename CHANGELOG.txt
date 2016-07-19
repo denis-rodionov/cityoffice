@@ -1,5 +1,5 @@
 (unreleased)
-
+ - menu for employees and projects [Denis Rodionov]
 v0.2.0
  - notify responsible [Denis Rodionov]
  - show red expired last month's documents [Denis Rodionov]
