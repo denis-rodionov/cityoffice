@@ -1,8 +1,7 @@
-﻿Show all users in project (admin)
-SLF4j - logging
-swagger 
-
-extract UserService
-remove DocumentHelper
-SSO - auth service
-BackgroundJob - cron?
+﻿* Show all users in project (admin)
+* make root for API
+* swagger
+* extract UserService
+* remove DocumentHelper
+* SSO - auth service
+* BackgroundJob - cron?

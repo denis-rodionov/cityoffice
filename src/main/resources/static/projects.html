@@ -1,1 +1,8 @@
 <h1>Projects</h1>
+
+<div class="alert alert-danger" ng-show="controller.error">
+    Error: {{controller.error}}
+</div>
+<div ng-show="authenticated" ng-repeat="employee in controller.employees">
+	{{employee}} <br/>
+</div>
