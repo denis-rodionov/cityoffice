@@ -4,9 +4,17 @@ angular.module('app', [ 'ngRoute', 'services'])
 		//$locationProvider.html5Mode(true);
 	
 	    $routeProvider.when('/', {
-	      templateUrl : 'home.html',
+	      templateUrl : 'documents.html',
 	      controller : 'documentController',
 	      controllerAs: 'controller'
+	    }).when('/projects', {
+	      templateUrl : 'projects.html',
+	      controller : 'projectController',
+	      controllerAs : 'controller'
+	    }).when('/employees', {
+	      templateUrl : 'employees.html',
+	      controller : 'employeeController',
+	      controllerAs : 'controller'
 	    }).when('/login', {
 	      templateUrl : 'login.html',
 	      controller : 'navigation',
@@ -17,37 +25,16 @@ angular.module('app', [ 'ngRoute', 'services'])
 	
 	    //$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 	
-	  })
-  	.controller('documentController', ['$scope', 'DocumentService',	function($scope, DocumentService) {
-  		var self = this;
-  		
-  		DocumentService.getDocumentsByMonths().
-  			then(function(data) {
-  				self.months = data;
-  			},
-  			function(reason) {
-  				self.error = reason;
-  			});
-  		
-  		self.finishDocument = function(document, month) {
-  			DocumentService.finishDocument(document.id);
-  			
-  			// hide the document
-  			var index = month.documents.indexOf(document);
-  			month.documents.splice(index, 1);
-  			
-  			// hide month of no mo elements
-  			if (month.documents.length == 0) {
-  				var index1 = self.months.indexOf(month);
-  				self.months.splice(index1, 1);
-  			}
-  		};
-    }])
-  	.controller('navigation',
-  		function($rootScope, $http, $location) {
-  		  console.log("navigation controller");
-  		
+	  })    
+  	.controller('navigation',function($rootScope, $http, $location) {  		
+  		  console.log("navigation controller: " + $location.path());
+  		  
   		  var self = this;
+  		  
+  		  $rootScope.menuClass = function(page) {
+  		    var current = $location.path().substring(1);
+  		    return page === current ? "active" : "";
+  		  };
 
   		  var authenticate = function(credentials, callback) {
   			  
