@@ -1,8 +1,8 @@
-<h1>Employees</h1>
+<h1>{{"EMPLOYEES" | translate}}</h1>
 
 <div class="alert alert-danger" ng-show="controller.error">
     Error: {{controller.error}}
 </div>
 <div ng-show="authenticated" ng-repeat="employee in controller.employees">
-	{{employee}} <br/>
+	{{ employee }} <br/>
 </div>

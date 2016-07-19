@@ -1,3 +1,9 @@
 {
-	"DOCUMENTS" : "Documents"
+	"DOCUMENTS" : "Documents",
+	"PROJECTS" : "Projects",
+	"EMPLOYEES" : "Employees",
+	"SETTINGS" : "Settings",
+	"LOG_OUT" : "Log Out",
+	"LOG_IN" : "Log In",
+	"FINISH_DOCUMENT" : "Finish"
 }

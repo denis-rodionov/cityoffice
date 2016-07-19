@@ -1,3 +1,9 @@
 {
-	"DOCUMENTS": "Документы"
+	"DOCUMENTS" : "Документы",
+	"PROJECTS" : "Проекты",
+	"EMPLOYEES" : "Сотрудники",
+	"SETTINGS" : "Настройки",
+	"LOG_OUT" : "Выход",
+	"LOG_IN" : "Вход",
+	"FINISH_DOCUMENT" : "Выполнено"
 }

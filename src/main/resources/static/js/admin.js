@@ -1,5 +1,5 @@
 // declare a new module called 'myApp', and make it require the `ng-admin` module as a dependency
-var myApp = angular.module('myApp', ['ng-admin']);
+var myApp = angular.module('myApp', ['ng-admin', 'pascalprecht.translate']);
 
 // ------------- Request converting ---------------------------
 myApp.config(['RestangularProvider', function(RestangularProvider) {
@@ -295,14 +295,23 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     	var res =   	'\
     		<div class="container"> \
     		<ul class="nav nav-pills" role="tablist"> \
-    			<li><a href="index.html">Documents</a></li> \
-    			<li><a href="index.html#/projects">Projects</a></li> \
-				<li><a href="index.html#/employees">Employees</a></li> \
-    			<li class="active"><a>Settings</a></li> \
-    			<li><a>Log Out</a></li> \
+    			<li><a href="index.html">{{"DOCUMENTS" | translate}}</a></li> \
+    			<li><a href="index.html#/projects">{{"PROJECTS" | translate}}</a></li> \
+				<li><a href="index.html#/employees">{{"EMPLOYEES" | translate}}</a></li> \
+    			<li class="active"><a>{{"SETTINGS" | translate}}</a></li> \
+    			<li><a>{{"LOG_OUT" | translate}}</a></li> \
     		</ul> \
     	</div> \
 		';
     	return res;
     }
+}]);
+
+// ------------ I18N ----------------------
+myApp.config(['$translateProvider', function($translateProvider) {
+	$translateProvider.useStaticFilesLoader({
+        prefix: '/i18n/',
+        suffix: '.json?' + (new Date().getTime()) // no-cache for i18n
+    });
+    $translateProvider.preferredLanguage('ru');
 }]);
