@@ -1,8 +1,8 @@
-SLF4j - логер над логгерами
-swagger - конструктор REST API
+﻿Show all users in project (admin)
+SLF4j - logging
+swagger 
 
-убрать System.Out
-выделить UserService
-разобрать DocumentHelper
-SSO - сервер для авторизации (CautchBase)
-BackgroundJob - лучше по крону запускать прогу
+extract UserService
+remove DocumentHelper
+SSO - auth service
+BackgroundJob - cron?
