@@ -5,5 +5,10 @@
 	"SETTINGS" : "Настройки",
 	"LOG_OUT" : "Выход",
 	"LOG_IN" : "Вход",
-	"FINISH_DOCUMENT" : "Выполнено"
+	"FINISH_DOCUMENT" : "Выполнено",	
+	"IN_DEVELOPMENT" : "Страница находится в разработке",
+	
+	"PROJECT" : "Проект",
+	"EDIT_PROJECT" : "Редактирование проекта",
+	"CREATE_NEW_PROJECT" : "Добавление нового проекта"
 }

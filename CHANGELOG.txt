@@ -1,4 +1,5 @@
 (unreleased)
+ - i18n and translation for the dashboard added [Denis Rodionov]
  - menu for employees and projects [Denis Rodionov]
 v0.2.0
  - notify responsible [Denis Rodionov]

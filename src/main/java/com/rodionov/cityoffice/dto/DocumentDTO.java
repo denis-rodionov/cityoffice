@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import com.rodionov.cityoffice.model.Document;
 
 public class DocumentDTO {
+	
+	
 	private String id;
 	private String name;
 	private int dateOfMonth;
@@ -28,7 +30,7 @@ public class DocumentDTO {
 		this.dateOfMonth = date.getDayOfMonth();
 		this.year = date.getYear();
 		this.monthNumber = date.getMonthValue();
-		this.monthName = date.getMonth().toString();
+		this.monthName = MonthDTO.getMonth(date);
 		this.projectName = projectName;
 		this.isUrgent = isUrgent;
 		this.formatedDeadline = date.format(formatter);
@@ -55,7 +57,7 @@ public class DocumentDTO {
 				false,
 				d.getProject().getColorName(),
 				assigneeName);
-	}	
+	}
 
 	public String getVisibility() {
 		return visibility;

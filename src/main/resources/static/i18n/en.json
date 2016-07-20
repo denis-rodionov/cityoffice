@@ -5,5 +5,6 @@
 	"SETTINGS" : "Settings",
 	"LOG_OUT" : "Log Out",
 	"LOG_IN" : "Log In",
-	"FINISH_DOCUMENT" : "Finish"
+	"FINISH_DOCUMENT" : "Finish",
+	"IN_DEVELOPMENT" : "The page is under development"
 }

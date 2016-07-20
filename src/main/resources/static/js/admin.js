@@ -1,6 +1,17 @@
 // declare a new module called 'myApp', and make it require the `ng-admin` module as a dependency
 var myApp = angular.module('myApp', ['ng-admin', 'pascalprecht.translate']);
 
+//------------ i18n ----------------------
+myApp.config(['$translateProvider', function($translateProvider) {
+	$translateProvider.useStaticFilesLoader({
+        prefix: '/i18n/',
+        suffix: '.json?'
+    });
+	
+    $translateProvider.preferredLanguage('ru');
+    $translateProvider.useSanitizeValueStrategy('sanitize');
+}]);
+
 // ------------- Request converting ---------------------------
 myApp.config(['RestangularProvider', function(RestangularProvider) {
     RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params, httpConfig) {
@@ -39,7 +50,8 @@ myApp.config(['RestangularProvider', function(RestangularProvider) {
 }]);
 
 // declare a function to run when the module bootstraps (during the 'config' phase)
-myApp.config(['NgAdminConfigurationProvider', function (nga) {
+myApp.config(['NgAdminConfigurationProvider', function (nga) {	
+	
     // create an admin application
     var admin = nga.application('Admin Tool', true).debug(true);
     admin.header(getHeader());
@@ -47,12 +59,11 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     
     // --------- PROJECTS -----------------------------------
-    var project = nga.entity('project')
-    	.label("Projects");
+    var project = nga.entity('project').label('Project');
     
     project.listView().fields([
 	                          nga.field('name')
-	                          	.label('Name')
+	                          	.label("Name")
 	                          	.editable(true)
 	                          	.isDetailLink(true),
 	                          nga.field('active', 'boolean')
@@ -80,13 +91,13 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
         	.label('Color Scheme')
         	.defaultValue('default')
         	.validation({ required: true })
-	]);
+	]).title('{{"CREATE_NEW_PROJECT" | translate}}');
     
     project.editionView().fields(project.creationView().fields())
-    	.title('Edit Project "{{entry.values.name}}":');
+    	.title('{{"EDIT_PROJECT" | translate}} "{{entry.values.name}}":');
     
     project.showView().fields(project.creationView().fields())
-		.title('Project "{{entry.values.name}}":');
+		.title('"{{PROJECT | translate}}" "{{entry.values.name}}":');
     
     project.deletionView().title('Delete project "{{entry.values.name}}":');
     
@@ -305,13 +316,4 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 		';
     	return res;
     }
-}]);
-
-// ------------ I18N ----------------------
-myApp.config(['$translateProvider', function($translateProvider) {
-	$translateProvider.useStaticFilesLoader({
-        prefix: '/i18n/',
-        suffix: '.json?' + (new Date().getTime()) // no-cache for i18n
-    });
-    $translateProvider.preferredLanguage('ru');
 }]);

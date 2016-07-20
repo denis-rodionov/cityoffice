@@ -121,6 +121,7 @@ public class MonthController {
 			}
 			else {
 				currentMonth.getDocuments().addAll(0, lastMonthsDocuments);
+				currentMonth.setDocumentsCount(currentMonth.getDocumentsCount() + lastMonthsDocuments.size());
 			}
 		}
 	}

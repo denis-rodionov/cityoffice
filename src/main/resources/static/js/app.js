@@ -34,5 +34,7 @@ angular.module('app', [ 'ngRoute', 'services', 'pascalprecht.translate'])
 	        suffix: '.json?' + (new Date().getTime()) // no-cache for i18n
 	    });
 	    $translateProvider.preferredLanguage('ru');
+	    $translateProvider.usePostCompiling(true);
+	    //$translateProvider.useSanitizeValueStrategy('sanitize');
 	}])
   	
