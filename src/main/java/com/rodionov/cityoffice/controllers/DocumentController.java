@@ -5,6 +5,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -23,7 +28,7 @@ import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.services.MongoUserDetailsService;
 
 @RestController
-public class DocumentController {
+public class DocumentController extends BaseController {
 
 	private static final Logger logger = Logger.getLogger(DocumentController.class);
 	
@@ -50,22 +55,25 @@ public class DocumentController {
 	
 	//-------------------Retrieve All Documents --------------------------------------------------------
     
-    @RequestMapping(value = "/document", method = RequestMethod.GET)
-    public List<Document> listAllDocuments(Principal principal) {
+    @RequestMapping(value = "/document", method = RequestMethod.GET)    
+    public ResponseEntity<List<Document>> listAllDocuments(Principal principal,
+    		@RequestParam("_page") int page, 
+    		@RequestParam("_perPage") int per_page
+    		) { //@RequestParam(value = "sort", defaultValue = "username", required = false) String sortField) {
         
-    	List<Document> docs;
+    	Page<Document> docs;
     	
     	User currentUser = userDetailsService.getUserByPrincipal(principal);
+    	Pageable pageable = new PageRequest(page-1, per_page, Sort.Direction.ASC, "123");
     	
     	if (userDetailsService.isAdmin(principal))
-    		docs = documentRepository.findAll();
+    		docs = documentRepository.findAll(pageable);
     	else
-    		docs = documentRepository.findByProjectIdIn(currentUser.getProjectIds()); 
+    		docs = documentRepository.findByProjectIdIn(currentUser.getProjectIds(), pageable);     	
+        
+        // docs.sort((d1, d2) -> d1.getDeadline().compareTo(d2.getDeadline()));       
     	
-        
-        docs.sort((d1, d2) -> d1.getDeadline().compareTo(d2.getDeadline()));
-        
-        return docs;
+        return new ResponseEntity<>(docs.getContent(), generatePaginationHeaders(docs, ""), HttpStatus.OK);
     }
     
   //-------------------Retrieve Single Document--------------------------------------------------------
