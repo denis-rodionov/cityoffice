@@ -58,13 +58,14 @@ public class DocumentController extends BaseController {
     @RequestMapping(value = "/document", method = RequestMethod.GET)    
     public ResponseEntity<List<Document>> listAllDocuments(Principal principal,
     		@RequestParam("_page") int page, 
-    		@RequestParam("_perPage") int per_page
-    		) { //@RequestParam(value = "sort", defaultValue = "username", required = false) String sortField) {
+    		@RequestParam("_perPage") int per_page,
+    		@RequestParam("_sortField") String sortField,
+    		@RequestParam("_sortDir") String sortDir) {
         
     	Page<Document> docs;
     	
     	User currentUser = userDetailsService.getUserByPrincipal(principal);
-    	Pageable pageable = new PageRequest(page-1, per_page, Sort.Direction.ASC, "123");
+    	Pageable pageable = new PageRequest(page-1, per_page, Sort.Direction.fromString(sortDir), sortField);
     	
     	if (userDetailsService.isAdmin(principal))
     		docs = documentRepository.findAll(pageable);
