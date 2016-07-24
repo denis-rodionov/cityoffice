@@ -1,4 +1,6 @@
 (unreleased)
+
+v0.3.0 (24.07.2016)
  - users and projects sorting, pagination and filtering [Denis Rodionov]
  - document controller filtering [Denis Rodionov]
  - document controller sorting [Denis Rodionov]
