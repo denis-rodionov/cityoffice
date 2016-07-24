@@ -70,7 +70,8 @@ public class DocumentController extends BaseController {
     		@RequestParam(value="_filters", required=false) Map<String, String> filters,
     		@RequestParam(value="status", required=false) String status,
     		@RequestParam(value="name", required=false) String name,
-    		@RequestParam(value="project", required=false) String projectId) {
+    		@RequestParam(value="project", required=false) String projectId,
+    		@RequestParam(value="assignee", required=false) String assigneeId) {
     	
     	User currentUser = userDetailsService.getUserByPrincipal(principal);
     	Pageable pageable = new PageRequest(page-1, per_page, Sort.Direction.fromString(sortDir), sortField);
@@ -79,7 +80,7 @@ public class DocumentController extends BaseController {
     	List<String> projects = userDetailsService.isAdmin(principal) ? null : currentUser.getProjectIds();
     	projects = projectId == null ? projects : Arrays.asList(projectId);
     	
-    	Page<Document> docs = documentService.getFilteredDocuments(projects, searchStatus, name, null, pageable);
+    	Page<Document> docs = documentService.getFilteredDocuments(projects, searchStatus, name, assigneeId, pageable);
     	
         return new ResponseEntity<>(docs.getContent(), generatePaginationHeaders(docs, ""), HttpStatus.OK);
     }

@@ -263,7 +263,11 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
              nga.field('project', 'reference')
              	.label('Project')
              	.targetEntity(project)
-             	.targetField(nga.field('name'))
+             	.targetField(nga.field('name')),
+             nga.field('assignee', 'reference')
+             	.label('Assignee')
+             	.targetEntity(user)
+             	.targetField(nga.field('username'))
          ])
          .sortField(nga.field('status'))
          .sortDir('DESC');
