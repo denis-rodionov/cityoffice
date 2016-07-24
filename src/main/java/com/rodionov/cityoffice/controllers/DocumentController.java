@@ -1,7 +1,9 @@
 package com.rodionov.cityoffice.controllers;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ import com.rodionov.cityoffice.model.Document;
 import com.rodionov.cityoffice.model.DocumentStatus;
 import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.repository.DocumentRepository;
+import com.rodionov.cityoffice.services.DocumentService;
 import com.rodionov.cityoffice.services.MongoUserDetailsService;
 
 @RestController
@@ -34,6 +37,9 @@ public class DocumentController extends BaseController {
 	
 	@Autowired
 	private DocumentRepository documentRepository;
+	
+	@Autowired
+	private DocumentService documentService;
 	
 	@Autowired
 	private MongoUserDetailsService userDetailsService;
@@ -60,19 +66,20 @@ public class DocumentController extends BaseController {
     		@RequestParam("_page") int page, 
     		@RequestParam("_perPage") int per_page,
     		@RequestParam("_sortField") String sortField,
-    		@RequestParam("_sortDir") String sortDir) {
-        
-    	Page<Document> docs;
+    		@RequestParam("_sortDir") String sortDir,
+    		@RequestParam(value="_filters", required=false) Map<String, String> filters,
+    		@RequestParam(value="status", required=false) String status,
+    		@RequestParam(value="name", required=false) String name,
+    		@RequestParam(value="project", required=false) String projectId) {
     	
     	User currentUser = userDetailsService.getUserByPrincipal(principal);
     	Pageable pageable = new PageRequest(page-1, per_page, Sort.Direction.fromString(sortDir), sortField);
     	
-    	if (userDetailsService.isAdmin(principal))
-    		docs = documentRepository.findAll(pageable);
-    	else
-    		docs = documentRepository.findByProjectIdIn(currentUser.getProjectIds(), pageable);     	
-        
-        // docs.sort((d1, d2) -> d1.getDeadline().compareTo(d2.getDeadline()));       
+    	DocumentStatus searchStatus = status != null ? DocumentStatus.valueOf(status) : null;    	
+    	List<String> projects = userDetailsService.isAdmin(principal) ? null : currentUser.getProjectIds();
+    	projects = projectId == null ? projects : Arrays.asList(projectId);
+    	
+    	Page<Document> docs = documentService.getFilteredDocuments(projects, searchStatus, name, null, pageable);
     	
         return new ResponseEntity<>(docs.getContent(), generatePaginationHeaders(docs, ""), HttpStatus.OK);
     }

@@ -7,9 +7,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.rodionov.cityoffice.model.Document;
+import com.mysema.query.BooleanBuilder;
+import com.mysema.query.annotations.*;
+ 
+import com.rodionov.cityoffice.model.*; 
 import com.rodionov.cityoffice.model.DocumentStatus;
 import com.rodionov.cityoffice.model.NotificationSchema;
 import com.rodionov.cityoffice.model.Project;
@@ -19,6 +24,7 @@ import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.repository.NotificationSchemaRepository;
 import com.rodionov.cityoffice.repository.ProjectRepository;
 import com.rodionov.cityoffice.repository.UserRepository;
+import com.mysema.query.annotations.QueryInit;
 
 @Service
 public class DocumentService {
@@ -67,12 +73,8 @@ public class DocumentService {
 		
 		res = res.stream()
 			.filter(d -> isAccessible(d, user))
-			.map((Document d) -> {
-				
+			.map((Document d) -> {				
 				eagerLoadDocument(d);
-				
-				
-				
 				return d;
 			})
 			.collect(Collectors.toList());
@@ -80,20 +82,48 @@ public class DocumentService {
 		return res;
 	}
 	
-	private void eagerLoadDocument(Document d) {
+	/**
+	 * Getting document list filtered by given params
+	 * @param projectsIds If the list is empty - documents are not filtered by projects
+	 * @param status Is status is null, documents are not filtered by status
+	 * @param nameFilter Filtering by substring inclusion. No filter if parameter is null
+	 * @return
+	 */
+	public Page<Document> getFilteredDocuments(
+			List<String> projectsIds, 
+			DocumentStatus status, 
+			String nameFilter,
+			String assigneeIdFilter,
+			Pageable pageable) {
 		
-		Project proj = projectRepository.findOne(d.getProjectId());
-		d.setProject(proj);
+		QDocument docQuery = new QDocument("document"); 
 		
-		if (d.getNotificationSchemaId() != null) {
-			NotificationSchema n = notificationSchemaRepository.findOne(d.getNotificationSchemaId());
-			d.setNotificationSchema(n);
-		}
+		BooleanBuilder where = new BooleanBuilder();
+	    if (status != null) {
+	        where.and(docQuery.status.eq(status));
+	    }
+	    
+	    if (nameFilter != null) {
+	    	where.and(docQuery.name.containsIgnoreCase(nameFilter));
+	    }
+	    
+	    if (projectsIds != null && !projectsIds.isEmpty()) {
+	    	where.and(docQuery.projectId.in(projectsIds));
+	    }
+	    
+	    if (assigneeIdFilter != null) {
+	    	where.and(docQuery.assigneeId.eq(assigneeIdFilter));
+	    }
 		
-		if (d.getAssigneeId() != null) {
-			d.setAssignee(userRepository.findOne(d.getAssigneeId()));
-		}
+		return documentRepository.findAll(where, pageable);
 	}
+	
+
+//	private Predicate<Document> getPredicate(List<String> projectsIds, DocumentStatus status, String nameFilter,
+//			String assigneeIdFilter) {
+//
+//		
+//	}
 
 	/**
 	 * @return documents which need to be notified about
@@ -119,6 +149,25 @@ public class DocumentService {
 			return true;
 		
 		return user.getProjectIds().contains(document.getProjectId());
+	}
+	
+	/**
+	 * Load document and include relation entities
+	 * @param d
+	 */
+	private void eagerLoadDocument(Document d) {
+		
+		Project proj = projectRepository.findOne(d.getProjectId());
+		d.setProject(proj);
+		
+		if (d.getNotificationSchemaId() != null) {
+			NotificationSchema n = notificationSchemaRepository.findOne(d.getNotificationSchemaId());
+			d.setNotificationSchema(n);
+		}
+		
+		if (d.getAssigneeId() != null) {
+			d.setAssignee(userRepository.findOne(d.getAssigneeId()));
+		}
 	}
 	
 	

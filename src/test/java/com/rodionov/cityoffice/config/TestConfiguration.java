@@ -28,7 +28,7 @@ public class TestConfiguration extends AbstractMongoConfiguration  {
 
 	@Override
 	public Mongo mongo() {
-		return new Fongo("citoffice-test").getMongo();
+		return null;	//return new Fongo("citoffice-test").getMongo();
 	}
 
 	@Override

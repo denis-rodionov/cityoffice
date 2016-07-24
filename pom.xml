@@ -133,6 +133,45 @@
            <artifactId>spring-context-support</artifactId>			
 		</dependency>
 		
+		<!-- <dependency>
+	        <groupId>com.mysema.querydsl</groupId>
+	        <artifactId>querydsl-apt</artifactId>
+	        <version>3.2.1</version>
+	    </dependency>
+	    <dependency>
+	        <groupId>com.mysema.querydsl</groupId>
+	        <artifactId>querydsl-jpa</artifactId>
+	        <version>3.2.1</version>
+	    </dependency>
+	    <dependency>
+	        <groupId>com.mysema.querydsl</groupId>
+	        <artifactId>querydsl-core</artifactId>
+	        <version>3.2.1</version>
+	    </dependency>  -->
+	    
+	    <dependency>
+		  <groupId>com.mysema.querydsl</groupId>
+		  <artifactId>querydsl-mongodb</artifactId>
+		  <version>3.3.4</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>org.slf4j</groupId>
+		  <artifactId>slf4j-log4j12</artifactId>
+		</dependency>  
+		
+		<dependency>
+            <groupId>org.mongodb.morphia</groupId>
+            <artifactId>morphia</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+	
+		<dependency>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-apt</artifactId>
+			<version>3.7.4</version>
+		</dependency>
+		
 		<!-- 
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
@@ -154,75 +193,126 @@
 			<resource>
 				<directory>${project.build.directory}/generated-resources</directory>
 			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<execution>
-						<!-- Serves *only* to filter the wro.xml so it can get an absolute 
-							path for the project -->
-						<id>copy-resources</id>
-						<phase>validate</phase>
+		</resources>		
+			<plugins>
+				<plugin>
+					<groupId>com.mysema.maven</groupId>
+					<artifactId>maven-apt-plugin</artifactId>
+					<version>1.0.3</version>
+					<executions>
+					  <execution>
 						<goals>
-							<goal>copy-resources</goal>
+						  <goal>process</goal>
 						</goals>
+						<phase>generate-sources</phase>
 						<configuration>
-							<outputDirectory>${basedir}/target/wro</outputDirectory>
-							<resources>
-								<resource>
-									<directory>src/main/wro</directory>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
+						  <outputDirectory>target/generated-sources/java</outputDirectory>
+						  <processor>org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor</processor>
+						  <!-- <processor>com.mysema.query.mongodb.morphia.MorphiaAnnotationProcessor</processor> -->
 						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>ro.isdc.wro4j</groupId>
-				<artifactId>wro4j-maven-plugin</artifactId>
-				<version>1.7.6</version>
-				<executions>
-					<execution>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
-					<cssDestinationFolder>${project.build.directory}/generated-resources/static/css</cssDestinationFolder>
-					<jsDestinationFolder>${project.build.directory}/generated-resources/static/js</jsDestinationFolder>
-					<wroFile>${project.build.directory}/wro/wro.xml</wroFile>
-					<extraConfigFile>${basedir}/src/main/wro/wro.properties</extraConfigFile>
-					<contextFolder>${basedir}/src/main/wro</contextFolder>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.webjars</groupId>
-						<artifactId>jquery</artifactId>
-						<version>2.1.1</version>
-					</dependency>
-					<dependency>
-						<groupId>org.webjars</groupId>
-						<artifactId>angularjs</artifactId>
-						<version>1.3.8</version>
-					</dependency>
-					<dependency>
-						<groupId>org.webjars</groupId>
-						<artifactId>bootstrap</artifactId>
-						<version>3.2.0</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-		</plugins>
+					  </execution>
+					</executions>
+				  </plugin>
+			
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+				</plugin>
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<executions>
+						<execution>
+							<!-- Serves *only* to filter the wro.xml so it can get an absolute 
+								path for the project -->
+							<id>copy-resources</id>
+							<phase>validate</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${basedir}/target/wro</outputDirectory>
+								<resources>
+									<resource>
+										<directory>src/main/wro</directory>
+										<filtering>true</filtering>
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>ro.isdc.wro4j</groupId>
+					<artifactId>wro4j-maven-plugin</artifactId>
+					<version>1.7.6</version>
+					<executions>
+						<execution>
+							<phase>generate-resources</phase>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
+						<cssDestinationFolder>${project.build.directory}/generated-resources/static/css</cssDestinationFolder>
+						<jsDestinationFolder>${project.build.directory}/generated-resources/static/js</jsDestinationFolder>
+						<wroFile>${project.build.directory}/wro/wro.xml</wroFile>
+						<extraConfigFile>${basedir}/src/main/wro/wro.properties</extraConfigFile>
+						<contextFolder>${basedir}/src/main/wro</contextFolder>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.webjars</groupId>
+							<artifactId>jquery</artifactId>
+							<version>2.1.1</version>
+						</dependency>
+						<dependency>
+							<groupId>org.webjars</groupId>
+							<artifactId>angularjs</artifactId>
+							<version>1.3.8</version>
+						</dependency>
+						<dependency>
+							<groupId>org.webjars</groupId>
+							<artifactId>bootstrap</artifactId>
+							<version>3.2.0</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+			
+				<!-- <plugin>
+					<groupId>com.mysema.maven</groupId>
+					<artifactId>maven-apt-plugin</artifactId>
+					<version>1.0.4</version>
+					<executions>
+						<execution>
+							<id>process-common-model</id>
+							<goals>
+								<goal>process</goal>
+							</goals>
+							<phase>generate-sources</phase>
+							<configuration>
+								<sourceDirectory>${project.build.directory}/{yourSourceDir}</sourceDirectory>
+							</configuration>
+						</execution>
+					</executions>
+					<configuration>
+						<outputDirectory>target/generated-sources/querydsl</outputDirectory>
+						<processors>
+							<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+						</processors>
+						<options>
+							<querydsl.entityAccessors>true</querydsl.entityAccessors>
+							<querydsl.createDefaultVariable>true</querydsl.createDefaultVariable>
+							<querydsl.packageSuffix>.qdsl</querydsl.packageSuffix>
+						</options>
+					</configuration>
+				</plugin>  -->
+				
+				
+			</plugins>
+		
 	</build>
-
+	
 
 </project>

@@ -1,4 +1,6 @@
 (unreleased)
+ - document controller filtering [Denis Rodionov]
+ - document controller sorting [Denis Rodionov]
  - document controller pagination [Denis Rodionov]
  - i18n and translation for the dashboard added [Denis Rodionov]
  - menu for employees and projects [Denis Rodionov]

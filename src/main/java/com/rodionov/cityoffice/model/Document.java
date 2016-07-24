@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.mongodb.morphia.annotations.Entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.annotation.Transient;
@@ -13,6 +14,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rodionov.cityoffice.model.serialization.CustomDateDeserializer;
 import com.rodionov.cityoffice.model.serialization.CustomDateSerializer;
 
+@org.springframework.data.mongodb.core.mapping.Document
+//@Entity
 public class Document {
 	
 	private static final Logger logger = Logger.getLogger(Document.class);
@@ -102,8 +105,6 @@ public class Document {
 		this(document.id, document.name, document.deadline, document.status,
 			document.projectId, document.notificationSchemaId, document.assigneeId);
 	}
-	
-	
 	
 	@Override
 	public String toString() {

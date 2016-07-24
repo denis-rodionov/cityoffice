@@ -28,6 +28,18 @@ myApp.config(['RestangularProvider', function(RestangularProvider) {
 	    	element.notifications = res;
         }
     	
+    	// extracting filtering params from a map to a query params
+    	if (operation == 'getList') {
+            if (params._filters) {
+                for (var filter in params._filters) {
+                    params[filter] = params._filters[filter];
+                }
+                delete params._filters;
+                
+                return { params: params };
+            }
+        }        
+    	
         return { element: element };
     });
 }]);
@@ -241,7 +253,6 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
          .filters([
              nga.field('status', 'choice')
                  .label('Status')
-                 .pinned(true)
                  .defaultValue('NEW')
                  .choices([
 				        	    { value: 'NEW', label: 'NEW '},

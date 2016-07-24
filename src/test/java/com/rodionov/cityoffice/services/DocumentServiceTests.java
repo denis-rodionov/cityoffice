@@ -5,6 +5,7 @@ import static org.fest.assertions.api.Assertions.extractProperty;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,6 +16,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -249,4 +253,181 @@ public class DocumentServiceTests {
 		// assert
 		assertThat(actual.getProject()).isNotNull();
 	}
+	
+	// ------------------------- getAllDocuments  ----------------------------------
+	
+	@Test
+	public void getFilteredDocuments_noFilters() {
+		// arrange
+		LocalDate deadline = LocalDate.now();
+		String project1 = "project #1";
+		String schema1 = "schema #1";
+		String assignee1 = "assignee #1";
+		String project2 = "project #2";
+		String schema2 = "schema #2";
+		String assignee2 = "assignee #2";
+		documentRepository.save(new Document("1", "Specification", deadline, DocumentStatus.NEW, project1, schema1, assignee1));
+		documentRepository.save(new Document("2", "Technical Specification", deadline, DocumentStatus.FINISHED, project2, schema2, assignee2));
+		Pageable pageable = new PageRequest(0, 100);
+		
+		// act
+		Page<Document> actual = documentService.getFilteredDocuments(new ArrayList<String>(), null, null, null, pageable);
+		
+		// assert
+		assertThat(actual.getContent()).hasSize(2);
+	}
+	
+	@Test
+	public void getFilteredDocuments_OnlyProjectFilter() {
+		// arrange
+		LocalDate deadline = LocalDate.now();
+		String project1 = "project #1";
+		String schema1 = "schema #1";
+		String assignee1 = "assignee #1";
+		String project2 = "project #2";
+		String schema2 = "schema #2";
+		String assignee2 = "assignee #2";
+		documentRepository.save(new Document("1", "Specification", deadline, DocumentStatus.NEW, project1, schema1, assignee1));
+		documentRepository.save(new Document("2", "Technical Specification", deadline, DocumentStatus.FINISHED, project2, schema2, assignee2));
+		Pageable pageable = new PageRequest(0, 100);
+		
+		// act
+		Page<Document> actual = documentService.getFilteredDocuments(Arrays.asList(project2), null, null, null, pageable);
+		
+		// assert
+		assertThat(actual.getContent()).hasSize(1);
+		assertThat(actual.getContent().get(0).getId()).isEqualTo("2");
+	}
+	
+	@Test
+	public void getFilteredDocuments_StatusFilter() {
+		// arrange
+		LocalDate deadline = LocalDate.now();
+		String project1 = "project #1";
+		String schema1 = "schema #1";
+		String assignee1 = "assignee #1";
+		String project2 = "project #2";
+		String schema2 = "schema #2";
+		String assignee2 = "assignee #2";
+		documentRepository.save(new Document("1", "Specification", deadline, DocumentStatus.NEW, project1, schema1, assignee1));
+		documentRepository.save(new Document("2", "Technical Specification", deadline, DocumentStatus.FINISHED, project2, schema2, assignee2));
+		Pageable pageable = new PageRequest(0, 100);
+		
+		// act
+		Page<Document> actual = documentService.getFilteredDocuments(Arrays.asList(), DocumentStatus.NEW, null, null, pageable);
+		
+		// assert
+		assertThat(actual.getContent()).hasSize(1);
+		assertThat(actual.getContent().get(0).getId()).isEqualTo("1");
+	}
+	
+	@Test
+	public void getFilteredDocuments_NameFilter1() {
+		// arrange
+		LocalDate deadline = LocalDate.now();
+		String project1 = "project #1";
+		String schema1 = "schema #1";
+		String assignee1 = "assignee #1";
+		String project2 = "project #2";
+		String schema2 = "schema #2";
+		String assignee2 = "assignee #2";
+		documentRepository.save(new Document("1", "Specification", deadline, DocumentStatus.NEW, project1, schema1, assignee1));
+		documentRepository.save(new Document("2", "Technical Specification", deadline, DocumentStatus.FINISHED, project2, schema2, assignee2));
+		Pageable pageable = new PageRequest(0, 100);
+		
+		// act
+		Page<Document> actual = documentService.getFilteredDocuments(Arrays.asList(), null, "Spec", null, pageable);
+		
+		// assert
+		assertThat(actual.getContent()).hasSize(2);
+	}
+	
+	@Test
+	public void getFilteredDocuments_NameFilter2() {
+		// arrange
+		LocalDate deadline = LocalDate.now();
+		String project1 = "project #1";
+		String schema1 = "schema #1";
+		String assignee1 = "assignee #1";
+		String project2 = "project #2";
+		String schema2 = "schema #2";
+		String assignee2 = "assignee #2";
+		documentRepository.save(new Document("1", "Specification", deadline, DocumentStatus.NEW, project1, schema1, assignee1));
+		documentRepository.save(new Document("2", "Technical Specification", deadline, DocumentStatus.FINISHED, project2, schema2, assignee2));
+		Pageable pageable = new PageRequest(0, 100);
+		
+		// act
+		Page<Document> actual = documentService.getFilteredDocuments(Arrays.asList(), null, "Technical Specification", null, pageable);
+		
+		// assert
+		assertThat(actual.getContent()).hasSize(1);
+		assertThat(actual.getContent().get(0).getId()).isEqualTo("2");
+	}
+	
+	@Test
+	public void getFilteredDocuments_NameAnyCase() {
+		// arrange
+		LocalDate deadline = LocalDate.now();
+		String project1 = "project #1";
+		String schema1 = "schema #1";
+		String assignee1 = "assignee #1";
+		String project2 = "project #2";
+		String schema2 = "schema #2";
+		String assignee2 = "assignee #2";
+		documentRepository.save(new Document("1", "Specification", deadline, DocumentStatus.NEW, project1, schema1, assignee1));
+		documentRepository.save(new Document("2", "Technical Specification", deadline, DocumentStatus.FINISHED, project2, schema2, assignee2));
+		Pageable pageable = new PageRequest(0, 100);
+		
+		// act
+		Page<Document> actual = documentService.getFilteredDocuments(Arrays.asList(), null, "technical Specification", null, pageable);
+		
+		// assert
+		assertThat(actual.getContent()).hasSize(1);
+		assertThat(actual.getContent().get(0).getId()).isEqualTo("2");
+	}
+	
+	@Test
+	public void getFilteredDocuments_NameAnyCase2() {
+		// arrange
+		LocalDate deadline = LocalDate.now();
+		String project1 = "project #1";
+		String schema1 = "schema #1";
+		String assignee1 = "assignee #1";
+		String project2 = "project #2";
+		String schema2 = "schema #2";
+		String assignee2 = "assignee #2";
+		documentRepository.save(new Document("1", "Specification", deadline, DocumentStatus.NEW, project1, schema1, assignee1));
+		documentRepository.save(new Document("2", "technical Specification", deadline, DocumentStatus.FINISHED, project2, schema2, assignee2));
+		Pageable pageable = new PageRequest(0, 100);
+		
+		// act
+		Page<Document> actual = documentService.getFilteredDocuments(Arrays.asList(), null, "Technical Specification", null, pageable);
+		
+		// assert
+		assertThat(actual.getContent()).hasSize(1);
+		assertThat(actual.getContent().get(0).getId()).isEqualTo("2");
+	}
+	
+	@Test
+	public void getFilteredDocuments_AssigneeFilter() {
+		// arrange
+		LocalDate deadline = LocalDate.now();
+		String project1 = "project #1";
+		String schema1 = "schema #1";
+		String assignee1 = "assignee #1";
+		String project2 = "project #2";
+		String schema2 = "schema #2";
+		String assignee2 = "assignee #2";
+		documentRepository.save(new Document("1", "Specification", deadline, DocumentStatus.NEW, project1, schema1, assignee1));
+		documentRepository.save(new Document("2", "Technical Specification", deadline, DocumentStatus.FINISHED, project2, schema2, assignee2));		
+		Pageable pageable = new PageRequest(0, 100);
+		
+		// act
+		Page<Document> actual = documentService.getFilteredDocuments(Arrays.asList(), null, null, assignee1, pageable);
+		// assert
+		assertThat(actual.getContent()).hasSize(1);
+		assertThat(actual.getContent().get(0).getId()).isEqualTo("1");
+	}
+	
+	
 }
