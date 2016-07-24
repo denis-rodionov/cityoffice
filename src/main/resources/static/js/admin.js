@@ -48,7 +48,7 @@ myApp.config(['RestangularProvider', function(RestangularProvider) {
 myApp.config(['RestangularProvider', function(RestangularProvider) {
 
     RestangularProvider.addElementTransformer('notification_schema', function(element) {
-        console.log(element.notifications);
+        //console.log(element.notifications);
         
     	var source = element.notifications;
     	var result = [];
@@ -180,7 +180,24 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
            .label('Projects'),
         nga.field('role')
        	   .label('Role')
-    ]);
+    ])
+    .filters([
+         nga.field('role', 'choice')
+             .label('Role')
+             .defaultValue('ADMIN')
+             .choices([
+			        	    { value: 'USER', label: 'USER'},
+			        	    { value: 'ADMIN', label: 'ADMIN'}
+			    ]),
+         nga.field('username')
+         	.label('Name'),
+     	 nga.field('email')
+         	.label('Email'),
+         nga.field('project', 'reference')
+         	.label('Project')
+         	.targetEntity(project)
+         	.targetField(nga.field('name'))
+     ]);
     
     user.creationView().fields([
        nga.field('username')

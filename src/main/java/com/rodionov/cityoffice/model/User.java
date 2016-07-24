@@ -5,9 +5,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 
-import lombok.Data;
-
-@Data
+@org.springframework.data.mongodb.core.mapping.Document
 public class User {
 	
 	//private static final Logger logger = Logger.getLogger(User.class);

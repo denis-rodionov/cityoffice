@@ -14,7 +14,8 @@ import com.rodionov.cityoffice.model.DocumentStatus;
 
 
 @Repository
-public interface DocumentRepository extends MongoRepository<Document, String>, QueryDslPredicateExecutor<Document> {
+public interface DocumentRepository extends MongoRepository<Document, String>, 
+											QueryDslPredicateExecutor<Document> {
 	
 	Page<Document> findAll(Pageable pageable);
 	

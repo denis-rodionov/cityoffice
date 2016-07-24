@@ -12,19 +12,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.BooleanBuilder;
-import com.mysema.query.annotations.*;
- 
-import com.rodionov.cityoffice.model.*; 
+import com.rodionov.cityoffice.model.Document;
 import com.rodionov.cityoffice.model.DocumentStatus;
 import com.rodionov.cityoffice.model.NotificationSchema;
 import com.rodionov.cityoffice.model.Project;
+import com.rodionov.cityoffice.model.QDocument;
 import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.model.helpers.NotificationHelper;
 import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.repository.NotificationSchemaRepository;
 import com.rodionov.cityoffice.repository.ProjectRepository;
 import com.rodionov.cityoffice.repository.UserRepository;
-import com.mysema.query.annotations.QueryInit;
 
 @Service
 public class DocumentService {
@@ -118,12 +116,6 @@ public class DocumentService {
 		return documentRepository.findAll(where, pageable);
 	}
 	
-
-//	private Predicate<Document> getPredicate(List<String> projectsIds, DocumentStatus status, String nameFilter,
-//			String assigneeIdFilter) {
-//
-//		
-//	}
 
 	/**
 	 * @return documents which need to be notified about
