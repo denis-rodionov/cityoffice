@@ -78,18 +78,28 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 	                          	.label("Name")
 	                          	.editable(true)
 	                          	.isDetailLink(true),
-	                          nga.field('active', 'boolean')
+	                          nga.field('isActive', 'boolean')
 	                          	.label('Active'),	                          	
 	                          nga.field('colorName')
 	                          	.label('Color')
-                            ]);
+                            ])
+    .sortField('isActive')
+    .sortDir("DESC")	
+    .filters([
+         nga.field('name')
+         	.label('Name'),
+     	 nga.field('isActive', 'boolean')
+         	.label('Is Active')
+     ]);;
+    
+    
     project.creationView().fields([
         nga.field('name')
         	.label('Project Name')
         	.validation({ required: true, minlength: 1, maxlength: 20}),
-        nga.field('active', 'boolean')
+        nga.field('isActive', 'boolean')
         	.label('Active')
-        	.validation({ required: true })
+        	.validation({ required: true })        	
         	.defaultValue(true),
         nga.field('colorName', 'choice')
         	.choices([
@@ -103,7 +113,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
         	.label('Color Scheme')
         	.defaultValue('default')
         	.validation({ required: true })
-	]).title('{{"CREATE_NEW_PROJECT" | translate}}');
+	])	;
     
     project.editionView().fields(project.creationView().fields())
     	.title('{{"EDIT_PROJECT" | translate}} "{{entry.values.name}}":');

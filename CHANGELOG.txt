@@ -1,4 +1,5 @@
 (unreleased)
+ - users and projects sorting, pagination and filtering [Denis Rodionov]
  - document controller filtering [Denis Rodionov]
  - document controller sorting [Denis Rodionov]
  - document controller pagination [Denis Rodionov]
