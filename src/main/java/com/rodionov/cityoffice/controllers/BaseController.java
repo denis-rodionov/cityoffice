@@ -1,6 +1,9 @@
 package com.rodionov.cityoffice.controllers;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 
 public class BaseController {
@@ -28,4 +31,15 @@ public class BaseController {
 //	        headers.add(HttpHeaders.LINK, link);
 	        return headers;
 	    }
+	
+	protected Pageable getPagiable(int page, int perPage, String sortDir, String sortField) {
+
+		if (sortField != null) {
+			sortField = sortField == null ? "DESC" : sortField; 
+			return new PageRequest(page-1, perPage, Sort.Direction.fromString(sortDir), sortField);
+		}
+		else {
+			return new PageRequest(page-1, perPage);
+		}			 
+	}
 }

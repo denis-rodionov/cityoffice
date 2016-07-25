@@ -55,15 +55,15 @@ public class ProjectController extends BaseController {
     public ResponseEntity<List<Project>> listAllProjects(
     		Principal principal,
     		@RequestParam("_page") int page, 
-    		@RequestParam("_perPage") int per_page,
-    		@RequestParam("_sortField") String sortField,
-    		@RequestParam("_sortDir") String sortDir,
+    		@RequestParam("_perPage") int perPage,
+    		@RequestParam(value="_sortField", required=false) String sortField,
+    		@RequestParam(value="_sortDir", required=false) String sortDir,
     		@RequestParam(value="name", required=false) String name,
     		@RequestParam(value="isActive", required=false) Boolean isActive) {
     	
     	User currentUser = userDetailsService.getUserByPrincipal(principal);
     	
-    	Pageable pageable = new PageRequest(page-1, per_page, Sort.Direction.fromString(sortDir), sortField);
+    	Pageable pageable = getPagiable(page, perPage, sortDir, sortField);
     	
     	List<String> projectIds = userDetailsService.isAdmin(principal) ? null : currentUser.getProjectIds();
     	
@@ -74,7 +74,7 @@ public class ProjectController extends BaseController {
     
     //-------------------Retrieve Single Project--------------------------------------------------------
     
-    @RequestMapping(value = "/project/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/project/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Project> getProject(@PathVariable("id") String id) {
         logger.debug("Fetching Project with id " + id);
         Project project = projectRepository.findOne(id);

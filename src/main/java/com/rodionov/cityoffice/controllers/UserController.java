@@ -6,9 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -54,15 +52,15 @@ public class UserController extends BaseController {
     public ResponseEntity<List<User>> listAllUsers(
     		Principal principal,
     		@RequestParam("_page") int page, 
-    		@RequestParam("_perPage") int per_page,
-    		@RequestParam("_sortField") String sortField,
-    		@RequestParam("_sortDir") String sortDir,
+    		@RequestParam("_perPage") int perPage,
+    		@RequestParam(value="_sortField", required=false) String sortField,
+    		@RequestParam(value="_sortDir", required=false) String sortDir,
     		@RequestParam(value="role", required=false) String role,
     		@RequestParam(value="username", required=false) String username,
     		@RequestParam(value="email", required=false) String email,
     		@RequestParam(value="project", required=false) String projectId) {
     	
-    	Pageable pageable = new PageRequest(page-1, per_page, Sort.Direction.fromString(sortDir), sortField);
+    	Pageable pageable = getPagiable(page, perPage, sortDir, sortField);
     	
     	Page<User> users = userService.getFilteredUsers(username, projectId, role, email, pageable);
     	
