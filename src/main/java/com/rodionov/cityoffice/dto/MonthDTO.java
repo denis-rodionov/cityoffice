@@ -34,7 +34,7 @@ public class MonthDTO {
 	
 	public static String getMonth(LocalDate date) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM", LOCALE);
-		String month = LocalDate.now().format(formatter);
+		String month = date.format(formatter);
 		return month;
 	}
 	

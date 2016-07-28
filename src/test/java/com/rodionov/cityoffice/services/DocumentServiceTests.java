@@ -254,6 +254,30 @@ public class DocumentServiceTests {
 		assertThat(actual.getProject()).isNotNull();
 	}
 	
+	@Test
+	public void getAllDocuments_getByResponsibleUser() {
+		// arrange
+		Project prj1 = projectRepository.save(new Project("1", true, "primary"));
+		Project prj2 = projectRepository.save(new Project("2", true, "primary"));
+		User user = userRepository.save(new User("1", "name", "email", Arrays.asList()));
+		
+		documentRepository.save(DocumentHelper.CreateDocument(
+				"1", prj1.getId(), LocalDate.of(1999, 1, 1), DocumentStatus.NEW));
+		documentRepository.save(DocumentHelper.CreateDocument(
+				"2",  prj2.getId(),  LocalDate.of(2050, 1, 1), DocumentStatus.NEW));
+		documentRepository.save(DocumentHelper.CreateDocument(
+				"3",  prj2.getId(),  LocalDate.of(2050, 1, 1), DocumentStatus.NEW));
+		
+		documentRepository.save(new Document("4", "Specification", LocalDate.now(), DocumentStatus.NEW, prj1.getId(), null, user.getId()));
+		
+		// act
+		List<Document> actual = documentService.getAllDocuments(user);
+		
+		// assert
+		assertThat(actual).hasSize(1);
+		assertThat(actual.get(0).getId()).isEqualTo("4");
+	}
+	
 	// ------------------------- getAllDocuments  ----------------------------------
 	
 	@Test

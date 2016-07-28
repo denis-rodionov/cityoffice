@@ -140,7 +140,10 @@ public class DocumentService {
 		if (user == null)
 			return true;
 		
-		return user.getProjectIds().contains(document.getProjectId());
+		boolean res = user.getProjectIds().contains(document.getProjectId()) || 
+				user.getId().equals(document.getAssigneeId());
+		
+		return res;
 	}
 	
 	/**
