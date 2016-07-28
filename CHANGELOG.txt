@@ -1,6 +1,6 @@
 (unreleased)
 
-v0.3.3
+v0.3.3 (28.07.2016)
  - documents are accessible for the responsible user [Denis Rodionov] 
 v0.3.2 (25.07.2016)
  - fixed bug with month names in document list [Denis Rodionov]
