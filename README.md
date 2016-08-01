@@ -14,3 +14,5 @@ Currently the project consists ofr three parts:
 
 Future plans:
 - light-weight resourse planning tool
+
+## Instalation
