@@ -15,4 +15,10 @@ Currently the project consists ofr three parts:
 Future plans:
 - light-weight resourse planning tool
 
-## Instalation
+## Local installation
+- install java 1.8
+- check that java installed correctly by command ```java -version```. The command must return java version not bellow 1.8
+- install maven >= 3.0
+- check that maven installed correctly by command ```mvn -version```.
+- run application by command ```mvn spring-boot:run```
+- check application is working on ```localhost:8080```
