@@ -20,5 +20,6 @@ Future plans:
 - check that java installed correctly by command ```java -version```. The command must return java version not bellow 1.8
 - install maven >= 3.0
 - check that maven installed correctly by command ```mvn -version```.
+- install MongoDB (preferably install it as a service, otherwise need to start it every time you launch application)
 - run application by command ```mvn spring-boot:run```
 - check application is working on ```localhost:8080```
