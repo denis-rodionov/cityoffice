@@ -1,8 +1,8 @@
 package com.rodionov.cityoffice.services;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,8 +14,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 import com.rodionov.cityoffice.config.RealDatabaseTestConfiguration;
 import com.rodionov.cityoffice.model.User;

@@ -6,7 +6,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import com.github.fakemongo.Fongo;
 import com.mongodb.Mongo;
 import com.rodionov.cityoffice.repository.ProjectRepository;
 
