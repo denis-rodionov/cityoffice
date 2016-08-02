@@ -1,4 +1,5 @@
 # CityOffice
+[![Build Status](https://travis-ci.org/denis-rodionov/cityoffice.svg?branch=master)](https://travis-ci.org/denis-rodionov/cityoffice)
 
 This is a light-weight project which goal is to help managers of all levels to control important deadlines in different projects. At the moment system is based on the documents which has the following fields:
 - name
