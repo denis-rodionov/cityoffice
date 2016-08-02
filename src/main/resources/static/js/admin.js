@@ -103,7 +103,6 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
         	.defaultValue(true),
         nga.field('colorName', 'choice')
         	.choices([
-        	    { value: 'default', label: 'default '},
         	    { value: 'primary', label: 'primary'},
         	    { value: 'success', label: 'success'},
         	    { value: 'info', label: 'info'},
