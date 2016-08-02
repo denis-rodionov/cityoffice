@@ -118,7 +118,7 @@ public class Document {
 			logger.error("Deadline is NULL for the document: " + this);
 			return "";
 		}
-		return deadline.getMonthValue() + "/" + deadline.getYear();
+		return deadline.getYear() + "/" +  deadline.getMonthValue();
 	}
 	
 	public boolean isValid() {

@@ -83,7 +83,8 @@ public class MonthController {
 		
 		logger.debug(res);
 		
-		Collections.sort(res, (a, b) -> Integer.compare(a.getMonthNumber(), b.getMonthNumber()));
+		//Collections.sort(res, (a, b) -> Integer.compare(a.getMonthNumber(), b.getMonthNumber()));
+		Collections.sort(res);
 		
 		return res;
 	}

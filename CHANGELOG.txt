@@ -1,5 +1,7 @@
 (unreleased)
 
+v0.3.4 (02.08.2016)
+ - right month sorting [Denis Rodionov]
 v0.3.3 (28.07.2016)
  - documents are accessible for the responsible user [Denis Rodionov] 
 v0.3.2 (25.07.2016)

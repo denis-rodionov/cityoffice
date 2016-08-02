@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
-public class MonthDTO {	
+public class MonthDTO implements Comparable<MonthDTO> {	
 	final static Locale LOCALE = new Locale("ru", "RU");
 	
 	private String monthName;
@@ -80,6 +80,12 @@ public class MonthDTO {
 
 	public void setDocuments(List<DocumentDTO> documents) {
 		this.documents = documents;
+	}
+
+	@Override
+	public int compareTo(MonthDTO other) {
+		
+		return (year * 10000 + monthNumber) - (other.year * 10000 + other.monthNumber);
 	}
 	
 	
