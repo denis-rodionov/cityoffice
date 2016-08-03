@@ -1,4 +1,5 @@
-﻿* Show all users in project (admin)
+﻿* auto-deploy
+* Show all users in project (admin)
 * make root for API
 * swagger
 * extract UserService
