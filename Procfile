@@ -1,1 +1,1 @@
-web: java -jar -Dspring.data.mongodb.uri=$MONGOLAB_URI target/cityoffice*.war 
+web: echo $MONGOLAB_URI 
