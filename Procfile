@@ -1,1 +1,1 @@
-web: echo 'mongo' $MONGOLAB_URI 
+web: java -jar -Dspring.data.mongodb.uri='mongodb://heroku_xjz0h1wl:len7p374k9dopdsnq3npueianc@ds029585.mlab.com:29585/heroku_xjz0h1wl' target/cityoffice*.war 
