@@ -1,1 +1,1 @@
-web: echo $MONGOLAB_URI 
+web: echo 'mongo' $MONGOLAB_URI 
