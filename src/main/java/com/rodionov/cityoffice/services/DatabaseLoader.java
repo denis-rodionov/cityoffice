@@ -23,6 +23,7 @@ public class DatabaseLoader {
     		defaultUser.setEmail("admin@admin.com");
     		defaultUser.setPassword("admin");
     		defaultUser.setRole("ADMIN");
+    		defaultUser.setUsername("admin");
     		
     		userRepository.insert(defaultUser);
     	}
