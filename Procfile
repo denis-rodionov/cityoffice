@@ -1,1 +1,1 @@
-web: java -jar -Dspring.data.mongodb.uri='mongodb://heroku_xjz0h1wl:len7p374k9dopdsnq3npueianc@ds029585.mlab.com:29585/heroku_xjz0h1wl' -Dserver.port=80 target/cityoffice*.war 
+web: java -jar -Dspring.data.mongodb.uri='mongodb://heroku_xjz0h1wl:len7p374k9dopdsnq3npueianc@ds029585.mlab.com:29585/heroku_xjz0h1wl' -Dserver.port=$PORT target/cityoffice*.war 
