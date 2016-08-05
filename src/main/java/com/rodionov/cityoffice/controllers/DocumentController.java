@@ -60,8 +60,8 @@ public class DocumentController extends BaseController {
     
     @RequestMapping(value = "/document", method = RequestMethod.GET)    
     public ResponseEntity<List<Document>> listAllDocuments(Principal principal,
-    		@RequestParam("_page") int page, 
-    		@RequestParam("_perPage") int perPage,
+    		@RequestParam(value="_page", required=false) Integer page, 
+    		@RequestParam(value="_perPage", required=false) Integer perPage,
     		@RequestParam(value="_sortField", required=false) String sortField,
     		@RequestParam(value="_sortDir", required=false) String sortDir,
     		@RequestParam(value="status", required=false) String status,

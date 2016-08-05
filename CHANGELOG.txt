@@ -1,5 +1,6 @@
 (unreleased)
 
+ - export for paginated tables [Denis Rodionov]
  - frontend-maven-plugin added [Denis Rodionov]
  - heroku integration [Denis Rodionov]
  - travis added [Denis Rodionov]

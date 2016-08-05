@@ -82,15 +82,15 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 	                          	.label('Active'),	                          	
 	                          nga.field('colorName')
 	                          	.label('Color')
-                            ])
-    .sortField('isActive')
-    .sortDir("DESC")	
+                            ])    	
     .filters([
          nga.field('name')
          	.label('Name'),
      	 nga.field('isActive', 'boolean')
          	.label('Is Active')
-     ]);;
+     ])
+    .sortField('isActive')
+    .sortDir("DESC");
     
     
     project.creationView().fields([
