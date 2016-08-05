@@ -1,5 +1,6 @@
 (unreleased)
 
+v0.3.5 (05.08.2016)
  - export for paginated tables [Denis Rodionov]
  - frontend-maven-plugin added [Denis Rodionov]
  - heroku integration [Denis Rodionov]
