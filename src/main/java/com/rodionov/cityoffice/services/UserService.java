@@ -1,5 +1,7 @@
 package com.rodionov.cityoffice.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.mysema.query.BooleanBuilder;
 import com.rodionov.cityoffice.model.QUser;
 import com.rodionov.cityoffice.model.User;
+import com.rodionov.cityoffice.model.UserProject;
 import com.rodionov.cityoffice.repository.UserRepository;
 
 @Service
@@ -36,5 +39,10 @@ public class UserService {
 		
 		return userRepository.findAll(where, pageable);
 		
+	}
+
+	public List<UserProject> getAllUsersProjects() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
