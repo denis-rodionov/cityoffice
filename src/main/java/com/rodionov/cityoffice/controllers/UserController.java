@@ -51,8 +51,8 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<List<User>> listAllUsers(
     		Principal principal,
-    		@RequestParam("_page") int page, 
-    		@RequestParam("_perPage") int perPage,
+    		@RequestParam(value="_page", required=false) Integer page, 
+    		@RequestParam(value="_perPage", required=false) Integer perPage,
     		@RequestParam(value="_sortField", required=false) String sortField,
     		@RequestParam(value="_sortDir", required=false) String sortDir,
     		@RequestParam(value="role", required=false) String role,

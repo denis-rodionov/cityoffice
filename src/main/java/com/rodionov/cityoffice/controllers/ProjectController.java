@@ -54,8 +54,8 @@ public class ProjectController extends BaseController {
     @RequestMapping(value = "/project", method = RequestMethod.GET)
     public ResponseEntity<List<Project>> listAllProjects(
     		Principal principal,
-    		@RequestParam("_page") int page, 
-    		@RequestParam("_perPage") int perPage,
+    		@RequestParam(value="_page", required=false) Integer page, 
+    		@RequestParam(value="_perPage", required=false) Integer perPage,
     		@RequestParam(value="_sortField", required=false) String sortField,
     		@RequestParam(value="_sortDir", required=false) String sortDir,
     		@RequestParam(value="name", required=false) String name,

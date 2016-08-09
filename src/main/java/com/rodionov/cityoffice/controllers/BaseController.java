@@ -32,8 +32,13 @@ public class BaseController {
 	        return headers;
 	    }
 	
-	protected Pageable getPagiable(int page, int perPage, String sortDir, String sortField) {
+	protected Pageable getPagiable(Integer page, Integer perPage, String sortDir, String sortField) {
 
+		if (page == null) {
+			page = 1;
+			perPage = Integer.MAX_VALUE;
+		}
+		
 		if (sortField != null) {
 			sortField = sortField == null ? "DESC" : sortField; 
 			return new PageRequest(page-1, perPage, Sort.Direction.fromString(sortDir), sortField);
