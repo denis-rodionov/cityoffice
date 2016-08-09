@@ -5,6 +5,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -22,9 +27,10 @@ import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.repository.ProjectRepository;
 import com.rodionov.cityoffice.repository.UserRepository;
 import com.rodionov.cityoffice.services.MongoUserDetailsService;
+import com.rodionov.cityoffice.services.ProjectService;
 
 @RestController
-public class ProjectController {
+public class ProjectController extends BaseController {
 	
 	private static final Logger logger = Logger.getLogger(ProjectController.class);
 	
@@ -38,28 +44,37 @@ public class ProjectController {
 	private UserRepository userRepository;
 	
 	@Autowired
+	private ProjectService projectService;
+	
+	@Autowired
 	private MongoUserDetailsService userDetailsService;
 	
 	//-------------------Retrieve All Projects--------------------------------------------------------
     
     @RequestMapping(value = "/project", method = RequestMethod.GET)
-    public List<Project> listAllProjects(Principal principal) {
-    	
-    	List<Project> projects;
+    public ResponseEntity<List<Project>> listAllProjects(
+    		Principal principal,
+    		@RequestParam(value="_page", required=false) Integer page, 
+    		@RequestParam(value="_perPage", required=false) Integer perPage,
+    		@RequestParam(value="_sortField", required=false) String sortField,
+    		@RequestParam(value="_sortDir", required=false) String sortDir,
+    		@RequestParam(value="name", required=false) String name,
+    		@RequestParam(value="isActive", required=false) Boolean isActive) {
     	
     	User currentUser = userDetailsService.getUserByPrincipal(principal);
     	
-    	if (userDetailsService.isAdmin(principal))
-    		projects = projectRepository.findAll();
-    	else
-    		projects = projectRepository.findByIdIn(currentUser.getProjectIds()); 	
+    	Pageable pageable = getPagiable(page, perPage, sortDir, sortField);
+    	
+    	List<String> projectIds = userDetailsService.isAdmin(principal) ? null : currentUser.getProjectIds();
+    	
+    	Page<Project> projects = projectService.getFilteredProjects(projectIds, name, isActive, pageable);
          
-        return projects;
+    	return new ResponseEntity<>(projects.getContent(), generatePaginationHeaders(projects, ""), HttpStatus.OK);
     }
     
     //-------------------Retrieve Single Project--------------------------------------------------------
     
-    @RequestMapping(value = "/project/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/project/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Project> getProject(@PathVariable("id") String id) {
         logger.debug("Fetching Project with id " + id);
         Project project = projectRepository.findOne(id);
@@ -102,7 +117,7 @@ public class ProjectController {
         }
  
         currentProject.setName(project.getName());
-        currentProject.setActive(project.isActive());
+        currentProject.setIsActive(project.getIsActive());
         currentProject.setColorName(project.getColorName());
         
         projectRepository.save(currentProject);

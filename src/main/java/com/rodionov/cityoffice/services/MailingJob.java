@@ -1,5 +1,6 @@
 package com.rodionov.cityoffice.services;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -41,12 +42,15 @@ public class MailingJob implements Runnable {
 				
 				//logger.info("Notifying about the document " + doc.getName());
 				
-				List<User> usersToNotify = projectService.getUsersToNotify(doc.getProjectId());
+				List<User> usersToNotify = projectService.getUsersToNotify(doc.getProjectId());				
 							
 				for (User user : usersToNotify) {
 					//logger.info("Notifying user " + usersToNotify);
 					notificationService.notifyUserAboutDocument(user, doc);
 				}
+				
+				if (doc.getAssignee() != null)
+					notificationService.notifyUserAboutDocument(doc.getAssignee(), doc);
 			}			
 		}
 		catch (Throwable t)

@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rodionov.cityoffice.model.serialization.CustomDateDeserializer;
 import com.rodionov.cityoffice.model.serialization.CustomDateSerializer;
 
+@org.springframework.data.mongodb.core.mapping.Document
 public class Document {
 	
 	private static final Logger logger = Logger.getLogger(Document.class);
@@ -103,8 +104,6 @@ public class Document {
 			document.projectId, document.notificationSchemaId, document.assigneeId);
 	}
 	
-	
-	
 	@Override
 	public String toString() {
 		return "Document [id=" + id + ", name=" + name + ", deadline=" + deadline + ", status=" + status
@@ -119,7 +118,7 @@ public class Document {
 			logger.error("Deadline is NULL for the document: " + this);
 			return "";
 		}
-		return deadline.getMonthValue() + "/" + deadline.getYear();
+		return deadline.getYear() + "/" +  deadline.getMonthValue();
 	}
 	
 	public boolean isValid() {

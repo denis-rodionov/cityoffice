@@ -1,3 +1,32 @@
+(unreleased)
+
+v0.3.5 (05.08.2016)
+ - export for paginated tables [Denis Rodionov]
+ - frontend-maven-plugin added [Denis Rodionov]
+ - heroku integration [Denis Rodionov]
+ - travis added [Denis Rodionov]
+ - removed default color for projects [Denis Rodionov]
+v0.3.4 (02.08.2016)
+ - right month sorting [Denis Rodionov]
+v0.3.3 (28.07.2016)
+ - documents are accessible for the responsible user [Denis Rodionov] 
+v0.3.2 (25.07.2016)
+ - fixed bug with month names in document list [Denis Rodionov]
+v0.3.1 (25.07.2016) 
+ - fix filtering in controllers bug [Denis Rodionov]
+v0.3.0 (24.07.2016)
+ - users and projects sorting, pagination and filtering [Denis Rodionov]
+ - document controller filtering [Denis Rodionov]
+ - document controller sorting [Denis Rodionov]
+ - document controller pagination [Denis Rodionov]
+ - i18n and translation for the dashboard added [Denis Rodionov]
+ - menu for employees and projects [Denis Rodionov]
+v0.2.0
+ - notify responsible [Denis Rodionov]
+ - show red expired last month's documents [Denis Rodionov]
+ - fixed sorting problem [Denis Rodionov]
+ - russian notifications [Denis Rodionov]
+ - mailing refactoring [Denis Rodionov]
 v0.1.2 (08.06.2016)
  - responsible in email and in admin list [Denis Rodionov]
 

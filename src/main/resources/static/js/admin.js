@@ -1,5 +1,16 @@
 // declare a new module called 'myApp', and make it require the `ng-admin` module as a dependency
-var myApp = angular.module('myApp', ['ng-admin']);
+var myApp = angular.module('myApp', ['ng-admin', 'pascalprecht.translate']);
+
+//------------ i18n ----------------------
+myApp.config(['$translateProvider', function($translateProvider) {
+	$translateProvider.useStaticFilesLoader({
+        prefix: '/i18n/',
+        suffix: '.json?'
+    });
+	
+    $translateProvider.preferredLanguage('ru');
+    $translateProvider.useSanitizeValueStrategy('sanitize');
+}]);
 
 // ------------- Request converting ---------------------------
 myApp.config(['RestangularProvider', function(RestangularProvider) {
@@ -17,6 +28,18 @@ myApp.config(['RestangularProvider', function(RestangularProvider) {
 	    	element.notifications = res;
         }
     	
+    	// extracting filtering params from a map to a query params
+    	if (operation == 'getList') {
+            if (params._filters) {
+                for (var filter in params._filters) {
+                    params[filter] = params._filters[filter];
+                }
+                delete params._filters;
+                
+                return { params: params };
+            }
+        }        
+    	
         return { element: element };
     });
 }]);
@@ -25,7 +48,7 @@ myApp.config(['RestangularProvider', function(RestangularProvider) {
 myApp.config(['RestangularProvider', function(RestangularProvider) {
 
     RestangularProvider.addElementTransformer('notification_schema', function(element) {
-        console.log(element.notifications);
+        //console.log(element.notifications);
         
     	var source = element.notifications;
     	var result = [];
@@ -39,7 +62,8 @@ myApp.config(['RestangularProvider', function(RestangularProvider) {
 }]);
 
 // declare a function to run when the module bootstraps (during the 'config' phase)
-myApp.config(['NgAdminConfigurationProvider', function (nga) {
+myApp.config(['NgAdminConfigurationProvider', function (nga) {	
+	
     // create an admin application
     var admin = nga.application('Admin Tool', true).debug(true);
     admin.header(getHeader());
@@ -47,30 +71,38 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     
     // --------- PROJECTS -----------------------------------
-    var project = nga.entity('project')
-    	.label("Projects");
+    var project = nga.entity('project').label('Project');
     
     project.listView().fields([
 	                          nga.field('name')
-	                          	.label('Name')
+	                          	.label("Name")
 	                          	.editable(true)
 	                          	.isDetailLink(true),
-	                          nga.field('active', 'boolean')
+	                          nga.field('isActive', 'boolean')
 	                          	.label('Active'),	                          	
 	                          nga.field('colorName')
 	                          	.label('Color')
-                            ]);
+                            ])    	
+    .filters([
+         nga.field('name')
+         	.label('Name'),
+     	 nga.field('isActive', 'boolean')
+         	.label('Is Active')
+     ])
+    .sortField('isActive')
+    .sortDir("DESC");
+    
+    
     project.creationView().fields([
         nga.field('name')
         	.label('Project Name')
         	.validation({ required: true, minlength: 1, maxlength: 20}),
-        nga.field('active', 'boolean')
+        nga.field('isActive', 'boolean')
         	.label('Active')
-        	.validation({ required: true })
+        	.validation({ required: true })        	
         	.defaultValue(true),
         nga.field('colorName', 'choice')
         	.choices([
-        	    { value: 'default', label: 'default '},
         	    { value: 'primary', label: 'primary'},
         	    { value: 'success', label: 'success'},
         	    { value: 'info', label: 'info'},
@@ -80,13 +112,13 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
         	.label('Color Scheme')
         	.defaultValue('default')
         	.validation({ required: true })
-	]);
+	])	;
     
     project.editionView().fields(project.creationView().fields())
-    	.title('Edit Project "{{entry.values.name}}":');
+    	.title('{{"EDIT_PROJECT" | translate}} "{{entry.values.name}}":');
     
     project.showView().fields(project.creationView().fields())
-		.title('Project "{{entry.values.name}}":');
+		.title('"{{PROJECT | translate}}" "{{entry.values.name}}":');
     
     project.deletionView().title('Delete project "{{entry.values.name}}":');
     
@@ -157,7 +189,24 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
            .label('Projects'),
         nga.field('role')
        	   .label('Role')
-    ]);
+    ])
+    .filters([
+         nga.field('role', 'choice')
+             .label('Role')
+             .defaultValue('ADMIN')
+             .choices([
+			        	    { value: 'USER', label: 'USER'},
+			        	    { value: 'ADMIN', label: 'ADMIN'}
+			    ]),
+         nga.field('username')
+         	.label('Name'),
+     	 nga.field('email')
+         	.label('Email'),
+         nga.field('project', 'reference')
+         	.label('Project')
+         	.targetEntity(project)
+         	.targetField(nga.field('name'))
+     ]);
     
     user.creationView().fields([
        nga.field('username')
@@ -230,7 +279,6 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
          .filters([
              nga.field('status', 'choice')
                  .label('Status')
-                 .pinned(true)
                  .defaultValue('NEW')
                  .choices([
 				        	    { value: 'NEW', label: 'NEW '},
@@ -241,7 +289,11 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
              nga.field('project', 'reference')
              	.label('Project')
              	.targetEntity(project)
-             	.targetField(nga.field('name'))
+             	.targetField(nga.field('name')),
+             nga.field('assignee', 'reference')
+             	.label('Assignee')
+             	.targetEntity(user)
+             	.targetField(nga.field('username'))
          ])
          .sortField(nga.field('status'))
          .sortDir('DESC');
@@ -295,9 +347,11 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     	var res =   	'\
     		<div class="container"> \
     		<ul class="nav nav-pills" role="tablist"> \
-    			<li><a href="index.html">Documents</a></li> \
-    			<li class="active"><a>Settings</a></li> \
-    			<li><a>Log Out</a></li> \
+    			<li><a href="index.html">{{"DOCUMENTS" | translate}}</a></li> \
+    			<li><a href="index.html#/projects">{{"PROJECTS" | translate}}</a></li> \
+				<li><a href="index.html#/employees">{{"EMPLOYEES" | translate}}</a></li> \
+    			<li class="active"><a>{{"SETTINGS" | translate}}</a></li> \
+    			<li><a>{{"LOG_OUT" | translate}}</a></li> \
     		</ul> \
     	</div> \
 		';

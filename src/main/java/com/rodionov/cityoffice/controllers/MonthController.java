@@ -1,7 +1,9 @@
 package com.rodionov.cityoffice.controllers;
 
 import java.security.Principal;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +25,8 @@ import com.rodionov.cityoffice.services.DateService;
 import com.rodionov.cityoffice.services.DocumentService;
 import com.rodionov.cityoffice.services.MongoUserDetailsService;
 
+import java.time.temporal.ChronoUnit;
+
 @RestController
 public class MonthController {
 	
@@ -37,6 +41,12 @@ public class MonthController {
 	@Autowired
 	private MongoUserDetailsService mongoUserDetailsService;
 	
+	/**
+	 * Getting documents grouped by months
+	 * @param principal
+	 * @param includePast
+	 * @return
+	 */
 	@RequestMapping("/month")
 	public List<MonthDTO> getMonthList(
 			Principal principal,
@@ -61,7 +71,8 @@ public class MonthController {
 			LocalDate monthDate = entry.getValue().get(0).getDeadline();
 			
 			List<DocumentDTO> docs = entry.getValue().stream()
-					.map(DocumentDTO::of)
+					.sorted((f1, f2) -> (int)ChronoUnit.DAYS.between(f2.getDeadline(), f1.getDeadline()))
+					.map(DocumentDTO::of)					
 					.collect(Collectors.toList());
 							
 			MonthDTO newMonth = new MonthDTO(monthDate, docs);
@@ -72,7 +83,8 @@ public class MonthController {
 		
 		logger.debug(res);
 		
-		Collections.sort(res, (a, b) -> Integer.compare(a.getMonthNumber(), b.getMonthNumber()));
+		//Collections.sort(res, (a, b) -> Integer.compare(a.getMonthNumber(), b.getMonthNumber()));
+		Collections.sort(res);
 		
 		return res;
 	}
@@ -109,7 +121,8 @@ public class MonthController {
 				months.add(currentMonth);
 			}
 			else {
-				currentMonth.getDocuments().addAll(lastMonthsDocuments);
+				currentMonth.getDocuments().addAll(0, lastMonthsDocuments);
+				currentMonth.setDocumentsCount(currentMonth.getDocumentsCount() + lastMonthsDocuments.size());
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package com.rodionov.cityoffice.services;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -13,8 +14,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 import com.rodionov.cityoffice.config.RealDatabaseTestConfiguration;
 import com.rodionov.cityoffice.model.User;
@@ -42,6 +41,23 @@ public class ProjectServiceTests {
 		when(userRepository.findAll()).thenReturn(Arrays.asList(
 			new User("1", "1", "1", Arrays.asList("111", projectId)),
 			new User("2", "2", "2", Arrays.asList("333"))
+		));
+		
+		// act
+		List<User> actual = projectService.getUsersToNotify(projectId);
+		
+		// assert
+		assertThat(actual).hasSize(1);
+		assertThat(actual.get(0).getId()).isEqualTo("1");
+	}
+	
+	@Test
+	public void getUsersToNotifyWithBlankUsersTest() {
+		// arrange
+		String projectId = "123";
+		when(userRepository.findAll()).thenReturn(Arrays.asList(
+			new User("1", "1", "1", Arrays.asList("111", projectId)),
+			new User("2", "2", "2", null)
 		));
 		
 		// act

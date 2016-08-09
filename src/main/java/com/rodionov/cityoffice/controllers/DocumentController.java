@@ -1,10 +1,13 @@
 package com.rodionov.cityoffice.controllers;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -20,15 +24,19 @@ import com.rodionov.cityoffice.model.Document;
 import com.rodionov.cityoffice.model.DocumentStatus;
 import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.repository.DocumentRepository;
+import com.rodionov.cityoffice.services.DocumentService;
 import com.rodionov.cityoffice.services.MongoUserDetailsService;
 
 @RestController
-public class DocumentController {
+public class DocumentController extends BaseController {
 
 	private static final Logger logger = Logger.getLogger(DocumentController.class);
 	
 	@Autowired
 	private DocumentRepository documentRepository;
+	
+	@Autowired
+	private DocumentService documentService;
 	
 	@Autowired
 	private MongoUserDetailsService userDetailsService;
@@ -50,22 +58,27 @@ public class DocumentController {
 	
 	//-------------------Retrieve All Documents --------------------------------------------------------
     
-    @RequestMapping(value = "/document", method = RequestMethod.GET)
-    public List<Document> listAllDocuments(Principal principal) {
-        
-    	List<Document> docs;
+    @RequestMapping(value = "/document", method = RequestMethod.GET)    
+    public ResponseEntity<List<Document>> listAllDocuments(Principal principal,
+    		@RequestParam(value="_page", required=false) Integer page, 
+    		@RequestParam(value="_perPage", required=false) Integer perPage,
+    		@RequestParam(value="_sortField", required=false) String sortField,
+    		@RequestParam(value="_sortDir", required=false) String sortDir,
+    		@RequestParam(value="status", required=false) String status,
+    		@RequestParam(value="name", required=false) String name,
+    		@RequestParam(value="project", required=false) String projectId,
+    		@RequestParam(value="assignee", required=false) String assigneeId) {
     	
     	User currentUser = userDetailsService.getUserByPrincipal(principal);
+    	Pageable pageable = getPagiable(page, perPage, sortDir, sortField);
     	
-    	if (userDetailsService.isAdmin(principal))
-    		docs = documentRepository.findAll();
-    	else
-    		docs = documentRepository.findByProjectIdIn(currentUser.getProjectIds()); 
+    	DocumentStatus searchStatus = status != null ? DocumentStatus.valueOf(status) : null;    	
+    	List<String> projects = userDetailsService.isAdmin(principal) ? null : currentUser.getProjectIds();
+    	projects = projectId == null ? projects : Arrays.asList(projectId);
     	
-        
-        docs.sort((d1, d2) -> d1.getDeadline().compareTo(d2.getDeadline()));
-        
-        return docs;
+    	Page<Document> docs = documentService.getFilteredDocuments(projects, searchStatus, name, assigneeId, pageable);
+    	
+        return new ResponseEntity<>(docs.getContent(), generatePaginationHeaders(docs, ""), HttpStatus.OK);
     }
     
   //-------------------Retrieve Single Document--------------------------------------------------------

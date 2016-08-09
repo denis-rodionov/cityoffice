@@ -1,4 +1,4 @@
-<h1>Documents</h1>
+<h1>{{'DOCUMENTS' | translate}}</h1>
 <div class="alert alert-danger" ng-show="controller.error">
     Error: {{controller.error}}
 </div>
@@ -9,12 +9,12 @@
 	  <!-- List group -->
 	  <ul class="list-group" ng-repeat="doc in month.documents">
 	    <li class="list-group-item">	    	
-			<strong>{{doc.formatedDeadline}}</strong>
+			<strong style="color: {{ month.monthNumber != doc.monthNumber ? 'red' : '' }}">{{doc.formatedDeadline}}</strong>
 			  	{{doc.name}}	    
 			    <span class="label label-{{doc.projectColor}}">{{doc.projectName}}</span>
 			    <span class="label label-default">{{doc.assignee}}</span>
 			    <button class="btn btn-default pull-right btn-xs " 
-			       ng-click="controller.finishDocument(doc, month);">Finish</button>
+			       ng-click="controller.finishDocument(doc, month);">{{'FINISH_DOCUMENT' | translate}}</button>
 	    </li>
 	  </ul>	  
 	</div>

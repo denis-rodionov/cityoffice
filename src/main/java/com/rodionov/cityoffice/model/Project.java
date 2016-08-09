@@ -2,6 +2,7 @@ package com.rodionov.cityoffice.model;
 
 import org.springframework.data.annotation.Id;
 
+@org.springframework.data.mongodb.core.mapping.Document
 public class Project {
 	@Id
 	private String id;
@@ -39,10 +40,10 @@ public class Project {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public boolean isActive() {
+	public boolean getIsActive() {
 		return isActive;
 	}
-	public void setActive(boolean isActive) {
+	public void setIsActive(boolean isActive) {
 		this.isActive = isActive;
 	}
 

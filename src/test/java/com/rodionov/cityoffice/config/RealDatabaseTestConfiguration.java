@@ -2,6 +2,8 @@ package com.rodionov.cityoffice.config;
 
 import static org.mockito.Mockito.mock;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -9,10 +11,11 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
+import com.rodionov.cityoffice.services.mail.DeadlineMailTemplate;
+import com.rodionov.cityoffice.services.mail.EnGeneralTemplate;
 
 @Configuration
 @EnableMongoRepositories(value="com.rodionov.cityoffice.repository")
@@ -35,20 +38,6 @@ public class RealDatabaseTestConfiguration extends AbstractMongoConfiguration {
          */
 
         return new MongoClient();
-
-
-        /**
-         *
-         * This is for a relset of db's
-         */
-
-//        return new Mongo(new ArrayList<ServerAddress>() {
-//        	{ 
-//	        	add(new ServerAddress("127.0.0.1", 27017)); 
-//	        	add(new ServerAddress("127.0.0.1", 27027)); 
-//	        	add(new ServerAddress("127.0.0.1", 27037)); 
-//	        }
-//       	});
     }
 
     @Override
@@ -60,7 +49,12 @@ public class RealDatabaseTestConfiguration extends AbstractMongoConfiguration {
     	return mock(MailSender.class);
     }
     
-    @Bean public SimpleMailMessage getMailMessage() {
-    	return mock(SimpleMailMessage.class);
+    @Bean public MimeMessage getMailMessage() {
+    	return mock(MimeMessage.class);
+    }
+    
+    @Bean
+    public DeadlineMailTemplate getDeadlineMailTemplate() {
+    	return new EnGeneralTemplate();
     }
 }
