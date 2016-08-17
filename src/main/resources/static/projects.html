@@ -1,8 +1,5 @@
-<h1>{{'PROJECTS' | translate}}</h1>
-<p>{{ "IN_DEVELOPMENT" | translate }}</p>
-<div class="alert alert-danger" ng-show="controller.error">
-    Error: {{controller.error}}
-</div>
-<div ng-show="authenticated" ng-repeat="employee in controller.employees">
-	{{employee}} <br/>
-</div>
+<script type="text/javascript" src="js\workload_chart.js"></script>
+
+<link href="chart_style.css" rel="stylesheet" type="text/css" />
+
+    <div id="chartdiv"></div>
