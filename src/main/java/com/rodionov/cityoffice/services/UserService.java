@@ -1,5 +1,6 @@
 package com.rodionov.cityoffice.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,11 +53,15 @@ public class UserService {
 	 * @param projects	Project where user is member for a period
 	 * @param userId	User ID
 	 * @param pageable	For pageable request
+	 * @param startBefore Get all memberships which start before specified date
+	 * @param finishAfter Get all memberships which finish after specified date
 	 * @return
 	 */
 	public Page<UserProject> getUserProjects(
 			List<String> projects, 
-			String username,
+			String username,			
+			LocalDate startBefore,
+			LocalDate finishAfter,
 			Pageable pageable) {
 		
 		QUserProject userProject = new QUserProject("userProject");
@@ -64,6 +69,14 @@ public class UserService {
 		
 		if (projects != null && !projects.isEmpty()) {
 			where.and(userProject.projectId.in(projects));
+		}
+		
+		if (finishAfter != null) {
+			where.and(userProject.finishDate.after(finishAfter));
+		}
+		
+		if (startBefore != null) {
+			where.and(userProject.startDate.before(startBefore));
 		}
 		
 		if (username != null) {

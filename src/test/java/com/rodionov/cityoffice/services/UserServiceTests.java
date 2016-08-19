@@ -56,7 +56,7 @@ public class UserServiceTests {
 		Pageable pageable = new PageRequest(0, 100);
 		
 		// act
-		Page<UserProject> actual = userService.getUserProjects(null, null, pageable);
+		Page<UserProject> actual = userService.getUserProjects(null, null, null, null, pageable);
 		
 		// assert
 		assertThat(actual.getContent()).hasSize(2);
@@ -75,7 +75,7 @@ public class UserServiceTests {
 		Pageable pageable = new PageRequest(0, 100);
 		
 		// act
-		Page<UserProject> actual = userService.getUserProjects(new ArrayList<String>(), null, pageable);
+		Page<UserProject> actual = userService.getUserProjects(new ArrayList<String>(), null, null, null, pageable);
 		
 		// assert
 		assertThat(actual.getContent()).hasSize(2);
@@ -94,7 +94,7 @@ public class UserServiceTests {
 		Pageable pageable = new PageRequest(0, 100);
 		
 		// act
-		Page<UserProject> actual = userService.getUserProjects(Arrays.asList(project2), null, pageable);
+		Page<UserProject> actual = userService.getUserProjects(Arrays.asList(project2), null, null, null, pageable);
 		
 		// assert
 		assertThat(actual.getContent()).hasSize(1);
@@ -116,7 +116,7 @@ public class UserServiceTests {
 		Pageable pageable = new PageRequest(0, 100);
 		
 		// act
-		Page<UserProject> actual = userService.getUserProjects(Arrays.asList(project1, project2), "tatiana", pageable);
+		Page<UserProject> actual = userService.getUserProjects(Arrays.asList(project1, project2), "tatiana", null, null, pageable);
 		
 		// assert
 		assertThat(actual.getContent()).hasSize(1);
@@ -138,9 +138,93 @@ public class UserServiceTests {
 		Pageable pageable = new PageRequest(0, 100);
 		
 		// act
-		Page<UserProject> actual = userService.getUserProjects(Arrays.asList(project1, project2), "ana", pageable);
+		Page<UserProject> actual = userService.getUserProjects(Arrays.asList(project1, project2), "ana", null, null, pageable);
 		
 		// assert
 		assertThat(actual.getContent()).hasSize(2);
+	}
+	
+	@Test
+	public void testUserProjectByStartBeforeTime() {
+		// arrange
+		String project1 = "Project #1";
+		String project2 = "Project #2";
+		User user1 = userRepository.save(new User("Svetlana", "s@gmail.com"));
+		User user2 = userRepository.save(new User("Tatiana", "t@gmail.com"));
+		LocalDate finishDate = LocalDate.of(2016, 4, 30);
+		
+		userProjectRepository.save(new UserProject(project1, user1.getId(), LocalDate.of(2016, 1, 15), finishDate, 1));
+		userProjectRepository.save(new UserProject(project2, user2.getId(), LocalDate.of(2016, 1, 30), finishDate, 1));
+		Pageable pageable = new PageRequest(0, 100);
+		
+		// act
+		Page<UserProject> actual = userService.getUserProjects(null, null, LocalDate.of(2016, 2, 10), null, pageable);
+		
+		// assert
+		assertThat(actual.getContent()).hasSize(2);
+	}
+	
+	@Test
+	public void testUserProjectByStartBeforeTime2() {
+		// arrange
+		String project1 = "Project #1";
+		String project2 = "Project #2";
+		User user1 = userRepository.save(new User("Svetlana", "s@gmail.com"));
+		User user2 = userRepository.save(new User("Tatiana", "t@gmail.com"));
+		LocalDate finishDate = LocalDate.of(2016, 4, 30);
+		
+		UserProject up1 = userProjectRepository.save(new UserProject(project1, user1.getId(), LocalDate.of(2016, 1, 15), finishDate, 1));
+		userProjectRepository.save(new UserProject(project2, user2.getId(), LocalDate.of(2016, 1, 30), finishDate, 1));
+		Pageable pageable = new PageRequest(0, 100);
+		
+		// act
+		Page<UserProject> actual = userService.getUserProjects(null, null, LocalDate.of(2016, 1, 20), null, pageable);
+		
+		// assert
+		assertThat(actual.getContent()).hasSize(1);
+		assertThat(actual.getContent().get(0).getId()).isEqualTo(up1.getId());
+	}
+	
+	@Test
+	public void testUserProjectByFinishAfterTime() {
+		// arrange
+		String project1 = "Project #1";
+		String project2 = "Project #2";
+		User user1 = userRepository.save(new User("Svetlana", "s@gmail.com"));
+		User user2 = userRepository.save(new User("Tatiana", "t@gmail.com"));
+		
+		userProjectRepository.save(new UserProject(project1, user1.getId(), 
+				LocalDate.of(2016, 1, 15), LocalDate.of(2016, 2, 15), 1));
+		userProjectRepository.save(new UserProject(project2, user2.getId(), 
+				LocalDate.of(2016, 1, 30), LocalDate.of(2016, 2, 28), 1));
+		Pageable pageable = new PageRequest(0, 100);
+		
+		// act
+		Page<UserProject> actual = userService.getUserProjects(null, null, null, LocalDate.of(2016, 2, 10), pageable);
+		
+		// assert
+		assertThat(actual.getContent()).hasSize(2);
+	}
+	
+	@Test
+	public void testUserProjectByFinishAfterTime2() {
+		// arrange
+		String project1 = "Project #1";
+		String project2 = "Project #2";
+		User user1 = userRepository.save(new User("Svetlana", "s@gmail.com"));
+		User user2 = userRepository.save(new User("Tatiana", "t@gmail.com"));
+		
+		userProjectRepository.save(new UserProject(project1, user1.getId(), 
+				LocalDate.of(2016, 1, 15), LocalDate.of(2016, 2, 15), 1));
+		UserProject up2 = userProjectRepository.save(new UserProject(project2, user2.getId(), 
+				LocalDate.of(2016, 1, 30), LocalDate.of(2016, 2, 28), 1));
+		Pageable pageable = new PageRequest(0, 100);
+		
+		// act
+		Page<UserProject> actual = userService.getUserProjects(null, null, null, LocalDate.of(2016, 2, 20), pageable);
+		
+		// assert
+		assertThat(actual.getContent()).hasSize(1);
+		assertThat(actual.getContent().get(0).getId()).isEqualTo(up2.getId());
 	}
 }

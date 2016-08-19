@@ -1,6 +1,7 @@
 package com.rodionov.cityoffice.controllers;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,17 +40,18 @@ public class UserProjectController extends BaseController {
     		@RequestParam(value="_sortField", required=false) String sortField,
     		@RequestParam(value="_sortDir", required=false) String sortDir,
     		@RequestParam(value="project", required=false) String projectId,
-    		@RequestParam(value="user", required=false) String username) {
-    	logger.info("Fetching all users projects");
+    		@RequestParam(value="user", required=false) String username,
+    		@RequestParam(value="before", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startBefore,
+    		@RequestParam(value="after", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate finishAfter) {
     	
-    	//List<UserProject> usersProjects = userService.getAllUsersProjects();
+    	logger.info("Fetching user's projects. Params: ");
     	
     	Pageable pageable = getPagiable(page, perPage, sortDir, sortField);
     	
     	List<String> projects = getAvailableProjects(principal);
     	projects = projectId == null ? projects : Arrays.asList(projectId);
     	
-    	Page<UserProject> upList = userService.getUserProjects(projects, username, pageable);
+    	Page<UserProject> upList = userService.getUserProjects(projects, username, startBefore, finishAfter, pageable);
     	
         return new ResponseEntity<>(upList.getContent(), generatePaginationHeaders(upList, ""), HttpStatus.OK);
     }
