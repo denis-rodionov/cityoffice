@@ -38,9 +38,6 @@ public class DocumentController extends BaseController {
 	@Autowired
 	private DocumentService documentService;
 	
-	@Autowired
-	private MongoUserDetailsService userDetailsService;
-	
 	@RequestMapping(value = "/finish/{id}", method = RequestMethod.POST)
 	public Document doneDocument(Principal principal, @PathVariable("id") String id) {
 		logger.info("Make document with id=" + id + " done");
@@ -50,7 +47,7 @@ public class DocumentController extends BaseController {
 			throw new NotFoundException();
 		
 		document.setStatus(DocumentStatus.FINISHED);
-		document.setAssigneeId(userDetailsService.getUserByPrincipal(principal).getId());
+		document.setAssigneeId(getCurrentUser(principal).getId());
 		documentRepository.save(document);
 		
 		return document;
@@ -69,11 +66,11 @@ public class DocumentController extends BaseController {
     		@RequestParam(value="project", required=false) String projectId,
     		@RequestParam(value="assignee", required=false) String assigneeId) {
     	
-    	User currentUser = userDetailsService.getUserByPrincipal(principal);
+    	
     	Pageable pageable = getPagiable(page, perPage, sortDir, sortField);
     	
     	DocumentStatus searchStatus = status != null ? DocumentStatus.valueOf(status) : null;    	
-    	List<String> projects = userDetailsService.isAdmin(principal) ? null : currentUser.getProjectIds();
+    	List<String> projects = getAvailableProjects(principal);
     	projects = projectId == null ? projects : Arrays.asList(projectId);
     	
     	Page<Document> docs = documentService.getFilteredDocuments(projects, searchStatus, name, assigneeId, pageable);

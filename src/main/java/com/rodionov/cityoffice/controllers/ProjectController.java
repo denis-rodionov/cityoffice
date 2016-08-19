@@ -46,9 +46,6 @@ public class ProjectController extends BaseController {
 	@Autowired
 	private ProjectService projectService;
 	
-	@Autowired
-	private MongoUserDetailsService userDetailsService;
-	
 	//-------------------Retrieve All Projects--------------------------------------------------------
     
     @RequestMapping(value = "/project", method = RequestMethod.GET)
@@ -61,11 +58,9 @@ public class ProjectController extends BaseController {
     		@RequestParam(value="name", required=false) String name,
     		@RequestParam(value="isActive", required=false) Boolean isActive) {
     	
-    	User currentUser = userDetailsService.getUserByPrincipal(principal);
-    	
     	Pageable pageable = getPagiable(page, perPage, sortDir, sortField);
     	
-    	List<String> projectIds = userDetailsService.isAdmin(principal) ? null : currentUser.getProjectIds();
+    	List<String> projectIds = getAvailableProjects(principal);
     	
     	Page<Project> projects = projectService.getFilteredProjects(projectIds, name, isActive, pageable);
          

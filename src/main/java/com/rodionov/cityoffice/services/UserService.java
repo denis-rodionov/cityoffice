@@ -1,6 +1,7 @@
 package com.rodionov.cityoffice.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.mysema.query.BooleanBuilder;
 import com.rodionov.cityoffice.model.QUser;
+import com.rodionov.cityoffice.model.QUserProject;
 import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.model.UserProject;
+import com.rodionov.cityoffice.repository.UserProjectRepository;
 import com.rodionov.cityoffice.repository.UserRepository;
 
 @Service
@@ -18,6 +21,9 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private UserProjectRepository userProjectRepository;
 
 	public Page<User> getFilteredUsers(String username, String projectId, String role, String email, Pageable pageable) {
 		
@@ -41,8 +47,33 @@ public class UserService {
 		
 	}
 
-	public List<UserProject> getAllUsersProjects() {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Get all user's projects membership
+	 * @param projects	Project where user is member for a period
+	 * @param userId	User ID
+	 * @param pageable	For pageable request
+	 * @return
+	 */
+	public Page<UserProject> getUserProjects(
+			List<String> projects, 
+			String username,
+			Pageable pageable) {
+		
+		QUserProject userProject = new QUserProject("userProject");
+		BooleanBuilder where = new BooleanBuilder();
+		
+		if (projects != null && !projects.isEmpty()) {
+			where.and(userProject.projectId.in(projects));
+		}
+		
+		if (username != null) {
+			List<String> usersId = userRepository.findByUsernameLikeIgnoreCase(username).stream()
+					.map(u -> u.getId())
+					.collect(Collectors.toList());
+			
+			where.and(userProject.userId.in(usersId));
+		}
+		
+		return userProjectRepository.findAll(where, pageable);		
 	}
 }

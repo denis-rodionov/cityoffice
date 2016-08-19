@@ -92,7 +92,7 @@ public class UserController extends BaseController {
         User existing = userRepository.findByUsername(user.getUsername());
         User existingByEmail = userRepository.findByEmail(user.getUsername());
         
-        if (existing != null || existingByEmail != null) {
+        if (existing == null || existingByEmail != null) {
             logger.info("A User with name " + user.getUsername() + " or email already exist");
             throw new AlreadyExistsException();
         }

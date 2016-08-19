@@ -11,28 +11,39 @@ import org.springframework.data.annotation.Id;
  * @author Denis
  *
  */
+@org.springframework.data.mongodb.core.mapping.Document
 public class UserProject {
 	
 	@Id
 	private String id;
 	
 	private String projectId;	
+	private String userId;
 	private LocalDate startDate;	
 	private LocalDate finishDate;
-	private int load;	// percentage of loadinguser on the project
+	private double load;	// percentage of user loading on the project [0..1]
 	
-	public UserProject(String projectId, LocalDate startDate, LocalDate finishDate, int load) {
+	public UserProject(String projectId, String userId, LocalDate startDate, LocalDate finishDate, double load) {
 		super();
+		this.userId = userId;
 		this.projectId = projectId;
 		this.startDate = startDate;
 		this.finishDate = finishDate;
 		this.load = load;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "UserProject [id=" + id + ", projectId=" + projectId + ", startDate=" + startDate + ", finishDate="
-				+ finishDate + ", load=" + load + "]";
+		return "UserProject [id=" + id + ", projectId=" + projectId + ", userId=" + userId + ", startDate=" + startDate
+				+ ", finishDate=" + finishDate + ", load=" + load + "]";
+	}
+	
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getId() {
@@ -67,11 +78,11 @@ public class UserProject {
 		this.finishDate = finishDate;
 	}
 
-	public int getLoad() {
+	public double getLoad() {
 		return load;
 	}
 
-	public void setLoad(int load) {
+	public void setLoad(double load) {
 		this.load = load;
 	}
 	
