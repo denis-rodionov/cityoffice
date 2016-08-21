@@ -8,9 +8,9 @@ angular.module('app', [ 'ngRoute', 'services', 'pascalprecht.translate'])
 	      controller : 'documentController',
 	      controllerAs: 'controller'
 	    }).when('/projects', {
-	      templateUrl : 'projects.html'/*,
+	      templateUrl : 'projects.html',
 	      controller : 'projectController',
-	      controllerAs : 'controller'*/
+	      controllerAs : 'controller'
 	    }).when('/employees', {
 	      templateUrl : 'employees.html',
 	      controller : 'employeeController',
