@@ -22,33 +22,35 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.rodionov.cityoffice.controllers.exceptions.NotFoundException;
 import com.rodionov.cityoffice.model.Document;
 import com.rodionov.cityoffice.model.DocumentStatus;
-import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.services.DocumentService;
-import com.rodionov.cityoffice.services.MongoUserDetailsService;
 
 @RestController
-public class DocumentController extends BaseController {
+public class DocumentController extends BaseController<Document> {
 
 	private static final Logger logger = Logger.getLogger(DocumentController.class);
-	
-	@Autowired
-	private DocumentRepository documentRepository;
-	
+		
 	@Autowired
 	private DocumentService documentService;
+	
+	@Autowired
+	public DocumentController(DocumentRepository documentRepository) {
+		super(documentRepository);
+	}
+	
+	//-------------------Finish the document --------------------------------------------------------
 	
 	@RequestMapping(value = "/finish/{id}", method = RequestMethod.POST)
 	public Document doneDocument(Principal principal, @PathVariable("id") String id) {
 		logger.info("Make document with id=" + id + " done");
 		
-		Document document = documentRepository.findOne(id);
+		Document document = repository.findOne(id);
 		if (document == null) 
 			throw new NotFoundException();
 		
 		document.setStatus(DocumentStatus.FINISHED);
 		document.setAssigneeId(getCurrentUser(principal).getId());
-		documentRepository.save(document);
+		repository.save(document);
 		
 		return document;
 	}
@@ -82,14 +84,8 @@ public class DocumentController extends BaseController {
     
     @RequestMapping(value = "/document/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Document> getDocument(@PathVariable("id") String id) {
-        System.out.println("Fetching Document with id " + id);
-        Document document = documentRepository.findOne(id);
-        if (document == null) {
-            System.out.println("Document with id " + id + " not found");
-            return new ResponseEntity<Document>(HttpStatus.NOT_FOUND);
-        }
-        
-        return new ResponseEntity<Document>(document, HttpStatus.OK);
+    	System.out.println("Fetching Document with id " + id);        
+        return getEntity(id);
     }
      
      
@@ -104,22 +100,16 @@ public class DocumentController extends BaseController {
             return new ResponseEntity<Document>(HttpStatus.NOT_ACCEPTABLE);
         }
         
-        documentRepository.save(document);
- 
-        //HttpHeaders headers = new HttpHeaders();
-        //headers.setLocation(ucBuilder.path("/document/{id}").buildAndExpand(document.getId()).toUri());
-        //return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-        return new ResponseEntity<Document>(document, HttpStatus.CREATED);
+        return createEntity(document);
     }
  
      
-    //------------------- Update a Document --------------------------------------------------------
-     
+    //------------------- Update a Document --------------------------------------------------------     
     @RequestMapping(value = "/document/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Document> updateDocument(@PathVariable("id") String id, @RequestBody Document document) {
         logger.info("Updating Document " + document);
          
-        Document currentDocument = documentRepository.findOne(document.getId());
+        Document currentDocument = repository.findOne(document.getId());
          
         if (currentDocument == null) {
             System.out.println("Document with id " + id + " not found");
@@ -142,35 +132,17 @@ public class DocumentController extends BaseController {
             return new ResponseEntity<Document>(HttpStatus.NOT_ACCEPTABLE);
         }
         
-        documentRepository.save(currentDocument);
+        repository.save(currentDocument);
         return new ResponseEntity<Document>(currentDocument, HttpStatus.OK);
     }
  
-    //------------------- Delete a Document --------------------------------------------------------
-     
+    //------------------- Delete a Document --------------------------------------------------------     
     @RequestMapping(value = "/document/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Document> deleteDocument(@PathVariable("id") String id) {
  
-        Document document = documentRepository.findOne(id);
-        if (document == null) {
-            System.out.println("Unable to delete. Document with id " + id + " not found");
-            return new ResponseEntity<Document>(HttpStatus.NOT_FOUND);
-        }
-
-        logger.info("Deleting Document with name " + document.getName());
-        documentRepository.delete(id);
-        return new ResponseEntity<Document>(HttpStatus.NO_CONTENT);
+    	ResponseEntity<Document> res =  deleteEntity(id);    	
+    	logger.info("Document " + res + " DELETED");    	
+    	return res;
     }
- 
-     
-    //------------------- Delete All Documents --------------------------------------------------------
-     
-/*    @RequestMapping(value = "/document/", method = RequestMethod.DELETE)
-    public ResponseEntity<Document> deleteAllDocuments() {
-        System.out.println("Deleting All Documents");
- 
-        documentRepository.deleteAll();
-        return new ResponseEntity<Document>(HttpStatus.NO_CONTENT);
-    }*/
 
 }

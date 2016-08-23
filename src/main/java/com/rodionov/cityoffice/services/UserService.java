@@ -89,4 +89,16 @@ public class UserService {
 		
 		return userProjectRepository.findAll(where, pageable);		
 	}
+
+	/**
+	 * Checks if the user with given data exists in database
+	 * @param user The given user data
+	 * @return
+	 */
+	public boolean exists(User user) {
+		User existing = userRepository.findByUsername(user.getUsername());
+        User existingByEmail = userRepository.findByEmail(user.getUsername());
+        
+        return existing == null || existingByEmail != null;
+	}
 }

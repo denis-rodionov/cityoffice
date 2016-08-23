@@ -30,12 +30,9 @@ import com.rodionov.cityoffice.services.MongoUserDetailsService;
 import com.rodionov.cityoffice.services.ProjectService;
 
 @RestController
-public class ProjectController extends BaseController {
+public class ProjectController extends BaseController<Project> {
 	
 	private static final Logger logger = Logger.getLogger(ProjectController.class);
-	
-	@Autowired
-	private ProjectRepository projectRepository;
 	
 	@Autowired
 	private DocumentRepository documentRepository;
@@ -45,6 +42,15 @@ public class ProjectController extends BaseController {
 	
 	@Autowired
 	private ProjectService projectService;
+	
+	/**
+	 * Constructor for the Project controller
+	 * @param projectRepository
+	 */
+	@Autowired
+	public ProjectController(ProjectRepository projectRepository) {
+		super(projectRepository);
+	}
 	
 	//-------------------Retrieve All Projects--------------------------------------------------------
     
@@ -72,12 +78,8 @@ public class ProjectController extends BaseController {
 	@RequestMapping(value = "/project/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Project> getProject(@PathVariable("id") String id) {
         logger.debug("Fetching Project with id " + id);
-        Project project = projectRepository.findOne(id);
-        if (project == null) {
-            System.out.println("Project with id " + id + " not found");
-            return new ResponseEntity<Project>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Project>(project, HttpStatus.OK);
+        
+        return getEntity(id);
     }     
      
     //-------------------Create a Project--------------------------------------------------------
@@ -85,16 +87,13 @@ public class ProjectController extends BaseController {
     @RequestMapping(value = "/project", method = RequestMethod.POST)
     public ResponseEntity<Project> createProject(@RequestBody Project project, UriComponentsBuilder ucBuilder) {
         logger.info("Creating Project " + project.getName());
-        Project existing = projectRepository.findByName(project.getName()).stream().findAny().orElse(null);
         
-        if (existing != null) {
+        if (projectService.exists(project)) {
             System.out.println("A Project with name " + project.getName() + " already exist");
             return new ResponseEntity<Project>(HttpStatus.CONFLICT);
         }
  
-        projectRepository.save(project);
- 
-        return new ResponseEntity<Project>(project, HttpStatus.CREATED);
+        return createEntity(project);
     }
  
      
@@ -104,7 +103,7 @@ public class ProjectController extends BaseController {
     public ResponseEntity<Project> updateProject(@PathVariable("id") String id, @RequestBody Project project) {
         logger.info("Updating Project " + project.getName());
          
-        Project currentProject = projectRepository.findOne(project.getId());
+        Project currentProject = repository.findOne(project.getId());
          
         if (currentProject == null) {
             System.out.println("Project with id " + id + " not found");
@@ -115,7 +114,7 @@ public class ProjectController extends BaseController {
         currentProject.setIsActive(project.getIsActive());
         currentProject.setColorName(project.getColorName());
         
-        projectRepository.save(currentProject);
+        repository.save(currentProject);
         return new ResponseEntity<Project>(currentProject, HttpStatus.OK);
     }
  
@@ -124,7 +123,8 @@ public class ProjectController extends BaseController {
     @RequestMapping(value = "/project/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Project> deleteProject(@PathVariable("id") String id) 
     		throws Exception {
-        Project project = projectRepository.findOne(id);
+    	
+        Project project = repository.findOne(id);
         if (project == null) {
             logger.info("Unable to delete. Project with id " + id + " not found");
             return new ResponseEntity<Project>(HttpStatus.NOT_FOUND);
@@ -141,19 +141,9 @@ public class ProjectController extends BaseController {
         
         logger.info("Deleting Project with username " + project.getName());
 
-        projectRepository.delete(id);
-        return new ResponseEntity<Project>(HttpStatus.NO_CONTENT);
+        ResponseEntity<Project> res =  deleteEntity(id);    	
+    	logger.info("Project " + res + " DELETED");    	
+    	return res;
     }
- 
-     
-    //------------------- Delete All Projects --------------------------------------------------------
-/*     
-    @RequestMapping(value = "/project/", method = RequestMethod.DELETE)
-    public ResponseEntity<Project> deleteAllProjects() {
-        System.out.println("Deleting All Projects");
- 
-        projectRepository.deleteAll();
-        return new ResponseEntity<Project>(HttpStatus.NO_CONTENT);
-    }*/
  
 }

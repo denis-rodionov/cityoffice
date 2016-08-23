@@ -13,22 +13,31 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rodionov.cityoffice.model.User;
+import com.rodionov.cityoffice.controllers.exceptions.NotEnoughtRightsException;
+import com.rodionov.cityoffice.controllers.exceptions.NotFoundException;
 import com.rodionov.cityoffice.model.UserProject;
+import com.rodionov.cityoffice.repository.UserProjectRepository;
 import com.rodionov.cityoffice.services.UserService;
 
 @RestController
 @RequestMapping("/user_project")
-public class UserProjectController extends BaseController {
+public class UserProjectController extends BaseController<UserProject> {
 
 	private static final Logger logger = Logger.getLogger(UserProjectController.class);
 	
-	@Autowired UserService userService;
+	@Autowired 
+	UserService userService;
+	
+	@Autowired
+	public UserProjectController(UserProjectRepository userRepository) {
+		super(userRepository);
+	}
 	
 	//-------------------Retrieve All UsersProjects --------------------------------------------------------
     
@@ -56,12 +65,51 @@ public class UserProjectController extends BaseController {
         return new ResponseEntity<>(upList.getContent(), generatePaginationHeaders(upList, ""), HttpStatus.OK);
     }
     
-    //-------------------Retrieve Single UserProject --------------------------------------------------------
-    
+    //-------------------Retrieve Single UserProject --------------------------------------------------------    
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public User getUser(@PathVariable("id") String id) {
+    public ResponseEntity<UserProject> getUserProject(@PathVariable("id") String id) {
         logger.info("Fetching UserProject with id " + id);
-
-        return null;
+        return getEntity(id);
+    }
+    
+    
+    //-------------------Create a Single UserProject --------------------------------------------------------
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<UserProject> createUserProject(@RequestBody UserProject userProject) {
+        logger.info("Creating UserProject");  
+        return createEntity(userProject);
+    }
+    
+  //------------------- Update a UserProject --------------------------------------------------------    
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
+    public UserProject updateUserProject(Principal principal, @PathVariable("id") String id, @RequestBody UserProject userProject) {
+    	logger.info("Updating UserProject " + userProject.getId());
+         
+        UserProject dbUserProject = repository.findOne(userProject.getId());
+         
+        if (dbUserProject == null) 
+            throw new NotFoundException();
+ 
+        dbUserProject.setUserId(userProject.getUserId());
+        dbUserProject.setProjectId(userProject.getProjectId());
+        dbUserProject.setLoad(userProject.getLoad());        
+        dbUserProject.setStartDate(userProject.getStartDate());
+        dbUserProject.setFinishDate(userProject.getFinishDate());
+        
+        repository.save(dbUserProject);
+        return dbUserProject;
+    }
+    
+    //------------------- Delete a UserProject --------------------------------------------------------     
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<UserProject> deleteUserProject(Principal principal, @PathVariable("id") String id) 
+    		throws Exception {
+    	
+    	if (!userDetailsService.isAdmin(principal))
+    		throw new NotEnoughtRightsException();
+    	
+    	ResponseEntity<UserProject> res =  deleteEntity(id);    	
+    	logger.info("UserProject " + res + " DELETED");    	
+    	return res;
     }
 }

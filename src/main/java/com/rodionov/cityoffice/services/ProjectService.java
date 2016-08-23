@@ -43,6 +43,14 @@ public class ProjectService {
 				.collect(Collectors.toList());
 	}
 
+	/**
+	 * Git project by given filters
+	 * @param projectIds
+	 * @param name
+	 * @param isActive
+	 * @param pageable
+	 * @return
+	 */
 	public Page<Project> getFilteredProjects(List<String> projectIds, String name, Boolean isActive,
 			Pageable pageable) {
 		
@@ -62,5 +70,14 @@ public class ProjectService {
 		}
 		
 		return projectRepository.findAll(where, pageable);
+	}
+
+	/**
+	 * Check if the project with given data exists in the database
+	 * @param project
+	 * @return True if such project exists in database
+	 */
+	public boolean exists(Project project) {
+		return projectRepository.findByName(project.getName()).stream().findAny().orElse(null) != null;
 	}
 }
