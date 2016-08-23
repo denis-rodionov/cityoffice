@@ -49,7 +49,7 @@ public class UserProjectController extends BaseController<UserProject> {
     		@RequestParam(value="_sortField", required=false) String sortField,
     		@RequestParam(value="_sortDir", required=false) String sortDir,
     		@RequestParam(value="project", required=false) String projectId,
-    		@RequestParam(value="user", required=false) String username,
+    		@RequestParam(value="user", required=false) String userId,
     		@RequestParam(value="before", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startBefore,
     		@RequestParam(value="after", required=false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate finishAfter) {
     	
@@ -60,7 +60,7 @@ public class UserProjectController extends BaseController<UserProject> {
     	List<String> projects = getAvailableProjects(principal);
     	projects = projectId == null ? projects : Arrays.asList(projectId);
     	
-    	Page<UserProject> upList = userService.getUserProjects(projects, username, startBefore, finishAfter, pageable);
+    	Page<UserProject> upList = userService.getUserProjects(projects, userId, startBefore, finishAfter, pageable);
     	
         return new ResponseEntity<>(upList.getContent(), generatePaginationHeaders(upList, ""), HttpStatus.OK);
     }
@@ -80,8 +80,8 @@ public class UserProjectController extends BaseController<UserProject> {
         return createEntity(userProject);
     }
     
-  //------------------- Update a UserProject --------------------------------------------------------    
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
+    //------------------- Update a UserProject --------------------------------------------------------    
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public UserProject updateUserProject(Principal principal, @PathVariable("id") String id, @RequestBody UserProject userProject) {
     	logger.info("Updating UserProject " + userProject.getId());
          
@@ -92,9 +92,13 @@ public class UserProjectController extends BaseController<UserProject> {
  
         dbUserProject.setUserId(userProject.getUserId());
         dbUserProject.setProjectId(userProject.getProjectId());
-        dbUserProject.setLoad(userProject.getLoad());        
-        dbUserProject.setStartDate(userProject.getStartDate());
-        dbUserProject.setFinishDate(userProject.getFinishDate());
+        dbUserProject.setLoad(userProject.getLoad());
+        
+        if (userProject.getStartDate() != null)
+        	dbUserProject.setStartDate(userProject.getStartDate());
+        
+        if (userProject.getFinishDate() != null)
+        	dbUserProject.setFinishDate(userProject.getFinishDate());
         
         repository.save(dbUserProject);
         return dbUserProject;

@@ -4,6 +4,11 @@ import java.time.LocalDate;
 
 import org.springframework.data.annotation.Id;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.rodionov.cityoffice.model.serialization.CustomDateDeserializer;
+import com.rodionov.cityoffice.model.serialization.CustomDateSerializer;
+
 /**
  * Assignment user for a project for 
  * the specified period 
@@ -18,9 +23,17 @@ public class UserProject {
 	private String id;
 	
 	private String projectId;	
+	
 	private String userId;
+	
+	@JsonDeserialize(using = CustomDateDeserializer.class)
+	@JsonSerialize(using = CustomDateSerializer.class)
 	private LocalDate startDate;	
+	
+	@JsonDeserialize(using = CustomDateDeserializer.class)
+	@JsonSerialize(using = CustomDateSerializer.class)
 	private LocalDate finishDate;
+	
 	private double load;	// percentage of user loading on the project [0..1]
 	
 	public UserProject(String projectId, String userId, LocalDate startDate, LocalDate finishDate, double load) {
@@ -30,6 +43,10 @@ public class UserProject {
 		this.startDate = startDate;
 		this.finishDate = finishDate;
 		this.load = load;
+	}
+	
+	public UserProject() {
+		super();
 	}
 	
 	@Override

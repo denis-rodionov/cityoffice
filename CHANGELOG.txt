@@ -1,5 +1,7 @@
 (unreleased)
 
+ - controllers refactoring [Denis Rodionov]
+ - employes-projects in admin tool [Denis Rodionov]
 v0.3.5 (05.08.2016)
  - export for paginated tables [Denis Rodionov]
  - frontend-maven-plugin added [Denis Rodionov]

@@ -106,42 +106,21 @@ public class UserServiceTests {
 		// arrange
 		String project1 = "Project #1";
 		String project2 = "Project #2";
-		User user1 = userRepository.save(new User("Svetlana", "s@gmail.com"));
-		User user2 = userRepository.save(new User("Tatiana", "t@gmail.com"));
+		String user1 = "User#1";
+		String user2 = "User#2";
 		LocalDate startDate = LocalDate.of(2016, 4, 1);
 		LocalDate finishDate = LocalDate.of(2016, 4, 30);
 		
-		userProjectRepository.save(new UserProject(project1, user1.getId(), startDate, finishDate, 1));
-		UserProject userProject2 = userProjectRepository.save(new UserProject(project2, user2.getId(), startDate, finishDate, 1));
+		userProjectRepository.save(new UserProject(project1, user1, startDate, finishDate, 1));
+		UserProject userProject2 = userProjectRepository.save(new UserProject(project2, user2, startDate, finishDate, 1));
 		Pageable pageable = new PageRequest(0, 100);
 		
 		// act
-		Page<UserProject> actual = userService.getUserProjects(Arrays.asList(project1, project2), "tatiana", null, null, pageable);
+		Page<UserProject> actual = userService.getUserProjects(Arrays.asList(project1, project2), user2, null, null, pageable);
 		
 		// assert
 		assertThat(actual.getContent()).hasSize(1);
 		assertThat(actual.getContent().get(0).getId()).isEqualTo(userProject2.getId());
-	}
-	
-	@Test
-	public void testUserProjectByManyUser() {
-		// arrange
-		String project1 = "Project #1";
-		String project2 = "Project #2";
-		User user1 = userRepository.save(new User("Svetlana", "s@gmail.com"));
-		User user2 = userRepository.save(new User("Tatiana", "t@gmail.com"));
-		LocalDate startDate = LocalDate.of(2016, 4, 1);
-		LocalDate finishDate = LocalDate.of(2016, 4, 30);
-		
-		userProjectRepository.save(new UserProject(project1, user1.getId(), startDate, finishDate, 1));
-		userProjectRepository.save(new UserProject(project2, user2.getId(), startDate, finishDate, 1));
-		Pageable pageable = new PageRequest(0, 100);
-		
-		// act
-		Page<UserProject> actual = userService.getUserProjects(Arrays.asList(project1, project2), "ana", null, null, pageable);
-		
-		// assert
-		assertThat(actual.getContent()).hasSize(2);
 	}
 	
 	@Test

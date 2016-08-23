@@ -59,7 +59,7 @@ public class UserService {
 	 */
 	public Page<UserProject> getUserProjects(
 			List<String> projects, 
-			String username,			
+			String userId,			
 			LocalDate startBefore,
 			LocalDate finishAfter,
 			Pageable pageable) {
@@ -79,12 +79,8 @@ public class UserService {
 			where.and(userProject.startDate.before(startBefore));
 		}
 		
-		if (username != null) {
-			List<String> usersId = userRepository.findByUsernameLikeIgnoreCase(username).stream()
-					.map(u -> u.getId())
-					.collect(Collectors.toList());
-			
-			where.and(userProject.userId.in(usersId));
+		if (userId != null) {
+			where.and(userProject.userId.eq(userId));
 		}
 		
 		return userProjectRepository.findAll(where, pageable);		
