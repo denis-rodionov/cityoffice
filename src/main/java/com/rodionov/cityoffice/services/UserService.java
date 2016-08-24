@@ -44,8 +44,7 @@ public class UserService {
 			where.and(user.email.containsIgnoreCase(email));
 		}
 		
-		return userRepository.findAll(where, pageable);
-		
+		return userRepository.findAll(where, pageable);		
 	}
 
 	/**
@@ -96,5 +95,14 @@ public class UserService {
         User existingByEmail = userRepository.findByEmail(user.getUsername());
         
         return existing == null || existingByEmail != null;
+	}
+
+	/**
+	 * Gets user by id
+	 * @param userId
+	 * @return
+	 */
+	public User getUser(String userId) {
+		return userRepository.findOne(userId);
 	}
 }

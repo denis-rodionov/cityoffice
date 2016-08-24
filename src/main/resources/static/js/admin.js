@@ -343,18 +343,18 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 		.label('Employees Projects');
 
     employee_projects.listView().fields([
+		nga.field('userId', 'reference')
+			.label('Employee')
+			.targetEntity(user)
+			.targetField(nga.field('username'))
+			.validation({ required : true }),
 		nga.field('projectId', 'reference')
 			.targetEntity(project)
 			.targetField(nga.field('name'))
 			.label('Project')
-			.validation({ required : true }),
-		nga.field('userId', 'reference')
-           	.label('Employee')
-           	.targetEntity(user)
-           	.targetField(nga.field('username'))
-           	.validation({ required : true }),,
+			.validation({ required : true }),		
         nga.field('load', 'float')
-        	.label("Load % (0..1)")
+        	.label("Workload % (0..1)")
         	.format('0%')
         	.validation({ required : true })
         	.defaultValue(1),
@@ -386,7 +386,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 		.title('Edit employee project "{{entry.values.name}}":');
 	
 	employee_projects.creationView().fields(employee_projects.listView().fields())
-	.title('Create employee project"{{entry.values.name}}":');
+		.title('Create employee project"{{entry.values.name}}":');
 	
 	employee_projects.deletionView().title('Delete employee project "{{entry.values.name}}":');
 	

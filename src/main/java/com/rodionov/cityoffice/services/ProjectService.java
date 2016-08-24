@@ -80,4 +80,13 @@ public class ProjectService {
 	public boolean exists(Project project) {
 		return projectRepository.findByName(project.getName()).stream().findAny().orElse(null) != null;
 	}
+
+	/**
+	 * Gets Project by given id
+	 * @param projectId
+	 * @return
+	 */
+	public Project getProject(String projectId) {
+		return projectRepository.findOne(projectId);
+	}
 }
