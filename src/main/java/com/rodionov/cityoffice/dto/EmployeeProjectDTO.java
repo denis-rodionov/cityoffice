@@ -2,14 +2,20 @@ package com.rodionov.cityoffice.dto;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 public class EmployeeProjectDTO {
 
 	private String id;
 	private String name;
-	private LocalDate startDate;
-	private LocalDate finishDate;
 	private double workload;
 	
+	@DateTimeFormat(iso = ISO.DATE)
+	private LocalDate startDate;
+	
+	@DateTimeFormat(iso = ISO.DATE)
+	private LocalDate finishDate;
 	
 	public String getId() {
 		return id;

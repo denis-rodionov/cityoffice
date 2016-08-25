@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rodionov.cityoffice.dto.EmployeeDTO;
@@ -39,9 +40,9 @@ public class EmployeeController {
 	 * @return
 	 */
 	@RequestMapping(value = "/employee/info", method = RequestMethod.GET)
-	public List<EmployeeDTO> getEmployeePeriodInfo(Integer periodInDays) {
+	public List<EmployeeDTO> getEmployeePeriodInfo(@RequestParam(required=false) Integer periodInDays) {
 		
-		logger.info("getEmployeePeriodInfo invoked");
+		logger.info("getEmployeePeriodInfo invoked. (periodInDays = " + periodInDays + ")");
 		
 		if (periodInDays == null) {
 			periodInDays = DEFAULT_PERIOD;

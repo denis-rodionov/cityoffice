@@ -1,5 +1,6 @@
 (unreleased)
 
+ - EmployeeController [Denis Rodionov]
  - controllers refactoring [Denis Rodionov]
  - employes-projects in admin tool [Denis Rodionov]
 v0.3.5 (05.08.2016)
