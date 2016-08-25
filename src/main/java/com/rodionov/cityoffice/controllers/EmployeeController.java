@@ -4,20 +4,26 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rodionov.cityoffice.dto.EmployeeDTO;
 import com.rodionov.cityoffice.dto.EmployeeProjectDTO;
-import com.rodionov.cityoffice.model.Project;
 import com.rodionov.cityoffice.model.UserProject;
 import com.rodionov.cityoffice.services.ProjectService;
 import com.rodionov.cityoffice.services.UserService;
 
 @RestController
 public class EmployeeController {
+	
+	private static final Logger logger = Logger.getLogger(EmployeeController.class);
+	
+	private static final Integer DEFAULT_PERIOD = 180;
 
 	@Autowired
 	private UserService userService;
@@ -32,7 +38,14 @@ public class EmployeeController {
 	 * @param periodInDays Period in days from today to the future (example: 180 - half a year)
 	 * @return
 	 */
+	@RequestMapping(value = "/employee/info", method = RequestMethod.GET)
 	public List<EmployeeDTO> getEmployeePeriodInfo(Integer periodInDays) {
+		
+		logger.info("getEmployeePeriodInfo invoked");
+		
+		if (periodInDays == null) {
+			periodInDays = DEFAULT_PERIOD;
+		}
 
 		Pageable pageable = new PageRequest(0, Integer.MAX_VALUE);
 		LocalDate finishAfter = LocalDate.now();
