@@ -8,16 +8,13 @@ angular.module('app').controller('projectController',
 
 		var self = this;
 
-		EmployeeService.getData().
-		then(function(data) {
-				chart =  AmCharts.makeChart ("chartdiv", data );
+		EmployeeService.getUserProjects()
+			.then(function(data) {
+
+				chart =  AmCharts.makeChart ("chartdiv",data );
 			},
+
 			function(reason) {
 				self.error = reason;
 			});
 	}]);
-
-
-
-
-

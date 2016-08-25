@@ -1,22 +1,54 @@
 angular.module('services', [])
 
 	.service('EmployeeService', ['$http','$q', function ($http, $q) {
-		return {
-			getData: function () {
-				var deferred = $q.defer();
+		this.getUserProjects = function () {
+			var deferred = $q.defer();
 
-				$http.get('data.json')
-					.then(function (response) {
 
-						if (response.status == 200) {
-							deferred.resolve(response.data);
-						}
-						else deferred.reject('Error retrieving list of documents');
+			$http.get('employees_data.json')
+				.then(function (response) {
+					if (response.status == 200) {
+						deferred.resolve(response.data);
+					}
+					else {
+						deferred.reject('Error retrieving list of documents');
+					}
+				});
 
-					});
-
-				return deferred.promise;
-			}
+			return deferred.promise;
 		};
+
+		this.getEmployees = function() {
+			var deferred = $q.defer();
+
+			$http.get('/employees/')
+				.then(function(response) {
+					if (response.status == 200) {
+						deferred.resolve(response.data);
+					}
+					else {
+						deferred.reject('Error retrieving list of documents');
+					}
+				});
+
+			return deferred.promise;
+		};
+
+		this.getEmployee = function(id) {
+			var deferred = $q.defer();
+
+			$http.get('/employees/' + id)
+				.then(function(response) {
+					if (response.status == 200) {
+						deferred.resolve(response.data);
+					}
+					else {
+						deferred.reject('Error retrieving list of documents');
+					}
+				});
+
+			return deferred.promise;
+		};
+
 
 	}]);

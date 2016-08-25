@@ -1,4 +1,4 @@
- {
+{
   "type": "gantt",
   "theme": "dark",
   "marginRight": 70,
@@ -14,11 +14,11 @@
   "brightnessStep": 10,
   "graph": {
     "fillAlphas": 1,
-    "balloonText": "<b>[[employee_name]]</b>:Start: [[open]] End: [[value]] <p>Загруженность: [[employee_workload]]%</p>"
+    "balloonText": "<b>[[employee_name]]</b>:{{'START' | translate}}: [[open]] {{'END' | translate}}: [[value]] <p>{{'WORKLOAD' | translate}}: [[employee_workload]]%</p>"
   },
   "rotate": true,
   "categoryField": "employee_name",
-  "segmentsField": "project",
+  "segmentsField": "projects",
   "colorField": "color",
   "startDate": "2016-01-01",
   "startField": "start",
@@ -27,7 +27,7 @@
   "dataProvider": [ {
     "employer_id": "--",
     "employee_name": "John",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 12,
@@ -45,7 +45,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Smith",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 15,
@@ -56,7 +56,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Ben",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 10,
@@ -67,7 +67,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Mike",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 6,
@@ -78,7 +78,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Lenny",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 4,
@@ -89,7 +89,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Scott",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 2,
@@ -100,7 +100,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Julia",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 1,
@@ -111,7 +111,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Bob",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 9,
@@ -122,7 +122,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Kendra",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 8,
@@ -133,7 +133,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Tom",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 5,
@@ -144,7 +144,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Kyle",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 8,
@@ -155,7 +155,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Anita",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 6,
@@ -166,7 +166,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Jack",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 15,
@@ -177,7 +177,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Kim",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 10,
@@ -188,7 +188,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Aaron",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 12,
@@ -199,7 +199,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Alan",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 7,
@@ -210,7 +210,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Ruth",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 9,
@@ -221,7 +221,7 @@
   }, {
     "employer_id": "--",
     "employee_name": "Simon",
-    "project": [ {
+    "projects": [ {
       "project_id": "---",
       "start": 0,
       "duration": 13,
