@@ -1,5 +1,6 @@
 (unreleased)
 
+ - get employee in employee controller [Denis Rodiponov]
  - vacations added to EmployeeController [Denis Rodionov]
  - employees-vacations [Denis Rodionov]
  - EmployeeController [Denis Rodionov]

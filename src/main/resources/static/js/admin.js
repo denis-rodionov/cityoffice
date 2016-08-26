@@ -96,7 +96,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     project.creationView().fields([
         nga.field('name')
         	.label('Project Name')
-        	.validation({ required: true, minlength: 1, maxlength: 20}),
+        	.validation({ required: true, minlength: 1, maxlength: 200}),
         nga.field('isActive', 'boolean')
         	.label('Active')
         	.validation({ required: true })        	

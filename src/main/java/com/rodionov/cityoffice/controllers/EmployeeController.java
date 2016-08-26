@@ -9,14 +9,17 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rodionov.cityoffice.controllers.exceptions.NotFoundException;
 import com.rodionov.cityoffice.dto.EmployeeDTO;
 import com.rodionov.cityoffice.dto.EmployeeProjectDTO;
 import com.rodionov.cityoffice.dto.EmployeeVacationDTO;
+import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.model.UserProject;
 import com.rodionov.cityoffice.model.UserVacation;
 import com.rodionov.cityoffice.services.ProjectService;
@@ -65,22 +68,48 @@ public class EmployeeController {
 		if (onlyVacations == null || !onlyVacations) {
 			
 			List<UserProject> userProjects = userService.getUserProjects(null, userId, startBefore, finishAfter, pageable).getContent();
-			System.out.println("Projects: " + userProjects.size());
 			mergeDTOs(employees, getEmployeesWithProjects(userProjects));			
 		}
 		
 		if (onlyProjects == null || !onlyProjects) {
 			List<UserVacation> userVacations = userService.getUserVacations(userId, startBefore, finishAfter, pageable).getContent();
-			System.out.println("Vacations: " + userVacations.size());
 			mergeDTOs(employees, getEmployeesWithVacations(userVacations));
 		}
 		
 		return employees;
 	}
 	
+	/**
+	 * Get user by id
+	 * @param id
+	 * @param periodInDays
+	 * @return
+	 */
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public EmployeeDTO getEmployee(
+			@PathVariable String id,
+			@RequestParam(required = false) Integer periodInDays) {
+		
+		User user = userService.getUser(id);
+		
+		if (user == null) 
+			throw new NotFoundException();
+		
+		if (periodInDays == null)
+			periodInDays = DEFAULT_PERIOD;
+		
+		Pageable pageable = new PageRequest(0, Integer.MAX_VALUE);
+		LocalDate finishAfter = LocalDate.now();
+		LocalDate startBefore = finishAfter.plusDays(periodInDays);
+		
+		List<UserProject> projects = userService.getUserProjects(null, id, startBefore, finishAfter, pageable).getContent();
+		List<UserVacation> vacations = userService.getUserVacations(id, startBefore, finishAfter, pageable).getContent();
+		
+		return convertToEmployeeDto(id, projects, vacations);
+	}
+	
 	private void mergeDTOs(List<EmployeeDTO> dest, List<EmployeeDTO> source) {
 				
-		System.out.println("Source: " + source.size());
 		for (EmployeeDTO cur : source) {
 			EmployeeDTO existing = dest.stream().filter(e -> e.getId().equals(cur.getId())).findAny().orElse(null);
 			if (existing != null) {
@@ -91,7 +120,6 @@ public class EmployeeController {
 				dest.add(cur);
 			}
 		}
-		System.out.println("Result: " + dest.size());
 	}
 
 	private List<EmployeeDTO> getEmployeesWithVacations(List<UserVacation> userVacations) {
