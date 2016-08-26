@@ -7,6 +7,7 @@ public class EmployeeDTO {
 	private String id;
 	private String name;
 	private List<EmployeeProjectDTO> projects;
+	private List<EmployeeVacationDTO> vacations;
 	
 	public String getId() {
 		return id;
@@ -25,6 +26,12 @@ public class EmployeeDTO {
 	}
 	public void setProjects(List<EmployeeProjectDTO> projects) {
 		this.projects = projects;
+	}
+	public List<EmployeeVacationDTO> getVacations() {
+		return vacations;
+	}
+	public void setVacations(List<EmployeeVacationDTO> vacations) {
+		this.vacations = vacations;
 	}
 	
 	
