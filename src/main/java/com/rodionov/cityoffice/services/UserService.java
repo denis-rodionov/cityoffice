@@ -125,9 +125,9 @@ public class UserService {
 	 */
 	public boolean exists(User user) {
 		User existing = userRepository.findByUsername(user.getUsername());
-        User existingByEmail = userRepository.findByEmail(user.getUsername());
+        User existingByEmail = userRepository.findByEmail(user.getEmail());
         
-        return existing == null || existingByEmail != null;
+        return existing != null || existingByEmail != null;
 	}
 
 	/**

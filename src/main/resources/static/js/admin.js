@@ -182,7 +182,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
            .validation({ required : true }),
         nga.field('email', 'email')
            .label('E-mail')
-           .validation({ reuqired : true }),
+           .validation({ required : true }),
         nga.field('projectIds', 'reference_many')
            .targetEntity(project)
            .targetField(nga.field('name'))
@@ -214,7 +214,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
            .validation({ required : true }),
        nga.field('email', 'email')
            .label('E-mail')
-           .validation({ reuqired : true }),
+           .validation({ required : true }),
        nga.field('projectIds', 'reference_many')
        	   .targetEntity(project)
        	   .targetField(nga.field('name'))   	
