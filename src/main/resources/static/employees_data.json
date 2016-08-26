@@ -24,6 +24,22 @@
   "startField": "start",
   "endField": "end",
   "durationField": "duration",
+  "valueScrollbar": {
+    "autoGridCount": true
+  },
+  "chartCursor": {
+    "cursorColor":"#55bb76",
+    "valueBalloonsEnabled": false,
+    "cursorAlpha": 0,
+    "valueLineAlpha":0.5,
+    "valueLineBalloonEnabled": true,
+    "valueLineEnabled": true,
+    "zoomable":false,
+    "valueZoomable": true
+  },
+  "export": {
+    "enabled": true
+  },
   "dataProvider": [ {
     "employer_id": "--",
     "employee_name": "John",
@@ -229,21 +245,5 @@
       "project_name": "",
       "employee_workload": "10"
     }]
-  } ],
-  "valueScrollbar": {
-    "autoGridCount": true
-  },
-  "chartCursor": {
-    "cursorColor":"#55bb76",
-    "valueBalloonsEnabled": false,
-    "cursorAlpha": 0,
-    "valueLineAlpha":0.5,
-    "valueLineBalloonEnabled": true,
-    "valueLineEnabled": true,
-    "zoomable":false,
-    "valueZoomable": true
-  },
-  "export": {
-    "enabled": true
-  }
+  } ]
 }
