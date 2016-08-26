@@ -18,13 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rodionov.cityoffice.controllers.exceptions.NotEnoughtRightsException;
 import com.rodionov.cityoffice.controllers.exceptions.NotFoundException;
-import com.rodionov.cityoffice.model.UserProject;
 import com.rodionov.cityoffice.model.UserVacation;
 import com.rodionov.cityoffice.repository.UserVacationRepository;
 import com.rodionov.cityoffice.services.UserService;
 
 @RestController
-@RequestMapping
+@RequestMapping("/user_vacation")
 public class UserVacationController extends BaseController<UserVacation> {
 	
 	private static final Logger logger = Logger.getLogger(UserProjectController.class);
@@ -75,11 +74,9 @@ public class UserVacationController extends BaseController<UserVacation> {
     	logger.info("Updating UserVacation " + userVacation.getId());
          
     	UserVacation dbUserVacation = repository.findOne(userVacation.getId());
-         
+	         
         if (dbUserVacation == null) 
             throw new NotFoundException();
- 
-        dbUserVacation.setUserId(userVacation.getUserId());
         
         if (userVacation.getStartDate() != null)
         	dbUserVacation.setStartDate(userVacation.getStartDate());

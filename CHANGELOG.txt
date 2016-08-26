@@ -1,5 +1,6 @@
 (unreleased)
 
+ - employees-vacations [Denis Rodionov]
  - EmployeeController [Denis Rodionov]
  - controllers refactoring [Denis Rodionov]
  - employes-projects in admin tool [Denis Rodionov]

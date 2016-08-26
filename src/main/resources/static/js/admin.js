@@ -391,6 +391,48 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 	employee_projects.deletionView().title('Delete employee project "{{entry.values.name}}":');
 	
 	admin.addEntity(employee_projects);
+	
+	// ------------- USER VACATIONS -------------------------
+    var employee_vacations = nga.entity('user_vacation')
+		.label('Employees Vacations');
+
+    employee_vacations.listView().fields([
+		nga.field('userId', 'reference')
+			.label('Employee')
+			.targetEntity(user)
+			.targetField(nga.field('username'))
+			.validation({ required : true }),
+    	nga.field('startDate', 'date')
+			.label('Start Date')
+			.format('dd.MM.yyyy')
+			.validation({ required : true }),
+		nga.field('finishDate', 'date')
+			.label('Finish Date')
+			.format('dd.MM.yyyy')
+			.validation({ required : true })
+	])
+	.sortField('startDate')
+    .sortDir('DESC')
+	.listActions(['edit'])
+	.filters([
+         nga.field('user', 'reference')
+         	.label('Employee')
+         	.targetEntity(user)
+         	.targetField(nga.field('username'))
+     ]);
+     
+	
+    employee_vacations.editionView().fields(employee_vacations.listView().fields())
+		.title('Edit employee vacation "{{entry.values.name}}":');
+	
+    employee_vacations.creationView().fields(employee_vacations.listView().fields())
+		.title('Create employee vacation"{{entry.values.name}}":');
+	
+    employee_vacations.deletionView().title('Delete employee vacation "{{entry.values.name}}":');
+	
+	admin.addEntity(employee_vacations);
+	
+	// ------  GENERAL CONFIGURATION -------------------------
     
     
     // attach the admin application to the DOM and execute it

@@ -13,7 +13,7 @@ import com.rodionov.cityoffice.model.serialization.CustomDateSerializer;
 public class UserVacation {
 
 	@Id
-	private String Id;
+	private String id;
 	
 	private String userId;
 	
@@ -36,11 +36,11 @@ public class UserVacation {
 	}
 
 	public String getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(String id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public String getUserId() {
