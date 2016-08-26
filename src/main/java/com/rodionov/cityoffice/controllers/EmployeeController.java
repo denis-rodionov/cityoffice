@@ -20,6 +20,7 @@ import com.rodionov.cityoffice.services.ProjectService;
 import com.rodionov.cityoffice.services.UserService;
 
 @RestController
+@RequestMapping("/employee")
 public class EmployeeController {
 	
 	private static final Logger logger = Logger.getLogger(EmployeeController.class);
@@ -39,8 +40,9 @@ public class EmployeeController {
 	 * @param periodInDays Period in days from today to the future (example: 180 - half a year)
 	 * @return
 	 */
-	@RequestMapping(value = "/employee/info", method = RequestMethod.GET)
-	public List<EmployeeDTO> getEmployeePeriodInfo(@RequestParam(required=false) Integer periodInDays) {
+	@RequestMapping(method = RequestMethod.GET)
+	public List<EmployeeDTO> getEmployeesList(
+			@RequestParam(required=false) Integer periodInDays) {
 		
 		logger.info("getEmployeePeriodInfo invoked. (periodInDays = " + periodInDays + ")");
 		
@@ -78,6 +80,7 @@ public class EmployeeController {
 		dto.setName(projectService.getProject(userProject.getProjectId()).getName());
 		dto.setStartDate(userProject.getStartDate());
 		dto.setFinishDate(userProject.getFinishDate());
+		dto.setWorkload(userProject.getLoad());
 		
 		return dto;
 	}
