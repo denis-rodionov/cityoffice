@@ -2,7 +2,6 @@ package com.rodionov.cityoffice.services;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,10 +11,13 @@ import org.springframework.stereotype.Service;
 import com.mysema.query.BooleanBuilder;
 import com.rodionov.cityoffice.model.QUser;
 import com.rodionov.cityoffice.model.QUserProject;
+import com.rodionov.cityoffice.model.QUserVacation;
 import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.model.UserProject;
+import com.rodionov.cityoffice.model.UserVacation;
 import com.rodionov.cityoffice.repository.UserProjectRepository;
 import com.rodionov.cityoffice.repository.UserRepository;
+import com.rodionov.cityoffice.repository.UserVacationRepository;
 
 @Service
 public class UserService {
@@ -25,6 +27,9 @@ public class UserService {
 	
 	@Autowired
 	private UserProjectRepository userProjectRepository;
+	
+	@Autowired
+	private UserVacationRepository userVacationRepository;
 
 	public Page<User> getFilteredUsers(String username, String projectId, String role, String email, Pageable pageable) {
 		
@@ -84,6 +89,34 @@ public class UserService {
 		
 		return userProjectRepository.findAll(where, pageable);		
 	}
+	
+	/**
+	 * Get list of all users vacations filtered by given parameters
+	 * @param userId	Get vacations of only single user
+	 * @param startBefore	Get vacations starting from given date
+	 * @param finishAfter	Get vacations finishing until given date
+	 * @param pageable
+	 * @return
+	 */
+	public Page<UserVacation> getUserVacations(String userId, LocalDate startBefore, LocalDate finishAfter, Pageable pageable) {
+		
+		QUserVacation userVacation = new QUserVacation("userVacation");
+		BooleanBuilder where = new BooleanBuilder();
+		
+		if (userId != null) {
+			where.and(userVacation.userId.eq(userId));
+		}
+		
+		if (finishAfter != null) {
+			where.and(userVacation.finishDate.after(finishAfter));
+		}
+		
+		if (startBefore != null) {
+			where.and(userVacation.startDate.before(startBefore));
+		}
+		
+		return userVacationRepository.findAll(where, pageable);
+	}
 
 	/**
 	 * Checks if the user with given data exists in database
@@ -105,4 +138,6 @@ public class UserService {
 	public User getUser(String userId) {
 		return userRepository.findOne(userId);
 	}
+
+	
 }
