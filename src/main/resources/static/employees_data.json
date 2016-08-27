@@ -14,7 +14,7 @@
   "brightnessStep": 10,
   "graph": {
     "fillAlphas": 1,
-    "balloonText": "<b>[[employee_name]]</b>:{{'START' | translate}}: [[open]] {{'END' | translate}}: [[value]] <p>{{'WORKLOAD' | translate}}: [[employee_workload]]%</p>"
+    "balloonText": "<b>[[employee_name]]</b>:Участвует в проекте: [[open]] - [[value]] <p>Загружен на: [[employee_workload]]%</p>"
   },
   "rotate": true,
   "categoryField": "employee_name",

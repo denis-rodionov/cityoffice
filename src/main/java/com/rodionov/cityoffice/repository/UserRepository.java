@@ -11,7 +11,9 @@ import com.rodionov.cityoffice.model.User;
 @Repository
 public interface UserRepository extends MongoRepository<User, String>,
 										QueryDslPredicateExecutor<User>{
+	
 	User findByUsername(String username);
+	List<User> findByUsernameLikeIgnoreCase(String username);
 	User findByEmail(String email);
 	List<User> findByProjectIdsIn(String projectId);
 }

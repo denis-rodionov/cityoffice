@@ -1,4 +1,4 @@
-angular.module('services', []) 
+angular.module('services', [])
 	.service('DocumentService', ['$http', '$q', function($http, $q) {
 			this.getAllDocuments = function() {
 				var deferred = $q.defer();
@@ -29,8 +29,8 @@ angular.module('services', [])
 						}
 					});
 				return deferred.promise;
-			};	
-			
+			};
+
 			this.finishDocument = function(documentId) {
 				var deferred = $q.defer();
 				
@@ -43,4 +43,4 @@ angular.module('services', [])
 					});
 				return deferred.promise;
 			};
-	}])
+	}]);

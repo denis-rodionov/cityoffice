@@ -9,11 +9,12 @@ angular.module('app').controller('projectController',
 
 		EmployeeService.getUserProjects()
 			.then(function(data) {
+					self.employees = data;
+					AmCharts.makeChart("chartdiv", data);
 
-				chart =  AmCharts.makeChart ("chartdiv",data ); /* chart formation */
-			},
+				},
 
-			function(reason) {
-				self.error = reason;
-			});
+				function(reason) {
+					self.error = reason;
+				});
 	}]);

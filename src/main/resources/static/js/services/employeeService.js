@@ -1,17 +1,14 @@
-angular.module('services', [])
+angular.module('services')
 	.service('EmployeeService', ['$http','$q', function ($http, $q) {
 
 		this.getUserProjects = function () {
 			var deferred = $q.defer();
 
 			$http.get('employees_data.json')
-
 				.then(function (response) {
 					deferred.resolve(response.data);
-
 				}, function (error) {
 					deferred.reject('Error retrieving list of documents');
-
 				});
 
 			return deferred.promise;
@@ -48,6 +45,4 @@ angular.module('services', [])
 
 			return deferred.promise;
 		};
-
-
-}]);
+	}]);

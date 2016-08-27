@@ -96,7 +96,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     project.creationView().fields([
         nga.field('name')
         	.label('Project Name')
-        	.validation({ required: true, minlength: 1, maxlength: 20}),
+        	.validation({ required: true, minlength: 1, maxlength: 200}),
         nga.field('isActive', 'boolean')
         	.label('Active')
         	.validation({ required: true })        	
@@ -182,7 +182,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
            .validation({ required : true }),
         nga.field('email', 'email')
            .label('E-mail')
-           .validation({ reuqired : true }),
+           .validation({ required : true }),
         nga.field('projectIds', 'reference_many')
            .targetEntity(project)
            .targetField(nga.field('name'))
@@ -214,7 +214,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
            .validation({ required : true }),
        nga.field('email', 'email')
            .label('E-mail')
-           .validation({ reuqired : true }),
+           .validation({ required : true }),
        nga.field('projectIds', 'reference_many')
        	   .targetEntity(project)
        	   .targetField(nga.field('name'))   	
@@ -295,7 +295,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
              	.targetEntity(user)
              	.targetField(nga.field('username'))
          ])
-         .sortField(nga.field('status'))
+         .sortField('status')
          .sortDir('DESC');
     
     document.creationView().fields([
@@ -338,7 +338,102 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
     
     admin.addEntity(document);
     
+    // ------------- USER PROJECTS -------------------------
+    var employee_projects = nga.entity('user_project')
+		.label('Employees Projects');
 
+    employee_projects.listView().fields([
+		nga.field('userId', 'reference')
+			.label('Employee')
+			.targetEntity(user)
+			.targetField(nga.field('username'))
+			.validation({ required : true }),
+		nga.field('projectId', 'reference')
+			.targetEntity(project)
+			.targetField(nga.field('name'))
+			.label('Project')
+			.validation({ required : true }),		
+        nga.field('load', 'float')
+        	.label("Workload % (0..1)")
+        	.format('0%')
+        	.validation({ required : true })
+        	.defaultValue(1),
+    	nga.field('startDate', 'date')
+			.label('Start Date')
+			.format('dd.MM.yyyy')
+			.validation({ required : true }),
+		nga.field('finishDate', 'date')
+			.label('Finish Date')
+			.format('dd.MM.yyyy')
+			.validation({ required : true })
+	])
+	.sortField('startDate')
+    .sortDir('DESC')
+	.listActions(['edit'])
+	.filters([
+         nga.field('project', 'reference')
+         	.label('Project')
+         	.targetEntity(project)
+         	.targetField(nga.field('name')),
+         nga.field('user', 'reference')
+         	.label('Employee')
+         	.targetEntity(user)
+         	.targetField(nga.field('username'))
+     ]);
+     
+	
+	employee_projects.editionView().fields(employee_projects.listView().fields())
+		.title('Edit employee project "{{entry.values.name}}":');
+	
+	employee_projects.creationView().fields(employee_projects.listView().fields())
+		.title('Create employee project"{{entry.values.name}}":');
+	
+	employee_projects.deletionView().title('Delete employee project "{{entry.values.name}}":');
+	
+	admin.addEntity(employee_projects);
+	
+	// ------------- USER VACATIONS -------------------------
+    var employee_vacations = nga.entity('user_vacation')
+		.label('Employees Vacations');
+
+    employee_vacations.listView().fields([
+		nga.field('userId', 'reference')
+			.label('Employee')
+			.targetEntity(user)
+			.targetField(nga.field('username'))
+			.validation({ required : true }),
+    	nga.field('startDate', 'date')
+			.label('Start Date')
+			.format('dd.MM.yyyy')
+			.validation({ required : true }),
+		nga.field('finishDate', 'date')
+			.label('Finish Date')
+			.format('dd.MM.yyyy')
+			.validation({ required : true })
+	])
+	.sortField('startDate')
+    .sortDir('DESC')
+	.listActions(['edit'])
+	.filters([
+         nga.field('user', 'reference')
+         	.label('Employee')
+         	.targetEntity(user)
+         	.targetField(nga.field('username'))
+     ]);
+     
+	
+    employee_vacations.editionView().fields(employee_vacations.listView().fields())
+		.title('Edit employee vacation "{{entry.values.name}}":');
+	
+    employee_vacations.creationView().fields(employee_vacations.listView().fields())
+		.title('Create employee vacation"{{entry.values.name}}":');
+	
+    employee_vacations.deletionView().title('Delete employee vacation "{{entry.values.name}}":');
+	
+	admin.addEntity(employee_vacations);
+	
+	// ------  GENERAL CONFIGURATION -------------------------
+    
     
     // attach the admin application to the DOM and execute it
     nga.configure(admin);
