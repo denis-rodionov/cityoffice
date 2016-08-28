@@ -6,8 +6,27 @@ angular.module('services')
 
 			$http.get('employees_data.json')
 				.then(function (response) {
+
 					deferred.resolve(response.data);
+
 				}, function (error) {
+
+					deferred.reject('Error retrieving list of documents');
+				});
+
+			return deferred.promise;
+		};
+
+		this.getConfig = function () {
+			var deferred = $q.defer();
+
+			$http.get('chartConfig.json')
+				.then(function (response) {
+
+					deferred.resolve(response.data);
+
+				}, function (error) {
+
 					deferred.reject('Error retrieving list of documents');
 				});
 
@@ -36,7 +55,6 @@ angular.module('services')
 			$http.get('/employees/' + id)
 				.then(function(response) {
 					if (response.status == 200) {
-						deferred.resolve(response.data);
 					}
 					else {
 						deferred.reject('Error retrieving list of documents');
