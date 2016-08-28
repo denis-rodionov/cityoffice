@@ -4,15 +4,15 @@
     "employee_name": "John",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 12,
+      "start": "2015-01-01",
+      "end": "2015-01-15",
       "color": "#0B2161",
       "project_name": "",
       "employee_workload": "100"
     },
       {
-        "start": 13,
-        "duration": 7,
+        "start": "2015-01-17",
+        "end": "2015-01-30",
         "color": "#0B2161",
         "employee_workload": "95"
 
@@ -22,8 +22,8 @@
     "employee_name": "Smith",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 15,
+      "start": "2015-01-04",
+      "end": "2015-01-13",
       "color": "#045FB4",
       "project_name": "",
       "employee_workload": "85"
@@ -33,8 +33,8 @@
     "employee_name": "Ben",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 10,
+      "start": "2015-01-06",
+      "end": "2015-01-23",
       "color": "#045FB4",
       "project_name": "",
       "employee_workload": "70"
@@ -44,8 +44,8 @@
     "employee_name": "Mike",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 6,
+      "start": "2015-01-01",
+      "end": "2015-01-13",
       "color": "#2E9AFE",
       "project_name": "",
       "employee_workload": "55"
@@ -55,8 +55,8 @@
     "employee_name": "Lenny",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 4,
+      "start": "2015-01-02",
+      "end": "2015-01-08",
       "color": "#2E9AFE",
       "project_name": "",
       "employee_workload": "40"
@@ -66,8 +66,8 @@
     "employee_name": "Scott",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 2,
+      "start": "2015-01-04",
+      "end": "2015-01-06",
       "color": "#A9D0F5",
       "project_name": "",
       "employee_workload": "25"
@@ -77,8 +77,8 @@
     "employee_name": "Julia",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 1,
+      "start": "2015-01-01",
+      "end": "2015-01-10",
       "color": "#A9D0F5",
       "project_name": "",
       "employee_workload": "10"
@@ -88,8 +88,8 @@
     "employee_name": "Bob",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 9,
+      "start": "2015-01-01",
+      "end": "2015-01-07",
       "color": "#A9D0F5",
       "project_name": "",
       "employee_workload": "15"
@@ -99,8 +99,8 @@
     "employee_name": "Kendra",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 8,
+      "start": "2015-01-10",
+      "end": "2015-01-20",
       "color": "#A9D0F5",
       "project_name": "",
       "employee_workload": "25"
@@ -110,8 +110,8 @@
     "employee_name": "Tom",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 5,
+      "start": "2015-01-01",
+      "end": "2015-01-11",
       "color": "#2E9AFE",
       "project_name": "",
       "employee_workload": "45"
@@ -121,8 +121,8 @@
     "employee_name": "Kyle",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 8,
+      "start": "2015-01-20",
+      "end": "2015-02-01",
       "color": "#045FB4",
       "project_name": "",
       "employee_workload": "75"
@@ -132,8 +132,8 @@
     "employee_name": "Anita",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 6,
+      "start": "2015-01-13",
+      "end": "2015-01-29",
       "color": "#2E9AFE",
       "project_name": "",
       "employee_workload": "50"
@@ -143,8 +143,8 @@
     "employee_name": "Jack",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 15,
+      "start": "2015-01-07",
+      "end": "2015-01-27",
       "color": "#0B2161",
       "project_name": "",
       "employee_workload": "90"
@@ -154,8 +154,8 @@
     "employee_name": "Kim",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 10,
+      "start": "2015-01-01",
+      "end": "2015-02-01",
       "color": "#045FB4",
       "project_name": "",
       "employee_workload": "85"
@@ -165,8 +165,8 @@
     "employee_name": "Aaron",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 12,
+      "start": "2015-01-01",
+      "end": "2015-02-10",
       "color": "#0B2161",
       "project_name": "",
       "employee_workload": "100"
@@ -176,8 +176,8 @@
     "employee_name": "Alan",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 7,
+      "start": "2015-01-04",
+      "end": "2015-01-25",
       "color": "#045FB4",
       "project_name": "",
       "employee_workload": "70"
@@ -187,8 +187,8 @@
     "employee_name": "Ruth",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 9,
+      "start": "2015-01-09",
+      "end": "2015-01-13",
       "color": "#2E9AFE",
       "project_name": "",
       "employee_workload": "40"
@@ -198,8 +198,8 @@
     "employee_name": "Simon",
     "projects": [ {
       "project_id": "---",
-      "start": 0,
-      "duration": 13,
+      "start": "2015-01-01",
+      "end": "2015-01-03",
       "color": "#A9D0F5",
       "project_name": "",
       "employee_workload": "10"
