@@ -3,11 +3,11 @@
     "employer_id": "--",
     "employee_name": "John",
     "projects": [ {
-      "project_id": "---",
+      "project_id": "0",
       "start": "2015-01-01",
       "end": "2015-01-15",
       "color": "#0B2161",
-      "project_name": "",
+      "project_name": "Проект",
       "employee_workload": "100"
     },
       {
@@ -21,77 +21,77 @@
     "employer_id": "--",
     "employee_name": "Smith",
     "projects": [ {
-      "project_id": "---",
+      "project_id": "0",
       "start": "2015-01-04",
       "end": "2015-01-13",
       "color": "#045FB4",
-      "project_name": "",
+      "project_name": "Проект",
       "employee_workload": "85"
     }]
   }, {
     "employer_id": "--",
     "employee_name": "Ben",
     "projects": [ {
-      "project_id": "---",
+      "project_id": "0",
       "start": "2015-01-06",
       "end": "2015-01-23",
       "color": "#045FB4",
-      "project_name": "",
+      "project_name": "Проект",
       "employee_workload": "70"
     }]
   }, {
     "employer_id": "--",
     "employee_name": "Mike",
     "projects": [ {
-      "project_id": "---",
+      "project_id": "0",
       "start": "2015-01-01",
       "end": "2015-01-13",
       "color": "#2E9AFE",
-      "project_name": "",
+      "project_name": "Проект",
       "employee_workload": "55"
     }]
   }, {
     "employer_id": "--",
     "employee_name": "Lenny",
     "projects": [ {
-      "project_id": "---",
+      "project_id": "1",
       "start": "2015-01-02",
       "end": "2015-01-08",
       "color": "#2E9AFE",
-      "project_name": "",
+      "project_name": "Проект1",
       "employee_workload": "40"
     }]
   }, {
     "employer_id": "--",
     "employee_name": "Scott",
     "projects": [ {
-      "project_id": "---",
+      "project_id": "1",
       "start": "2015-01-04",
       "end": "2015-01-06",
       "color": "#A9D0F5",
-      "project_name": "",
+      "project_name": "Проект1",
       "employee_workload": "25"
     } ]
   }, {
     "employer_id": "--",
     "employee_name": "Julia",
     "projects": [ {
-      "project_id": "---",
+      "project_id": "1",
       "start": "2015-01-01",
       "end": "2015-01-10",
       "color": "#A9D0F5",
-      "project_name": "",
+      "project_name": "Проект1",
       "employee_workload": "10"
     }]
   }, {
-    "employer_id": "--",
+    "employer_id": "1",
     "employee_name": "Bob",
     "projects": [ {
       "project_id": "---",
       "start": "2015-01-01",
       "end": "2015-01-07",
       "color": "#A9D0F5",
-      "project_name": "",
+      "project_name": "Проект1",
       "employee_workload": "15"
     }]
   }, {
