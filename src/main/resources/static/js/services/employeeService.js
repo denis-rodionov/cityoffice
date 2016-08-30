@@ -1,10 +1,10 @@
 angular.module('services')
 	.service('EmployeeService', ['$http','$q', function ($http, $q) {
 
-		this.getUserProjects = function () {
+		this.getUserProjects = function (projectId) {
 			var deferred = $q.defer();
 
-			$http.get('/employee')
+			$http.get('/employee', { params: { projectId: projectId } })
 				.then(function (response) {
 
 					deferred.resolve(response.data);
@@ -65,20 +65,6 @@ angular.module('services')
 		};
 
 
-		this.getIDProjects = function () {
-			var deferred = $q.defer();
 
-			$http.get('/project')
-				.then(function (response) {
-
-					deferred.resolve(response.data);
-
-				}, function (error) {
-
-					deferred.reject('Error retrieving list of documents');
-				});
-
-			return deferred.promise;
-		};
 	}]);
 

@@ -2,9 +2,11 @@
  * Created by George on 19.08.2016.
  */
 angular.module('app').controller('projectController',
-	['EmployeeService', '$scope',	function (EmployeeService, $scope) {
+	['EmployeeService', 'ProjectService','$scope',	function (EmployeeService, ProjectService, $scope) {
 
 		var self = this;
+		self.selectedProject = null;
+		self.onProjectSelected = onProjectSelected;
 		AmCharts.useUTC = true;
 
 		EmployeeService.getConfig()
@@ -19,41 +21,38 @@ angular.module('app').controller('projectController',
 
 		EmployeeService.getUserProjects()
 
-			.then(function (data) {
-				self.employees = data;
-				chartemployeesdata =  {"dataProvider": self.employees };
-
-				var dst = {};
-				angular.extend(dst, chartemployeesdata, self.chartconfig);
-				AmCharts.makeChart("chartdiv", dst);
-
-
-				},
+			.then(plotData,
 					function (reason) {
 						self.error = reason;
 
 					});
 
-		EmployeeService.getIDProjects()
+		ProjectService.getDataProjects()
 
-			.then (function (data) {
+			.then(function(data) {
+					self.projects = data;
 
-				self.projecsID = data;
-					projects_iddata = data;
 
-					$scope.filterOptions = {
-						IDs: projects_iddata
-					};
-					$scope.filterItem = {
-						IDs: $scope.filterOptions.IDs[0]
-					}
-
-			},
-				function (reason) {
+				},
+				function(reason) {
 					self.error = reason;
-				}
-			);
+				});
 
+		function onProjectSelected() {
+
+			EmployeeService.getUserProjects(self.selectedProject.id)
+				.then(plotData);
+
+		}
+
+		function plotData(employees) {
+			self.employees = employees;
+			chartEmployeesData =  {"dataProvider": self.employees };
+
+			var dst = {};
+			angular.extend(dst, chartEmployeesData, self.chartconfig);
+			AmCharts.makeChart("chartdiv", dst);
+		}
 
 
 	}]);
