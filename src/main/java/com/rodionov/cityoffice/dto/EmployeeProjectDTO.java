@@ -9,7 +9,7 @@ public class EmployeeProjectDTO {
 
 	private String id;
 	private String name;
-	private double workload;
+	private int workload;
 	
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate startDate;
@@ -41,10 +41,10 @@ public class EmployeeProjectDTO {
 	public void setFinishDate(LocalDate finishDate) {
 		this.finishDate = finishDate;
 	}
-	public double getWorkload() {
+	public int getWorkload() {
 		return workload;
 	}
-	public void setWorkload(double workload) {
+	public void setWorkload(int workload) {
 		this.workload = workload;
 	}
 	

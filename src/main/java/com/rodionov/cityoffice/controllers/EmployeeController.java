@@ -181,7 +181,7 @@ public class EmployeeController {
 		dto.setName(projectService.getProject(userProject.getProjectId()).getName());
 		dto.setStartDate(userProject.getStartDate());
 		dto.setFinishDate(userProject.getFinishDate());
-		dto.setWorkload(userProject.getLoad());
+		dto.setWorkload((int)(userProject.getLoad() * 100));
 		
 		return dto;
 	}
