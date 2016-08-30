@@ -178,7 +178,7 @@ public class EmployeeController {
 	private EmployeeProjectDTO convertToProjectDTO(UserProject userProject) {
 		EmployeeProjectDTO dto = new EmployeeProjectDTO();
 		dto.setId(userProject.getProjectId());
-		dto.setName(projectService.getProject(userProject.getProjectId()).getName());
+		dto.setProjectName(projectService.getProject(userProject.getProjectId()).getName());
 		dto.setStartDate(userProject.getStartDate());
 		dto.setFinishDate(userProject.getFinishDate());
 		dto.setWorkload((int)(userProject.getLoad() * 100));

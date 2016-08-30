@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 public class EmployeeProjectDTO {
 
 	private String id;
-	private String name;
+	private String projectName;
 	private int workload;
 	
 	@DateTimeFormat(iso = ISO.DATE)
@@ -23,11 +23,11 @@ public class EmployeeProjectDTO {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public String getProjectName() {
+		return projectName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setProjectName(String name) {
+		this.projectName = name;
 	}
 	public LocalDate getStartDate() {
 		return startDate;
