@@ -1,12 +1,22 @@
 
 <link href="css/chart_style.css" rel="stylesheet" type="text/css" />
 
-<div class="container">
+
+ <div class="container">
     <div class="row" id="exSelects">
         <div class="col-sm-3">
-           <select> </select>
+
+            <select ng-model="filterItem.IDs" ng-options="item.name for item in filterOptions.IDs">
+
+            </select>
+
+
         </div>
     </div>
 </div>
 
     <div id="chartdiv"></div>
+
+
+
+

@@ -4,7 +4,7 @@ angular.module('services')
 		this.getUserProjects = function () {
 			var deferred = $q.defer();
 
-			$http.get('employees_data.json')
+			$http.get('/employee')
 				.then(function (response) {
 
 					deferred.resolve(response.data);
@@ -63,4 +63,22 @@ angular.module('services')
 
 			return deferred.promise;
 		};
+
+
+		this.getIDProjects = function () {
+			var deferred = $q.defer();
+
+			$http.get('/project')
+				.then(function (response) {
+
+					deferred.resolve(response.data);
+
+				}, function (error) {
+
+					deferred.reject('Error retrieving list of documents');
+				});
+
+			return deferred.promise;
+		};
 	}]);
+
