@@ -12,15 +12,15 @@
   "brightnessStep": 10,
   "graph": {
     "fillAlphas": 1,
-    "balloonText": "<b>[[employee_name]]</b> участвует в проекте: [[open]] - [[value]] <p>Загружен на: [[employee_workload]]%</p>"
+    "balloonText": "<b>[[name]]</b> участвует в <b>[[projectName]]</b>: [[open]] - [[value]] <p>Загружен на: [[workload]]%</p>"
   },
   "rotate": true,
-  "categoryField": "employee_name",
+  "categoryField": "name",
   "segmentsField": "projects",
   "colorField": "color",
   "dataDateFormat": "YYYY-MM-DD",
-  "startDateField": "start",
-  "endDateField": "end",
+  "startDateField": "startDate",
+  "endDateField": "finishDate",
 
 
   "chartCursor": {

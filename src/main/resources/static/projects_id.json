@@ -1,0 +1,14 @@
+[
+  {
+    "id": "57a441d3e4b0f7deebcdd672",
+    "name": "Строительство моста",
+    "isActive": true,
+    "colorName": "success"
+  },
+  {
+    "id": "57c03fd4e4b02dd768551662",
+    "name": "Разр-ка антивируса",
+    "isActive": true,
+    "colorName": "warning"
+  }
+]

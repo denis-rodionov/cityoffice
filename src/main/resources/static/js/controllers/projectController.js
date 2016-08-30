@@ -2,7 +2,7 @@
  * Created by George on 19.08.2016.
  */
 angular.module('app').controller('projectController',
-	['EmployeeService',	function (EmployeeService) {
+	['EmployeeService', '$scope',	function (EmployeeService, $scope) {
 
 		var self = this;
 		AmCharts.useUTC = true;
@@ -10,10 +10,7 @@ angular.module('app').controller('projectController',
 		EmployeeService.getConfig()
 
 			.then(function(data) {
-
-				self.employees = data;
-				configdata = data;
-
+				self.chartconfig = data;
 
 			},
 				function(reason) {
@@ -23,17 +20,42 @@ angular.module('app').controller('projectController',
 		EmployeeService.getUserProjects()
 
 			.then(function (data) {
-
 				self.employees = data;
+				chartemployeesdata =  {"dataProvider": self.employees };
 
-				dst = {};
-				angular.extend(dst, data, configdata);
+				var dst = {};
+				angular.extend(dst, chartemployeesdata, self.chartconfig);
 				AmCharts.makeChart("chartdiv", dst);
 
 
-				})
+				},
+					function (reason) {
+						self.error = reason;
 
+					});
+
+		EmployeeService.getIDProjects()
+
+			.then (function (data) {
+
+				self.projecsID = data;
+					projects_iddata = data;
+
+					$scope.filterOptions = {
+						IDs: projects_iddata
+					};
+					$scope.filterItem = {
+						IDs: $scope.filterOptions.IDs[0]
+					}
+
+			},
+				function (reason) {
+					self.error = reason;
+				}
+			);
 
 
 
 	}]);
+
+
