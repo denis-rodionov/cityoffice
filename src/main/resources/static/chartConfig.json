@@ -12,7 +12,7 @@
   "brightnessStep": 10,
   "graph": {
     "fillAlphas": 1,
-    "balloonText": "<b>[[name]]</b> участвует в <b>[[projectName]]</b>: [[open]] - [[value]] <p>Загружен на: [[workload]]%</p>"
+    "balloonText": "<b>[[name]]</b> участвует в <b>[[projectName]]</b>: <p>[[open]] - [[value]]</p> <p>Загружен на: [[workload]]%</p>"
   },
   "rotate": true,
   "categoryField": "name",

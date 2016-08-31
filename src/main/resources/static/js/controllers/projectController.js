@@ -6,8 +6,11 @@ angular.module('app').controller('projectController',
 
 		var self = this;
 		self.projects =  [{ id: null, name: 'All' }] ;
-		self.selectedProject =  null;
+
+		self.selectedProject =  self.projects[0];
+
 		self.onProjectSelected = onProjectSelected;
+
 		AmCharts.useUTC = true;
 
 		EmployeeService.getConfig()
@@ -36,6 +39,7 @@ angular.module('app').controller('projectController',
 					for (var i=0; i<data.length; i++){
 						self.projects.push(data[i]);
 					}
+
 				},
 				function(reason) {
 					self.error = reason;
