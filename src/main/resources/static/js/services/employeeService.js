@@ -17,21 +17,7 @@ angular.module('services')
 			return deferred.promise;
 		};
 
-		this.getConfig = function () {
-			var deferred = $q.defer();
 
-			$http.get('chartConfig.json')
-				.then(function (response) {
-
-					deferred.resolve(response.data);
-
-				}, function (error) {
-
-					deferred.reject('Error retrieving list of documents');
-				});
-
-			return deferred.promise;
-		};
 
 		this.getEmployees = function() {
 			var deferred = $q.defer();
