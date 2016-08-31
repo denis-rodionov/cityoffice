@@ -2,10 +2,11 @@
  * Created by George on 19.08.2016.
  */
 angular.module('app').controller('projectController',
-	['EmployeeService', 'ProjectService','$scope',	function (EmployeeService, ProjectService, $scope) {
+	['EmployeeService', 'ProjectService','$scope',	function (EmployeeService, ProjectService) {
 
 		var self = this;
-		self.selectedProject = null;
+		self.projects =  [{ id: null, name: 'All' }] ;
+		self.selectedProject =  null;
 		self.onProjectSelected = onProjectSelected;
 		AmCharts.useUTC = true;
 
@@ -21,6 +22,7 @@ angular.module('app').controller('projectController',
 
 		EmployeeService.getUserProjects()
 
+
 			.then(plotData,
 					function (reason) {
 						self.error = reason;
@@ -30,9 +32,10 @@ angular.module('app').controller('projectController',
 		ProjectService.getDataProjects()
 
 			.then(function(data) {
-					self.projects = data;
 
-
+					for (var i=0; i<data.length; i++){
+						self.projects.push(data[i]);
+					}
 				},
 				function(reason) {
 					self.error = reason;
