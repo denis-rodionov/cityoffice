@@ -8,7 +8,7 @@
 	"FINISH_DOCUMENT" : "Finish",
 	"IN_DEVELOPMENT" : "The page is under development",
 
-	"START" : "Start",
-	"END" : "End",
-    "WORKLOAD": "Workload"
+	"IN_PROJECT" : "in project",
+    "WORKLOAD": "Workload",
+	"ALL_PROJECTS": "All projects"
 }

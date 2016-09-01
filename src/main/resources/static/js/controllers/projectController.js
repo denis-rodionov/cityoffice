@@ -1,34 +1,24 @@
 angular.module('app').controller('projectController',
-	['EmployeeService', 'ProjectService','$scope',	function (EmployeeService, ProjectService) {
-
+	['EmployeeService', 'ProjectService', '$filter',	function (EmployeeService, ProjectService, $filter) {
 		var self = this;
-		self.projects =  [{ id: null, name: 'All' }] ;
-
+	    var allProjects = ($filter('translate'))("ALL_PROJECTS");
+		self.projects =  [{ id: null, name: allProjects }] ;
 		self.selectedProject =  self.projects[0];
-
 		self.onProjectSelected = onProjectSelected;
-
 		AmCharts.useUTC = true;
 
 		EmployeeService.getUserProjects()
-
-
 			.then(plotData,
 				function (reason) {
 					self.error = reason;
 
 				});
 
-
-
 		ProjectService.getDataProjects()
-
 			.then(function(data) {
-
 				for (var i=0; i<data.length; i++){
 						self.projects.push(data[i]);
 					}
-
 				},
 				function(reason) {
 					self.error = reason;
@@ -37,22 +27,19 @@ angular.module('app').controller('projectController',
 		function onProjectSelected() {
 			EmployeeService.getUserProjects(self.selectedProject.id)
 				.then(plotData);
-
 		}
 
 		function plotData(employees) {
-
 			fillUserProject(employees);
-
 			self.employees = employees;
 			chartEmployeesData =  {"dataProvider": self.employees };
+			var ballon = "<b>[[name]]</b> " + ($filter('translate'))("IN_PROJECT") + " <b>[[projectName]]</b>: <p>[[open]] - [[value]]</p>  " + ($filter('translate'))("WORKLOAD") + ": [[workload]]%";
 			chartconfig = {
 				"type": "gantt",
 				"theme": "dark",
 				"period": "DD",
 				"marginRight": 70,
 				"columnWidth": 0.5,
-
 				"valueAxis": {
 					"type": "date",
 					"minPeriod": "DD"
@@ -60,7 +47,7 @@ angular.module('app').controller('projectController',
 				"brightnessStep": 10,
 				"graph": {
 					"fillAlphas": 1,
-					"balloonText": "<b>[[name]]</b> участвует в <b>[[projectName]]</b>: <p>[[open]] - [[value]]</p> <p>Загружен на: [[workload]]%</p>"
+					"balloonText": ballon
 				},
 				"rotate": true,
 				"categoryField": "name",
@@ -69,8 +56,6 @@ angular.module('app').controller('projectController',
 				"dataDateFormat": "YYYY-MM-DD",
 				"startDateField": "startDate",
 				"endDateField": "finishDate",
-
-
 				"chartCursor": {
 					"cursorColor": "#55bb76",
 					"valueBalloonsEnabled": false,
@@ -82,7 +67,6 @@ angular.module('app').controller('projectController',
 					"valueZoomable": true
 				}
 			};
-
 			var dst = {};
 			angular.extend(dst, chartEmployeesData, chartconfig);
 			AmCharts.makeChart("chartdiv", dst);
@@ -90,9 +74,7 @@ angular.module('app').controller('projectController',
 
 		function fillUserProject(employees) {
 			for (var i = 0; i < employees.length; i++) {
-
 				for (var j = 0; j < employees[i].projects.length; j++) {
-
 					employees[i].projects[j]['color'] = getColor(employees[i].projects[j].workload);
 				}
 			}
@@ -100,7 +82,6 @@ angular.module('app').controller('projectController',
 
 		function getColor(workload) {
 			var res = null;
-
 			if (workload <= 0 )
 				res = '#FE2E2E';
 			else if (workload < 20 )
@@ -117,7 +98,6 @@ angular.module('app').controller('projectController',
 				res = '#0B0B3B';
 			return res
 		}
-
 	}]);
 
 
