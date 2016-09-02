@@ -1,6 +1,3 @@
-/**
- * Created by George on 30.08.2016.
- */
 angular.module('services')
     .service('ProjectService', ['$http','$q', function ($http, $q) {
 

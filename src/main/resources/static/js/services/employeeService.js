@@ -1,4 +1,5 @@
-angular.module('services')
+angular
+	.module('services')
 	.service('EmployeeService', ['$http','$q', function ($http, $q) {
 
 		this.getUserProjects = function (projectId) {
