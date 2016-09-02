@@ -24,12 +24,12 @@ angular.module('app').controller('projectController',
 					self.error = reason;
 				});
 
-		function onProjectSelected() {
+		function onProjectSelected() { //for ng-change
 			EmployeeService.getUserProjects(self.selectedProject.id)
 				.then(plotData);
 		}
 
-		function plotData(employees) {
+		function plotData(employees) { //refactor data for chart and generate chart
 			fillUserProject(employees);
 			self.employees = employees;
 			chartEmployeesData =  {"dataProvider": self.employees };
@@ -72,7 +72,7 @@ angular.module('app').controller('projectController',
 			AmCharts.makeChart("chartdiv", dst);
 		}
 
-		function fillUserProject(employees) {
+		function fillUserProject(employees) { //paints users columns
 			for (var i = 0; i < employees.length; i++) {
 				for (var j = 0; j < employees[i].projects.length; j++) {
 					employees[i].projects[j]['color'] = getColor(employees[i].projects[j].workload);
@@ -80,7 +80,7 @@ angular.module('app').controller('projectController',
 			}
 		}
 
-		function getColor(workload) {
+		function getColor(workload) { //color gradation
 			var res = null;
 			if (workload <= 0 )
 				res = '#FE2E2E';
@@ -98,6 +98,7 @@ angular.module('app').controller('projectController',
 				res = '#0B0B3B';
 			return res
 		}
+
 	}]);
 
 
