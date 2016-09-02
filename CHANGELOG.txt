@@ -1,5 +1,9 @@
 (unreleased)
-
+ - projectController refactoring [George Konyaev]
+ - add chart in projects.html  [George Konyaev]
+ - fixes in projectController [George Konyaev]
+ - fixes in employeeService [George Konyaev]
+ - projectService [George Konyaev]
  - get employee in employee controller [Denis Rodiponov]
  - vacations added to EmployeeController [Denis Rodionov]
  - employees-vacations [Denis Rodionov]

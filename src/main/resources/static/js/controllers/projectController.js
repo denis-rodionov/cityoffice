@@ -57,7 +57,6 @@ function projectController(EmployeeService, ProjectService, $filter) {
 		chartEmployeesData =  {"dataProvider": self.employees };
 		getConfig();
 		var dst = {};
-
 		angular.extend(dst, chartEmployeesData, chartconfig);
 		AmCharts.makeChart("chartdiv", dst);
 	}
