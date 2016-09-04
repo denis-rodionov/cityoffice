@@ -1,9 +1,15 @@
+/**
+ * Projects Controller
+ * @namespace Controller
+ */
 angular
 	.module('app')
 	.controller('projectController', projectController);
 
 projectController.$inject = ['EmployeeService', 'ProjectService', '$filter'];
-
+/**
+ * @namespace projectController
+ */
 function projectController(EmployeeService, ProjectService, $filter) {
 	var self = this;
 
@@ -16,10 +22,20 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	self.getColor = getColor;
 	self.getConfig = getConfig;
 
+	/**
+	 * @namespace projectController
+	 * @desc initialization
+	 * @memberOf projectController
+     */
 	activate();
 
 	///////////////////////////////////////////////////////
 
+	/**
+	 * @namespace activate
+	 * @desc initialization functions
+	 * @memberOf projectController
+	 */
 	function activate() {
 		var allProjects = ($filter('translate'))("ALL_PROJECTS");
 
@@ -27,14 +43,18 @@ function projectController(EmployeeService, ProjectService, $filter) {
 		self.selectedProject = self.projects[0];
 
 		AmCharts.useUTC = true;
-
+		/**
+		 *
+         */
 		EmployeeService.getUserProjects()
 			.then(plotData,
 				function (reason) {
 					self.error = reason;
 
 				});
-
+		/**
+		 *
+         */
 		ProjectService.getDataProjects()
 			.then(function(data) {
 					for (var i=0; i<data.length; i++){
@@ -46,11 +66,23 @@ function projectController(EmployeeService, ProjectService, $filter) {
 				});
 	}
 
+	/**
+	 *@name onProjectSelected
+	 * @desc ng-change for drop down list
+	 * @param {string} self.selectedProject.id
+	 * @memberOf activate.projectController
+     */
 	function onProjectSelected() {
 		EmployeeService.getUserProjects(self.selectedProject.id)
 			.then(plotData);
 	}
 
+	/**@name plotData
+	 * @desc generate chart w
+	 * @param {Object} chartEmployeesData
+	 * @param {Object} employees
+	 * @memberOf activate.projectController
+     */
 	function plotData(employees) {
 		fillUserProject(employees);
 		self.employees = employees;
@@ -61,6 +93,12 @@ function projectController(EmployeeService, ProjectService, $filter) {
 		AmCharts.makeChart("chartdiv", dst);
 	}
 
+	/**
+	 * @name fillUserProject
+	 * @desc push color for each one of employees.projects
+	 * @param {Object} employees
+	 * @memberOf activate.projectController
+     */
 	function fillUserProject(employees) {
 		for (var i = 0; i < employees.length; i++) {
 			for (var j = 0; j < employees[i].projects.length; j++) {
@@ -69,6 +107,13 @@ function projectController(EmployeeService, ProjectService, $filter) {
 		}
 	}
 
+	/**
+	 * @name getColor
+	 * @desc generate color for workload range
+	 * @param {number} workload
+	 * @returns {string} res - The color of strip
+	 * @memberOf activate.projectController
+     */
 	function getColor(workload) {
 		var res = null;
 		if (workload <= 0 )
@@ -88,8 +133,13 @@ function projectController(EmployeeService, ProjectService, $filter) {
 		return res
 	}
 
+	/**
+	 * @name getConfig
+	 * @desc generation config for chart
+	 * @memberOf activate.projectController
+     */
 	function getConfig() {
-		var ballon = "<b>[[name]]</b> " + ($filter('translate'))("IN_PROJECT") + " <b>[[projectName]]</b>: <p>[[open]] - [[value]]</p>  " + ($filter('translate'))("WORKLOAD") + ": [[workload]]%";
+		var balloon = "<b>[[name]]</b> " + ($filter('translate'))("IN_PROJECT") + " <b>[[projectName]]</b>: <p>[[open]] - [[value]]</p>  " + ($filter('translate'))("WORKLOAD") + ": [[workload]]%";
 		chartconfig = {
 			"language": "ru",
 			"type": "gantt",
@@ -104,7 +154,7 @@ function projectController(EmployeeService, ProjectService, $filter) {
 			"brightnessStep": 10,
 			"graph": {
 				"fillAlphas": 1,
-				"balloonText": ballon
+				"balloonText": balloon
 			},
 			"rotate": true,
 			"categoryField": "name",
