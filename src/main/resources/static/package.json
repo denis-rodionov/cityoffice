@@ -9,6 +9,7 @@
   "author": "Denis Rodionov",
   "license": "ISC",
   "dependencies": {
+    "amcharts3": "github:amcharts/amcharts3",
     "ng-admin": "^0.9.1"
   },
   "devDependencies": {
