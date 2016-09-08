@@ -15,6 +15,7 @@ function projectController(EmployeeService, ProjectService, $filter) {
 
 	self.projects = [];
 	self.selectedProject = null;
+	AmCharts.useUTC = true;
 
 	self.onProjectSelected = onProjectSelected;
 	self.plotData = plotData;
@@ -26,7 +27,7 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	 * @namespace projectController
 	 * @desc initialization
 	 * @memberOf projectController
-     */
+	 */
 	activate();
 
 	///////////////////////////////////////////////////////
@@ -42,10 +43,9 @@ function projectController(EmployeeService, ProjectService, $filter) {
 		self.projects.push({ id: null, name: allProjects });
 		self.selectedProject = self.projects[0];
 
-		AmCharts.useUTC = true;
 		/**
 		 *
-         */
+		 */
 		EmployeeService.getUserProjects()
 			.then(plotData,
 				function (reason) {
@@ -54,7 +54,7 @@ function projectController(EmployeeService, ProjectService, $filter) {
 				});
 		/**
 		 *
-         */
+		 */
 		ProjectService.getDataProjects()
 			.then(function(data) {
 					for (var i=0; i<data.length; i++){
@@ -71,7 +71,7 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	 * @desc ng-change for drop down list
 	 * @param {string} self.selectedProject.id
 	 * @memberOf activate.projectController
-     */
+	 */
 	function onProjectSelected() {
 		EmployeeService.getUserProjects(self.selectedProject.id)
 			.then(plotData);
@@ -82,7 +82,7 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	 * @param {Object} chartEmployeesData
 	 * @param {Object} employees
 	 * @memberOf activate.projectController
-     */
+	 */
 	function plotData(employees) {
 		fillUserProject(employees);
 		self.employees = employees;
@@ -98,7 +98,7 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	 * @desc push color for each one of employees.projects
 	 * @param {Object} employees
 	 * @memberOf activate.projectController
-     */
+	 */
 	function fillUserProject(employees) {
 		for (var i = 0; i < employees.length; i++) {
 			for (var j = 0; j < employees[i].projects.length; j++) {
@@ -113,7 +113,7 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	 * @param {number} workload
 	 * @returns {string} res - The color of strip
 	 * @memberOf activate.projectController
-     */
+	 */
 	function getColor(workload) {
 		var res = null;
 		if (workload <= 0 )
@@ -137,7 +137,7 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	 * @name getConfig
 	 * @desc generation config for chart
 	 * @memberOf activate.projectController
-     */
+	 */
 	function getConfig() {
 		var balloon = "<b>[[name]]</b> " + ($filter('translate'))("IN_PROJECT") + " <b>[[projectName]]</b>: <p>[[open]] - [[value]]</p>  " + ($filter('translate'))("WORKLOAD") + ": [[workload]]%";
 		chartconfig = {
@@ -177,5 +177,3 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	}
 
 }
-
-
