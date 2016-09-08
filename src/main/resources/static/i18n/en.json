@@ -6,5 +6,9 @@
 	"LOG_OUT" : "Log Out",
 	"LOG_IN" : "Log In",
 	"FINISH_DOCUMENT" : "Finish",
-	"IN_DEVELOPMENT" : "The page is under development"
+	"IN_DEVELOPMENT" : "The page is under development",
+
+	"IN_PROJECT" : "in project",
+    "WORKLOAD": "Workload",
+	"ALL_PROJECTS": "All projects"
 }

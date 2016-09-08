@@ -2,6 +2,7 @@ package com.rodionov.cityoffice.controllers;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,23 +52,25 @@ public class EmployeeController {
 			@RequestParam(required=false) Integer periodInDays,
 			@RequestParam(required=false) String userId,
 			@RequestParam(required=false) Boolean onlyProjects,
-			@RequestParam(required=false) Boolean onlyVacations) {
+			@RequestParam(required=false) Boolean onlyVacations,
+			@RequestParam(required=false) String projectId) {
 		
 		logger.info("getEmployeePeriodInfo invoked. (periodInDays = " + periodInDays + ")");
 		
 		if (periodInDays == null) {
 			periodInDays = DEFAULT_PERIOD;
 		}
-
+		
 		Pageable pageable = new PageRequest(0, Integer.MAX_VALUE);
 		LocalDate finishAfter = LocalDate.now();
 		LocalDate startBefore = finishAfter.plusDays(periodInDays);
+		List<String> projectIds = projectId == null ? null : Arrays.asList(projectId);
 		
 		List<EmployeeDTO> employees = new ArrayList<EmployeeDTO>();
 		
 		if (onlyVacations == null || !onlyVacations) {
 			
-			List<UserProject> userProjects = userService.getUserProjects(null, userId, startBefore, finishAfter, pageable).getContent();
+			List<UserProject> userProjects = userService.getUserProjects(projectIds, userId, startBefore, finishAfter, pageable).getContent();
 			mergeDTOs(employees, getEmployeesWithProjects(userProjects));			
 		}
 		
@@ -178,10 +181,10 @@ public class EmployeeController {
 	private EmployeeProjectDTO convertToProjectDTO(UserProject userProject) {
 		EmployeeProjectDTO dto = new EmployeeProjectDTO();
 		dto.setId(userProject.getProjectId());
-		dto.setName(projectService.getProject(userProject.getProjectId()).getName());
+		dto.setProjectName(projectService.getProject(userProject.getProjectId()).getName());
 		dto.setStartDate(userProject.getStartDate());
 		dto.setFinishDate(userProject.getFinishDate());
-		dto.setWorkload(userProject.getLoad());
+		dto.setWorkload((int)(userProject.getLoad() * 100));
 		
 		return dto;
 	}

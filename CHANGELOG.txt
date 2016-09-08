@@ -1,5 +1,7 @@
 (unreleased)
-
+ - add drop down list in projects.html [George Konyaev]
+ - add chart in projects.html  [George Konyaev]
+ - projectService [George Konyaev]
  - get employee in employee controller [Denis Rodiponov]
  - vacations added to EmployeeController [Denis Rodionov]
  - employees-vacations [Denis Rodionov]
