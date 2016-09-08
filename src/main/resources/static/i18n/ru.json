@@ -10,5 +10,11 @@
 	
 	"PROJECT" : "Проект",
 	"EDIT_PROJECT" : "Редактирование проекта",
-	"CREATE_NEW_PROJECT" : "Добавление нового проекта"
+	"CREATE_NEW_PROJECT" : "Добавление нового проекта",
+
+	"IN_PROJECT" : "участвует в",
+	"WORKLOAD": "Загруженность",
+	"ALL_PROJECTS": "Все проекты"
+
+
 }

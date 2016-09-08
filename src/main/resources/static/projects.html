@@ -1,8 +1,13 @@
-<h1>{{'PROJECTS' | translate}}</h1>
-<p>{{ "IN_DEVELOPMENT" | translate }}</p>
 <div class="alert alert-danger" ng-show="controller.error">
     Error: {{controller.error}}
 </div>
-<div ng-show="authenticated" ng-repeat="employee in controller.employees">
-	{{employee}} <br/>
+<link href="css/chart_style.css" rel="stylesheet" type="text/css" />
+<br/>
+<div class="col-xs-2">
+    <select class="form-control"
+                   ng-model="controller.selectedProject"
+                   ng-change="controller.onProjectSelected()"
+                   ng-options="project as project.name for project in controller.projects">
+    </select>
 </div>
+<div id="chartdiv"></div>

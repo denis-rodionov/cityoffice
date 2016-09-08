@@ -18,16 +18,19 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.rodionov.cityoffice.controllers.exceptions.AlreadyExistsException;
 import com.rodionov.cityoffice.controllers.exceptions.CrossReferenceException;
 import com.rodionov.cityoffice.model.NotificationSchema;
+import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.repository.DocumentRepository;
 import com.rodionov.cityoffice.repository.NotificationSchemaRepository;
 
 @RestController
-public class NotificationSchemaController {
+public class NotificationSchemaController extends BaseController<NotificationSchema> {
 
 	private static final Logger logger = Logger.getLogger(NotificationSchemaController.class);
 	
 	@Autowired
-	private NotificationSchemaRepository notificationSchemaRepository;
+	public NotificationSchemaController(NotificationSchemaRepository notificationSchemaRepository) {
+		super(notificationSchemaRepository);
+	}
 	
 	@Autowired
 	private DocumentRepository documentRepository;
@@ -39,7 +42,7 @@ public class NotificationSchemaController {
     	
     	logger.info("All notifications requested");
     	
-        List<NotificationSchema> notificationSchemas = notificationSchemaRepository.findAll();
+        List<NotificationSchema> notificationSchemas = repository.findAll();
         if(notificationSchemas.isEmpty()){
             return new ResponseEntity<List<NotificationSchema>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
@@ -51,7 +54,7 @@ public class NotificationSchemaController {
     @RequestMapping(value = "/notification_schema/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<NotificationSchema> getNotificationSchema(@PathVariable("id") String id) {
         System.out.println("Fetching NotificationSchema with id " + id);
-        NotificationSchema notificationSchema = notificationSchemaRepository.findOne(id);
+        NotificationSchema notificationSchema = repository.findOne(id);
         if (notificationSchema == null) {
             System.out.println("NotificationSchema with id " + id + " not found");
             return new ResponseEntity<NotificationSchema>(HttpStatus.NOT_FOUND);
@@ -65,7 +68,7 @@ public class NotificationSchemaController {
     public ResponseEntity<NotificationSchema> updateNotificationSchema(@PathVariable("id") String id, @RequestBody NotificationSchema notificationSchema) {
         System.out.println("Updating NotificationSchema " + id);
          
-        NotificationSchema currentNotificationSchema = notificationSchemaRepository.findOne(notificationSchema.getId());
+        NotificationSchema currentNotificationSchema = repository.findOne(notificationSchema.getId());
         
         if (currentNotificationSchema == null) {
             System.out.println("NotificationSchema with id " + id + " not found");
@@ -75,7 +78,7 @@ public class NotificationSchemaController {
         currentNotificationSchema.setName(notificationSchema.getName());
         currentNotificationSchema.setNotifications(notificationSchema.getNotifications());
         
-        notificationSchemaRepository.save(currentNotificationSchema);
+        repository.save(currentNotificationSchema);
         return new ResponseEntity<NotificationSchema>(currentNotificationSchema, HttpStatus.OK);
     }
     
@@ -89,14 +92,15 @@ public class NotificationSchemaController {
     	
         System.out.println("Creating NotificationSchema " + notificationSchema.getName());
         
-        NotificationSchema existing = notificationSchemaRepository.findByName(notificationSchema.getName()).stream().findAny().orElse(null);
+        NotificationSchema existing = ((NotificationSchemaRepository)repository)
+        		.findByName(notificationSchema.getName()).stream().findAny().orElse(null);
         
         if (existing != null) {
             System.out.println("A NotificationSchema with name " + notificationSchema.getName() + " already exist");
             throw new AlreadyExistsException();
         }
  
-        notificationSchemaRepository.save(notificationSchema);
+        repository.save(notificationSchema);
  
         //HttpHeaders headers = new HttpHeaders();
         //headers.setLocation(ucBuilder.path("/notificationSchema/{id}").buildAndExpand(notificationSchema.getId()).toUri());
@@ -111,7 +115,7 @@ public class NotificationSchemaController {
     		throws Exception {
         System.out.println("Fetching & Deleting NotificationSchema with id " + id);
  
-        NotificationSchema notificationSchema = notificationSchemaRepository.findOne(id);
+        NotificationSchema notificationSchema = repository.findOne(id);
         if (notificationSchema == null) {
             logger.info("Unable to delete. NotificationSchema with id " + id + " not found");
             return new ResponseEntity<NotificationSchema>(HttpStatus.NOT_FOUND);
@@ -121,7 +125,8 @@ public class NotificationSchemaController {
         if (refCount != 0)
         	throw new CrossReferenceException();
 
-        notificationSchemaRepository.delete(id);
-        return new ResponseEntity<NotificationSchema>(HttpStatus.NO_CONTENT);
+        ResponseEntity<NotificationSchema> res =  deleteEntity(id);    	
+    	logger.info("NotificationSchema " + res + " DELETED");    	
+    	return res;
     }
 }

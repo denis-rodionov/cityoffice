@@ -1,5 +1,21 @@
 (unreleased)
 
+v0.4.0 (08.09.2016)
+ - add drop down list in projects.html [George Konyaev]
+ - add chart in projects.html  [George Konyaev]
+ - projectService [George Konyaev]
+ - get employee in employee controller [Denis Rodiponov]
+ - vacations added to EmployeeController [Denis Rodionov]
+ - employees-vacations [Denis Rodionov]
+ - EmployeeController [Denis Rodionov]
+ - controllers refactoring [Denis Rodionov]
+ - employes-projects in admin tool [Denis Rodionov]
+v0.3.5 (05.08.2016)
+ - export for paginated tables [Denis Rodionov]
+ - frontend-maven-plugin added [Denis Rodionov]
+ - heroku integration [Denis Rodionov]
+ - travis added [Denis Rodionov]
+ - removed default color for projects [Denis Rodionov]
 v0.3.4 (02.08.2016)
  - right month sorting [Denis Rodionov]
 v0.3.3 (28.07.2016)
