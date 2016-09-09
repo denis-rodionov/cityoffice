@@ -1,13 +1,44 @@
-angular.module('app').controller('employeeController', 
-		['$scope', 'EmployeeService',	function($scope, EmployeeService) {
+/**
+ * Projects Controller
+ * @namespace Controller
+ */
+angular
+	.module('app')
+	.controller('employeeController', employeeController);
+	
+employeeController.$inject = ['$scope', 'EmployeeService'];
+
+function employeeController($scope, EmployeeService) { 
     	
-    var self = this;   
-   
-   	EmployeeService.getEmployees().
-  			then(function(data) {
-  				self.employees = data;
-  			},
-  			function(reason) {
-  				self.error = reason;
-  			}); 
-}])
+    var vm = this; 
+    
+    vm.employees = [];
+    vm.selectedEmployee = null;
+    
+    vm.onEmployeeSelected = onEmployeeSelected;
+    
+    activate();
+    
+    ///////////////////////////////////////////////////////
+    
+    function activate() {
+    	EmployeeService.getEmployees().
+			then(function(data) {
+				vm.employees = data;
+				
+				if (vm.employees.length >= 0)
+					vm.selectedEmployee = vm.employees[0];
+			},
+			function(reason) {
+				vm.error = reason;
+			}); 
+    }
+    
+    /**
+     * @name on click by the employees list
+     * @param {Employee} selected employee
+     */
+    function onEmployeeSelected(employee) {
+    	vm.selectedEmployee = employee;
+    }
+}

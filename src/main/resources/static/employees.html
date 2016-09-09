@@ -1,8 +1,27 @@
+<link href="css/employees.css" rel="stylesheet" type="text/css" />
 <h1>{{"EMPLOYEES" | translate}}</h1>
-<p>{{ "IN_DEVELOPMENT" | translate }}</p>
 <div class="alert alert-danger" ng-show="controller.error">
     Error: {{controller.error}}
 </div>
-<div ng-show="authenticated" ng-repeat="employee in controller.employees">
-	{{ employee }} <br/>
+<div ng-show="authenticated">
+	
+	<div class="row">
+		
+		<!-- List -->
+		<div class="col-md-6 employee-list">
+			<ul class="list-group" >
+				<li class="list-group-item {{ employee.name == 'Иванов' ? 'list-group-item-info' : '' }}" 
+					ng-repeat="employee in controller.employees">
+					
+					<a href="" ng-click="onEmployeeSelected(employee)">{{ employee.name }}</a>
+				</li>
+			</ul>
+		</div>
+		
+		<!-- Details -->
+		<div class="col-md-6">
+			 <h2>{{ controller.selectedEmployee.name }}</h2>
+		</div>
+	</div>
+	
 </div>
