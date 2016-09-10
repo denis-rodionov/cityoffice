@@ -6,9 +6,9 @@ angular
 	.module('app')
 	.controller('employeeController', employeeController);
 	
-employeeController.$inject = ['$scope', 'EmployeeService'];
+employeeController.$inject = ['$scope', 'EmployeeService', '$routeParams'];
 
-function employeeController($scope, EmployeeService) { 
+function employeeController($scope, EmployeeService, $routeParams) { 
     	
     var vm = this; 
     
@@ -26,12 +26,22 @@ function employeeController($scope, EmployeeService) {
 			then(function(data) {
 				vm.employees = data;
 				
-				if (vm.employees.length >= 0)
-					vm.selectedEmployee = vm.employees[0];
+				if (typeof $routeParams.employeeId !== "undefined") 
+					vm.selectedEmployee = getEmployeeById($routeParams.employeeId);
+				else {				
+					if (vm.employees.length >= 0)
+						vm.selectedEmployee = vm.employees[0];
+				}
 			},
 			function(reason) {
 				vm.error = reason;
 			}); 
+    }
+    
+    function getEmployeeById(id) {
+    	return vm.employees.find(function(e) { 
+    		return e.id == id 
+    	});
     }
     
     /**

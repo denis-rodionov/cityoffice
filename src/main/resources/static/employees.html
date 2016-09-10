@@ -10,10 +10,10 @@
 		<!-- List -->
 		<div class="col-md-6 employee-list">
 			<ul class="list-group" >
-				<li class="list-group-item {{ employee.name == 'Иванов' ? 'list-group-item-info' : '' }}" 
+				<li class="list-group-item {{ employee.name == controller.selectedEmployee.name ? 'list-group-item-info' : '' }}" 
 					ng-repeat="employee in controller.employees">
 					
-					<a href="" ng-click="onEmployeeSelected(employee)">{{ employee.name }}</a>
+					<a href="#/employees/{{employee.id}}" >{{ employee.name }}</a>
 				</li>
 			</ul>
 		</div>

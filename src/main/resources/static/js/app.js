@@ -15,6 +15,10 @@ angular.module('app', [ 'ngRoute', 'services', 'pascalprecht.translate'])
 	      templateUrl : 'employees.html',
 	      controller : 'employeeController',
 	      controllerAs : 'controller'
+	    }).when('/employees/:employeeId', {
+		      templateUrl : 'employees.html',
+		      controller : 'employeeController',
+		      controllerAs : 'controller'
 	    }).when('/login', {
 	      templateUrl : 'login.html',
 	      controller : 'navigation',
