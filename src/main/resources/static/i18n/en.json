@@ -10,5 +10,7 @@
 
 	"IN_PROJECT" : "in project",
     "WORKLOAD": "Workload",
-	"ALL_PROJECTS": "All projects"
+	"ALL_PROJECTS": "All projects",
+	
+	"FILTER" : "Filter"
 }

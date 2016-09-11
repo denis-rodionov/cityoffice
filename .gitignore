@@ -143,3 +143,5 @@ fabric.properties
 
 /.idea/
 /.settings/
+
+.log.*

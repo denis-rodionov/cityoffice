@@ -14,7 +14,7 @@
 
 	"IN_PROJECT" : "участвует в",
 	"WORKLOAD": "Загруженность",
-	"ALL_PROJECTS": "Все проекты"
-
-
+	"ALL_PROJECTS": "Все проекты",
+	
+	"FILTER" : "Фильтр"
 }
