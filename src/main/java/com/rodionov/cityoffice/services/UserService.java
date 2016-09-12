@@ -31,7 +31,13 @@ public class UserService {
 	@Autowired
 	private UserVacationRepository userVacationRepository;
 
-	public Page<User> getFilteredUsers(String username, String projectId, String role, String email, Pageable pageable) {
+	public Page<User> getFilteredUsers(
+			String username, 
+			String projectId, 
+			String role, 
+			String email,
+			String managerId,
+			Pageable pageable) {
 		
 		QUser user = new QUser("user");
 		BooleanBuilder where = new BooleanBuilder();
@@ -47,6 +53,9 @@ public class UserService {
 		}
 		if (email != null) {
 			where.and(user.email.containsIgnoreCase(email));
+		}
+		if (managerId != null) {
+			where.and(user.managerId.contains(managerId));
 		}
 		
 		return userRepository.findAll(where, pageable);		

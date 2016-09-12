@@ -61,11 +61,12 @@ public class UserController extends BaseController<User> {
     		@RequestParam(value="role", required=false) String role,
     		@RequestParam(value="username", required=false) String username,
     		@RequestParam(value="email", required=false) String email,
-    		@RequestParam(value="project", required=false) String projectId) {
+    		@RequestParam(value="project", required=false) String projectId,
+    		@RequestParam(value="manager", required=false) String managerId) {
     	
     	Pageable pageable = getPagiable(page, perPage, sortDir, sortField);
     	
-    	Page<User> users = userService.getFilteredUsers(username, projectId, role, email, pageable);
+    	Page<User> users = userService.getFilteredUsers(username, projectId, role, email, managerId, pageable);
     	
     	return new ResponseEntity<>(users.getContent(), generatePaginationHeaders(users, ""), HttpStatus.OK);
     }

@@ -182,11 +182,7 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
            .validation({ required : true }),
         nga.field('email', 'email')
            .label('E-mail')
-           .validation({ required : true }),
-        nga.field('projectIds', 'reference_many')
-           .targetEntity(project)
-           .targetField(nga.field('name'))
-           .label('Projects'),
+           .validation({ required : true }),        
         nga.field('role')
        	   .label('Role'),
        	nga.field('managerId', 'reference')
@@ -194,8 +190,11 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
        	   .targetField(nga.field('username'))
        	   .label('Manager'),
        	nga.field('hours', 'number')
-       	   .label('Hours a week') 
-       	   
+       	   .label('Hours a week'),
+       	nga.field('projectIds', 'reference_many')
+	       .targetEntity(project)
+	       .targetField(nga.field('name'))
+	       .label('Projects')  	   
     ])
     .filters([
          nga.field('role', 'choice')
@@ -212,7 +211,11 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
          nga.field('project', 'reference')
          	.label('Project')
          	.targetEntity(project)
-         	.targetField(nga.field('name'))
+         	.targetField(nga.field('name')),
+         nga.field('manager', 'reference')
+         	.label('Manager')
+         	.targetEntity(user)
+         	.targetField(nga.field('username'))
      ]);
     
     user.creationView().fields([
