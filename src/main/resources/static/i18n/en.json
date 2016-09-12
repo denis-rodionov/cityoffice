@@ -12,5 +12,10 @@
     "WORKLOAD": "Workload",
 	"ALL_PROJECTS": "All projects",
 	
-	"FILTER" : "Filter"
+	"FILTER" : "Filter",
+	"VACATIONS" : "Vacations",
+	"FROM" : "From",
+	"DUE" : "to",
+	"IN" : "In",
+	"WEEKS" : "weeks"
 }

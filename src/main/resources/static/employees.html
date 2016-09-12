@@ -27,7 +27,49 @@
 		<!-- Details -->
 		<div class="col-md-8">
 			 <h2>{{ controller.selectedEmployee.name }}</h2>
-		</div>
+			 
+			 <!-- Employee Projects -->
+			 <div ng-show="controller.selectedEmployee.projects.length > 0">
+			 	<h4>{{ "PROJECTS" | translate }}:</h4>
+			 	<div ng-repeat="project in controller.selectedEmployee.projects">
+			 		<div class="row">
+			 			<div class="col-md-4">
+			 				<b><i>{{ project.projectName }}</i></b>
+			 			</div>
+			 			<div class="col-md-6">
+			 				{{ "FROM" | translate }}
+			 				<b>{{ project.startDate | date }}</b>
+			 				{{ "DUE" | translate }} 
+			 				<b>{{ project.finishDate | date }}</b>  
+			 			</div>			 			
+			 		</div>
+			 	</div>
+			 </div>
+			 
+			 <!-- Employee vacations -->
+			 <div ng-show="controller.selectedEmployee.vacations.length > 0">
+			 	<h4>{{ "VACATIONS" | translate }}:</h4>
+			 	<div ng-repeat="vacation in controller.selectedEmployee.vacations">
+			 		<div class="row">
+			 			<div class="col-md-4">
+			 				{{ "IN" | translate }}
+			 				<b><i>{{ vacation.inWeeks }}</i></b>
+			 				{{ "WEEKS" | translate }}
+			 			</div>
+			 			<div class="col-md-6">
+			 				{{ "FROM" | translate }}
+			 				<b>{{ vacation.startDate | date }}</b>
+			 				{{ "DUE" | translate }} 
+			 				<b>{{ vacation.finishDate | date }}</b>  
+			 			</div>
+			 		</div>
+			 	</div>	
+			 </div>
+			 
+		 </div>	  <!-- Details -->
+			 
+		 
+		
 	</div>
 	
 </div>

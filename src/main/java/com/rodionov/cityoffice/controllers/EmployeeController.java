@@ -1,6 +1,7 @@
 package com.rodionov.cityoffice.controllers;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -174,6 +175,7 @@ public class EmployeeController {
 		dto.setId(userVacation.getId());
 		dto.setStartDate(userVacation.getStartDate());
 		dto.setFinishDate(userVacation.getFinishDate());
+		dto.setInWeeks(LocalDate.now().until(userVacation.getStartDate(), ChronoUnit.WEEKS));
 		
 		return dto;
 	}

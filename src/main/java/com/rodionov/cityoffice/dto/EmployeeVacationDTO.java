@@ -14,6 +14,8 @@ public class EmployeeVacationDTO {
 	
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate finishDate;
+	
+	private long inWeeks;
 
 	public String getId() {
 		return id;
@@ -38,6 +40,12 @@ public class EmployeeVacationDTO {
 	public void setFinishDate(LocalDate finishDate) {
 		this.finishDate = finishDate;
 	}
-	
-	
+
+	public long getInWeeks() {
+		return inWeeks;
+	}
+
+	public void setInWeeks(long inWeeks) {
+		this.inWeeks = inWeeks;
+	}
 }
