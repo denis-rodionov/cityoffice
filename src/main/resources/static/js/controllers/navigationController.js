@@ -5,7 +5,7 @@ angular.module('app').controller('navigation',function($rootScope, $http, $locat
   		  
   		  $rootScope.menuClass = function(page) {
   		    var current = $location.path().substring(1);
-  		    return page === current ? "active" : "";
+  		    return current.indexOf(page) !== -1 ? "active" : "";
   		  };
 
   		  var authenticate = function(credentials, callback) {

@@ -19,14 +19,11 @@ angular
 		this.getEmployees = function() {
 			var deferred = $q.defer();
 
-			$http.get('/employees/')
-				.then(function(response) {
-					if (response.status == 200) {
-						deferred.resolve(response.data);
-					}
-					else {
-						deferred.reject('Error retrieving list of documents');
-					}
+			$http.get('/employee')
+				.then(function (response) {
+					deferred.resolve(response.data);
+				}, function (error) {
+					deferred.reject('Error retrieving list of documents');
 				});
 
 			return deferred.promise;

@@ -113,6 +113,8 @@ public class UserController extends BaseController<User> {
         dbUser.setEmail(user.getEmail());
         dbUser.setProjectIds(user.getProjectIds());        
         dbUser.setPassword(user.getPassword());
+        dbUser.setHours(user.getHours());
+        dbUser.setManagerId(user.getManagerId());
         
         if (isAdmin(principal))
         	dbUser.setRole(user.getRole());

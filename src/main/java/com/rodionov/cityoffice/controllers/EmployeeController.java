@@ -1,6 +1,7 @@
 package com.rodionov.cityoffice.controllers;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -150,9 +151,13 @@ public class EmployeeController {
 			List<UserProject> projects,
 			List<UserVacation> vacations) {
 		
+		User dbUser = userService.getUser(userId);
 		EmployeeDTO dto = new EmployeeDTO();
 		dto.setId(userId);
-		dto.setName(userService.getUser(userId).getUsername());
+		dto.setName(dbUser.getUsername());
+		if (dbUser.getManagerId() != null)
+			dto.setManagerUsername(userService.getUser(dbUser.getManagerId()).getUsername());
+		dto.setHours(dbUser.getHours());
 		
 		if (projects != null) {
 			dto.setProjects(projects.stream().map(this::convertToProjectDTO).collect(Collectors.toList()));
@@ -174,6 +179,7 @@ public class EmployeeController {
 		dto.setId(userVacation.getId());
 		dto.setStartDate(userVacation.getStartDate());
 		dto.setFinishDate(userVacation.getFinishDate());
+		dto.setInWeeks(LocalDate.now().until(userVacation.getStartDate(), ChronoUnit.WEEKS));
 		
 		return dto;
 	}

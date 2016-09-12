@@ -10,5 +10,15 @@
 
 	"IN_PROJECT" : "in project",
     "WORKLOAD": "Workload",
-	"ALL_PROJECTS": "All projects"
+	"ALL_PROJECTS": "All projects",
+	
+	"FILTER" : "Filter",
+	"VACATIONS" : "Vacations",
+	"FROM" : "From",
+	"DUE" : "to",
+	"IN" : "In",
+	"WEEKS" : "weeks",
+	"MANAGER" : "Manager",
+	"NOT_DEFINED" : "Not defined",
+	"HOURS_A_WEEK" : "Hours a week"
 }

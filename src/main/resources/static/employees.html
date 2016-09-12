@@ -1,8 +1,83 @@
-<h1>{{"EMPLOYEES" | translate}}</h1>
-<p>{{ "IN_DEVELOPMENT" | translate }}</p>
-<div class="alert alert-danger" ng-show="controller.error">
-    Error: {{controller.error}}
-</div>
-<div ng-show="authenticated" ng-repeat="employee in controller.employees">
-	{{ employee }} <br/>
+<link href="css/employees.css" rel="stylesheet" type="text/css" />
+
+<div ng-show="authenticated">
+	
+	<div class="row">
+		
+		<!-- List -->		
+		<div class="col-md-4 employee-list">
+			<h1>{{"EMPLOYEES" | translate}}</h1>
+			<div class="alert alert-danger" ng-show="controller.error">
+			    Error: {{controller.error}}
+			</div>
+			<div class="form-inline">			
+				<label for="name_filter">{{"FILTER" | translate}}: </label>
+				<input name="name_filter" class="form-control" type="text" ng-model="searchText"/>
+				<br/><br/>
+			</div>
+			<ul class="list-group" >
+				<li class="list-group-item {{ employee.name == controller.selectedEmployee.name ? 'list-group-item-info' : '' }}" 
+					ng-repeat="employee in controller.employees | filter:searchText">
+					
+					<a href="#/employees/{{employee.id}}" >{{ employee.name }}</a>
+				</li>
+			</ul>
+		</div>
+		
+		<!-- Details -->
+		<div class="col-md-8">
+			 <h2>{{ controller.selectedEmployee.name }}</h2>
+			 
+			 <i>{{ "MANAGER" | translate }}:</i>
+			 {{ controller.selectedEmployee.managerUsername }}
+			 <span ng-show="!controller.selectedEmployee.managerUsername">{{ "NOT_DEFINED" | translate }}</span>
+			 <br/>
+			 
+			 <i>{{ "HOURS_A_WEEK" | translate }}:</i>
+			 {{ controller.selectedEmployee.hours }}
+			 
+			 <!-- Employee Projects -->
+			 <div ng-show="controller.selectedEmployee.projects.length > 0">
+			 	<h4>{{ "PROJECTS" | translate }}:</h4>
+			 	<div ng-repeat="project in controller.selectedEmployee.projects">
+			 		<div class="row">
+			 			<div class="col-md-4">
+			 				<b><i>{{ project.projectName }}</i></b>
+			 			</div>
+			 			<div class="col-md-6">
+			 				{{ "FROM" | translate }}
+			 				<b>{{ project.startDate | date }}</b>
+			 				{{ "DUE" | translate }} 
+			 				<b>{{ project.finishDate | date }}</b>  
+			 			</div>			 			
+			 		</div>
+			 	</div>
+			 </div>
+			 
+			 <!-- Employee vacations -->
+			 <div ng-show="controller.selectedEmployee.vacations.length > 0">
+			 	<h4>{{ "VACATIONS" | translate }}:</h4>
+			 	<div ng-repeat="vacation in controller.selectedEmployee.vacations">
+			 		<div class="row">
+			 			<div class="col-md-4">
+			 				{{ "IN" | translate }}
+			 				<b><i>{{ vacation.inWeeks }}</i></b>
+			 				{{ "WEEKS" | translate }}
+			 			</div>
+			 			<div class="col-md-6">
+			 				{{ "FROM" | translate }}
+			 				<b>{{ vacation.startDate | date }}</b>
+			 				{{ "DUE" | translate }} 
+			 				<b>{{ vacation.finishDate | date }}</b>  
+			 			</div>
+			 		</div>
+			 	</div>	
+			 </div>
+			 
+		 </div>	  <!-- Details -->
+			 
+		 
+		
+	</div>
+	
 </div>

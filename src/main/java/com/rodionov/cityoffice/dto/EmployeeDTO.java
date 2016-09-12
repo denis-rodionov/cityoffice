@@ -8,6 +8,8 @@ public class EmployeeDTO {
 	private String name;
 	private List<EmployeeProjectDTO> projects;
 	private List<EmployeeVacationDTO> vacations;
+	private String managerUsername;
+	private int hours;
 	
 	public String getId() {
 		return id;
@@ -32,6 +34,18 @@ public class EmployeeDTO {
 	}
 	public void setVacations(List<EmployeeVacationDTO> vacations) {
 		this.vacations = vacations;
+	}
+	public String getManagerUsername() {
+		return managerUsername;
+	}
+	public void setManagerUsername(String managerUsername) {
+		this.managerUsername = managerUsername;
+	}
+	public int getHours() {
+		return hours;
+	}
+	public void setHours(int hours) {
+		this.hours = hours;
 	}
 	
 	

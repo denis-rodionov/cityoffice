@@ -188,7 +188,14 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
            .targetField(nga.field('name'))
            .label('Projects'),
         nga.field('role')
-       	   .label('Role')
+       	   .label('Role'),
+       	nga.field('managerId', 'reference')
+       	   .targetEntity(user)
+       	   .targetField(nga.field('username'))
+       	   .label('Manager'),
+       	nga.field('hours', 'number')
+       	   .label('Hours a week') 
+       	   
     ])
     .filters([
          nga.field('role', 'choice')
@@ -229,7 +236,15 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
 		   .validation({ required : true }),
        nga.field('password', 'password')
        	   .label('Password')
-       	   .validation({ required : true })
+       	   .validation({ required : true }),
+       nga.field('managerId', 'reference')
+       	   .label('Manager')
+       	   .targetEntity(user)
+       	   .targetField(nga.field('username')),
+       nga.field('hours', 'number')
+       	   .defaultValue(40)
+    	   .label('Hours a week')
+    	   
     ]);
     
     user.showView().fields([

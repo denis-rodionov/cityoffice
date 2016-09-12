@@ -14,7 +14,15 @@
 
 	"IN_PROJECT" : "участвует в",
 	"WORKLOAD": "Загруженность",
-	"ALL_PROJECTS": "Все проекты"
-
-
+	"ALL_PROJECTS": "Все проекты",
+	
+	"FILTER" : "Фильтр",
+	"VACATIONS" : "Отпуска",
+	"FROM" : "C",
+	"DUE" : "до",
+	"IN" : "Через",
+	"WEEKS" : "недель",
+	"MANAGER" : "Менеджер",
+	"NOT_DEFINED" : "Не задан",
+	"HOURS_A_WEEK" : "Часов в неделю"
 }

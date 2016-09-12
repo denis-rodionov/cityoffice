@@ -3,7 +3,7 @@ angular.module('app', [ 'ngRoute', 'services', 'pascalprecht.translate'])
 		  
 		//$locationProvider.html5Mode(true);
 	
-	    $routeProvider.when('/', {
+	    $routeProvider.when('/documents', {
 	      templateUrl : 'documents.html',
 	      controller : 'documentController',
 	      controllerAs: 'controller'
@@ -15,13 +15,17 @@ angular.module('app', [ 'ngRoute', 'services', 'pascalprecht.translate'])
 	      templateUrl : 'employees.html',
 	      controller : 'employeeController',
 	      controllerAs : 'controller'
+	    }).when('/employees/:employeeId', {
+		      templateUrl : 'employees.html',
+		      controller : 'employeeController',
+		      controllerAs : 'controller'
 	    }).when('/login', {
 	      templateUrl : 'login.html',
 	      controller : 'navigation',
 	      controllerAs: 'controller'
 	    }).when('/admin', {
 	      redirectTo : 'admin.html'
-	    }).otherwise('/');
+	    }).otherwise('/documents');
 	
 	    //$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 	
