@@ -17,5 +17,8 @@
 	"FROM" : "From",
 	"DUE" : "to",
 	"IN" : "In",
-	"WEEKS" : "weeks"
+	"WEEKS" : "weeks",
+	"MANAGER" : "Manager",
+	"NOT_DEFINED" : "Not defined",
+	"HOURS_A_WEEK" : "Hours a week"
 }

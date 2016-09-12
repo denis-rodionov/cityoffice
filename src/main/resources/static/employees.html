@@ -28,6 +28,14 @@
 		<div class="col-md-8">
 			 <h2>{{ controller.selectedEmployee.name }}</h2>
 			 
+			 <i>{{ "MANAGER" | translate }}:</i>
+			 {{ controller.selectedEmployee.managerUsername }}
+			 <span ng-show="!controller.selectedEmployee.managerUsername">{{ "NOT_DEFINED" | translate }}</span>
+			 <br/>
+			 
+			 <i>{{ "HOURS_A_WEEK" | translate }}:</i>
+			 {{ controller.selectedEmployee.hours }}
+			 
 			 <!-- Employee Projects -->
 			 <div ng-show="controller.selectedEmployee.projects.length > 0">
 			 	<h4>{{ "PROJECTS" | translate }}:</h4>

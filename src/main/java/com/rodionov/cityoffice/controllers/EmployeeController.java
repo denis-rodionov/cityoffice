@@ -151,9 +151,13 @@ public class EmployeeController {
 			List<UserProject> projects,
 			List<UserVacation> vacations) {
 		
+		User dbUser = userService.getUser(userId);
 		EmployeeDTO dto = new EmployeeDTO();
 		dto.setId(userId);
-		dto.setName(userService.getUser(userId).getUsername());
+		dto.setName(dbUser.getUsername());
+		if (dbUser.getManagerId() != null)
+			dto.setManagerUsername(userService.getUser(dbUser.getManagerId()).getUsername());
+		dto.setHours(dbUser.getHours());
 		
 		if (projects != null) {
 			dto.setProjects(projects.stream().map(this::convertToProjectDTO).collect(Collectors.toList()));

@@ -1,5 +1,7 @@
 (unreleased)
 
+ - hours and manager added for an User [Denis Rodionov]
+ - employee page [Denis Rodionov]
  - show only active projects on the project view [Denis Rodionov]
 v0.4.0 (08.09.2016)
  - add drop down list in projects.html [George Konyaev]
