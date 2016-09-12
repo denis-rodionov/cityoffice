@@ -1,5 +1,6 @@
 (unreleased)
 
+v0.5.0 (12.09.2016)
  - hours and manager added for an User [Denis Rodionov]
  - employee page [Denis Rodionov]
  - show only active projects on the project view [Denis Rodionov]
