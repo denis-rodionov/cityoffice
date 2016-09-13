@@ -91,6 +91,14 @@ function projectController(EmployeeService, ProjectService, $filter) {
 		var dst = {};
 		angular.extend(dst, chartEmployeesData, chartconfig);
 		AmCharts.makeChart("chartdiv", dst);
+		
+		var valueAxis = new AmCharts.ValueAxis();
+		valueAxis.autoGridCount = false;
+		valueAxis.gridCount = 50;
+		// since we increased the number of grid lines dramatically, let's make the label display only on each 10th of them
+		valueAxis.labelFrequency = 10;
+		
+		
 	}
 
 	/**
@@ -119,7 +127,7 @@ function projectController(EmployeeService, ProjectService, $filter) {
 		if (workload <= 0 )
 			res = '#FE2E2E';
 		else if (workload < 20 )
-			res = '#CFE6FB';
+			res = '#81B1DB';
 		else if (workload < 40)
 			res = '#A9D0F5' ;
 		else if (workload < 60)

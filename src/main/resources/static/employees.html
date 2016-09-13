@@ -15,15 +15,13 @@
 				<input name="name_filter" class="form-control" type="text" ng-model="searchText"/>
 				<br/><br/>
 			</div>
-			<ul class="list-group" >
-				<li class="list-group-item {{ employee.name == controller.selectedEmployee.name ? 'list-group-item-info' : '' }}" 
-					ng-repeat="employee in controller.employees | filter:searchText">
-					
-					<a href="#/employees/{{employee.id}}" >
-						{{ employee.name }}						
-					</a>
-				</li>
-			</ul>
+			<div class="list-group" >
+				<a href="#/employees/{{employee.id}}"
+				   class="list-group-item {{ employee.name == controller.selectedEmployee.name ? 'list-group-item-info' : '' }}" 
+				   ng-repeat="employee in controller.employees | filter:searchText">					
+						{{ employee.name }}
+				</a>
+			</div>
 		</div>
 		
 		<!-- Details -->
@@ -36,7 +34,16 @@
 			 <br/>
 			 
 			 <i>{{ "HOURS_A_WEEK" | translate }}:</i>
-			 {{ controller.selectedEmployee.hours }}
+			 <b>{{ controller.selectedEmployee.hours }}</b>
+			 <br/>
+			 
+			 <i>{{ "EMAIL" | translate }}:</i>
+			 <b>{{ controller.selectedEmployee.email }}</b>
+			 <br/>
+			 
+			 <i>{{ "PHONE" | translate }}:</i>
+			 <b>{{ controller.selectedEmployee.phone }}</b>
+			 <br/>
 			 
 			 <!-- Employee Projects -->
 			 <div ng-show="controller.selectedEmployee.projects.length > 0">

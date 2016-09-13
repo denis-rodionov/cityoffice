@@ -158,6 +158,8 @@ public class EmployeeController {
 		if (dbUser.getManagerId() != null)
 			dto.setManagerUsername(userService.getUser(dbUser.getManagerId()).getUsername());
 		dto.setHours(dbUser.getHours());
+		dto.setEmail(dbUser.getEmail());
+		dto.setPhone(dbUser.getPhone());
 		
 		if (projects != null) {
 			dto.setProjects(projects.stream().map(this::convertToProjectDTO).collect(Collectors.toList()));
