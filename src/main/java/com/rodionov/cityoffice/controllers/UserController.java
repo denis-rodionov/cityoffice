@@ -20,10 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rodionov.cityoffice.controllers.exceptions.AlreadyExistsException;
 import com.rodionov.cityoffice.controllers.exceptions.NotEnoughtRightsException;
 import com.rodionov.cityoffice.controllers.exceptions.NotFoundException;
-import com.rodionov.cityoffice.model.Document;
 import com.rodionov.cityoffice.model.User;
 import com.rodionov.cityoffice.repository.UserRepository;
-import com.rodionov.cityoffice.services.MongoUserDetailsService;
 import com.rodionov.cityoffice.services.UserService;
 
 @RestController

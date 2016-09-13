@@ -96,7 +96,7 @@ function projectController(EmployeeService, ProjectService, $filter) {
 		valueAxis.autoGridCount = false;
 		valueAxis.gridCount = 50;
 		// since we increased the number of grid lines dramatically, let's make the label display only on each 10th of them
-		valueAxis.labelFrequency = 10;
+		valueAxis.labelFrequency = 50;
 		
 		
 	}
