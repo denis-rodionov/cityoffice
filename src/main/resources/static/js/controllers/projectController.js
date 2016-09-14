@@ -84,6 +84,10 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	 * @memberOf activate.projectController
 	 */
 	function plotData(employees) {
+		if (self.selectedProject.id == null) {
+			injectVacancies(employees);
+		}
+		
 		fillUserProject(employees);
 		self.employees = employees;
 		chartEmployeesData =  {"dataProvider": self.employees };
@@ -111,6 +115,22 @@ function projectController(EmployeeService, ProjectService, $filter) {
 		for (var i = 0; i < employees.length; i++) {
 			for (var j = 0; j < employees[i].projects.length; j++) {
 				employees[i].projects[j]['color'] = getColor(employees[i].projects[j].workload);
+			}
+		}
+	}
+	
+	/**
+	 * @name injectVacancies
+	 * @desc HACK: addind vacancies to the project array with workload=0 and projectName='VACANCY'
+	 * @param {Object} employees
+	 */
+	function injectVacancies(employees) {
+		for (var i = 0; i < employees.length; i++) {
+			for (var j = 0; j < employees[i].vacations.length; j++) {
+				var vacation = employees[i].vacations[j];
+				vacation['workload'] = 0;
+				vacation['projectName'] = ($filter('translate')("VACATION_AKK"));
+				employees[i].projects.push(vacation);
 			}
 		}
 	}

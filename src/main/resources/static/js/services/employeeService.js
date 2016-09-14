@@ -5,7 +5,7 @@ angular
 		this.getUserProjects = function (projectId) {
 			var deferred = $q.defer();
 
-			$http.get('/employee', { params: { projectId: projectId , onlyProjects: true} })
+			$http.get('/employee', { params: { projectId: projectId , onlyProjects: false} })
 				.then(function (response) {
 					deferred.resolve(response.data);
 				}, function (error) {

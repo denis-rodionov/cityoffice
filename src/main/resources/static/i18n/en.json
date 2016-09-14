@@ -22,5 +22,6 @@
 	"NOT_DEFINED" : "Not defined",
 	"HOURS_A_WEEK" : "Hours a week",
 	"EMAIL" : "Email",
-	"PHONE" : "Phone"
+	"PHONE" : "Phone",
+	"VACATION_AKK" : "Vacation"
 }

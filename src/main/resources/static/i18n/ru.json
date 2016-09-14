@@ -26,5 +26,6 @@
 	"NOT_DEFINED" : "Не задан",
 	"HOURS_A_WEEK" : "Часов в неделю",
 	"EMAIL" : "Email",
-	"PHONE" : "Телефон"
+	"PHONE" : "Телефон",
+	"VACATION_AKK" : "Отпуске"
 }
