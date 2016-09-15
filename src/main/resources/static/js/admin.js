@@ -246,8 +246,9 @@ myApp.config(['NgAdminConfigurationProvider', function (nga) {
        	   .targetField(nga.field('username')),
        nga.field('hours', 'number')
        	   .defaultValue(40)
-    	   .label('Hours a week')
-    	   
+    	   .label('Hours a week'),
+       nga.field('phone')
+       	   .label('Phone Number')    	   
     ]);
     
     user.showView().fields([

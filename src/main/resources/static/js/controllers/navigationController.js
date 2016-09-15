@@ -1,5 +1,5 @@
 angular.module('app').controller('navigation',function($rootScope, $http, $location) {  		
-  		  console.log("navigation controller: " + $location.path());
+  		  //console.log("navigation controller: " + $location.path());
   		  
   		  var self = this;
   		  
@@ -10,15 +10,15 @@ angular.module('app').controller('navigation',function($rootScope, $http, $locat
 
   		  var authenticate = function(credentials, callback) {
   			  
-  			console.log("authenticate() { credentials : " + credentials + "}");
+  			//console.log("authenticate() { credentials : " + credentials + "}");
 
   		    var headers = credentials ? {authorization : "Basic "
   		        + btoa(credentials.username + ":" + credentials.password)
   		    } : {};
 
-  		    console.log("sending request...");
+  		    //console.log("sending request...");
   		    $http.get('getuser', {headers : headers}).then(function(response) {
-  		      console.log("getuser succedd");
+  		      //console.log("getuser succedd");
   		      if (response.data.name) {
   		        $rootScope.authenticated = true;
   		      } else {
@@ -26,7 +26,7 @@ angular.module('app').controller('navigation',function($rootScope, $http, $locat
   		      }
   		      callback && callback();
   		    }, function() {
-  		      console.log("getuser failed");
+  		      //onsole.log("getuser failed");
   		    	
   		      $rootScope.authenticated = false;
   		      callback && callback();

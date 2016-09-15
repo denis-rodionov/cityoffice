@@ -24,5 +24,8 @@
 	"WEEKS" : "недель",
 	"MANAGER" : "Менеджер",
 	"NOT_DEFINED" : "Не задан",
-	"HOURS_A_WEEK" : "Часов в неделю"
+	"HOURS_A_WEEK" : "Часов в неделю",
+	"EMAIL" : "Email",
+	"PHONE" : "Телефон",
+	"VACATION_AKK" : "Отпуске"
 }

@@ -10,6 +10,8 @@ public class EmployeeDTO {
 	private List<EmployeeVacationDTO> vacations;
 	private String managerUsername;
 	private int hours;
+	private String email;
+	private String phone;
 	
 	public String getId() {
 		return id;
@@ -46,6 +48,18 @@ public class EmployeeDTO {
 	}
 	public void setHours(int hours) {
 		this.hours = hours;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	
 	

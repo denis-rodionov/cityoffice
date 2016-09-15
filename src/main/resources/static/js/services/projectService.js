@@ -1,7 +1,13 @@
 angular.module('services')
     .service('ProjectService', ['$http','$q', function ($http, $q) {
+    	var self = this;
+    	
+    	self.getDataProjects = getDataProjects;
+    	
 
-        this.getDataProjects = function () {
+    	///////////////////////////////////////////////////////
+    	
+        function getDataProjects() {
             var deferred = $q.defer();
 
             $http.get('/project', { params: { isActive: true }})
@@ -13,6 +19,8 @@ angular.module('services')
 
             return deferred.promise;
         };
+        
+        
     }
 
-    ]);
+ ]);

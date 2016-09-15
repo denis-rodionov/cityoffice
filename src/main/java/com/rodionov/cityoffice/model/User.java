@@ -24,6 +24,8 @@ public class User {
 	
 	private String role;
 	
+	private String phone;
+	
 	/**
 	 * Users work hours in a week (default 40)
 	 */
@@ -122,6 +124,12 @@ public class User {
 	public void setManagerId(String managerId) {
 		this.managerId = managerId;
 	}
-	
-		
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}	
 }

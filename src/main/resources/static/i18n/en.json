@@ -20,5 +20,8 @@
 	"WEEKS" : "weeks",
 	"MANAGER" : "Manager",
 	"NOT_DEFINED" : "Not defined",
-	"HOURS_A_WEEK" : "Hours a week"
+	"HOURS_A_WEEK" : "Hours a week",
+	"EMAIL" : "Email",
+	"PHONE" : "Phone",
+	"VACATION_AKK" : "Vacation"
 }

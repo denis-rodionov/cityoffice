@@ -6,7 +6,7 @@
 		
 		<!-- List -->		
 		<div class="col-md-4 employee-list">
-			<h1>{{"EMPLOYEES" | translate}}</h1>
+			<br/>
 			<div class="alert alert-danger" ng-show="controller.error">
 			    Error: {{controller.error}}
 			</div>
@@ -15,13 +15,13 @@
 				<input name="name_filter" class="form-control" type="text" ng-model="searchText"/>
 				<br/><br/>
 			</div>
-			<ul class="list-group" >
-				<li class="list-group-item {{ employee.name == controller.selectedEmployee.name ? 'list-group-item-info' : '' }}" 
-					ng-repeat="employee in controller.employees | filter:searchText">
-					
-					<a href="#/employees/{{employee.id}}" >{{ employee.name }}</a>
-				</li>
-			</ul>
+			<div class="list-group" >
+				<a href="#/employees/{{employee.id}}"
+				   class="list-group-item {{ employee.name == controller.selectedEmployee.name ? 'list-group-item-info' : '' }}" 
+				   ng-repeat="employee in controller.employees | filter:searchText">					
+						{{ employee.name }}
+				</a>
+			</div>
 		</div>
 		
 		<!-- Details -->
@@ -34,7 +34,16 @@
 			 <br/>
 			 
 			 <i>{{ "HOURS_A_WEEK" | translate }}:</i>
-			 {{ controller.selectedEmployee.hours }}
+			 <b>{{ controller.selectedEmployee.hours }}</b>
+			 <br/>
+			 
+			 <i>{{ "EMAIL" | translate }}:</i>
+			 <b>{{ controller.selectedEmployee.email }}</b>
+			 <br/>
+			 
+			 <i>{{ "PHONE" | translate }}:</i>
+			 <b>{{ controller.selectedEmployee.phone }}</b>
+			 <br/>
 			 
 			 <!-- Employee Projects -->
 			 <div ng-show="controller.selectedEmployee.projects.length > 0">
@@ -49,7 +58,10 @@
 			 				<b>{{ project.startDate | date }}</b>
 			 				{{ "DUE" | translate }} 
 			 				<b>{{ project.finishDate | date }}</b>  
-			 			</div>			 			
+			 			</div>
+			 			<div class="col-md-2">
+			 				<b><i>{{ project.workload }}%</i></b>
+			 			</div>		 			
 			 		</div>
 			 	</div>
 			 </div>
