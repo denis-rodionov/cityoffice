@@ -1,13 +1,20 @@
 angular
 	.module('services')
 	.service('EmployeeService', ['$http','$q', function ($http, $q) {
+		self = this;
+		
+		self.getUserProjects = getUserProjects;
+		self.getEmployees = getEmployees;
+		self.getEmployee = getEmployee;
+		
+		///////////////////////////////////////////////////////
 
-		this.getUserProjects = function (projectId) {
+		function getUserProjects(projectId) {
 			var deferred = $q.defer();
 
 			$http.get('/employee', { params: { projectId: projectId , onlyProjects: false} })
 				.then(function (response) {
-					deferred.resolve(response.data);
+					deferred.resolve(processUserProjects(response.data));
 				}, function (error) {
 					deferred.reject('Error retrieving list of documents');
 				});
@@ -16,7 +23,7 @@ angular
 
 
 
-		this.getEmployees = function() {
+		function getEmployees() {
 			var deferred = $q.defer();
 
 			$http.get('/employee')
@@ -29,7 +36,7 @@ angular
 			return deferred.promise;
 		};
 
-		this.getEmployee = function(id) {
+		function getEmployee(id) {
 			var deferred = $q.defer();
 
 			$http.get('/employees/' + id)
@@ -43,8 +50,19 @@ angular
 
 			return deferred.promise;
 		};
-
-
-
-	}]);
+		
+		/**
+         * Process server response
+         */
+        function processUserProjects(employees) {
+        	employees.forEach(function(employee) {
+        		employee.projects.forEach(function(project) {
+        			project.startDate = new Date(project.startDate);
+        			project.finishDate = new Date(project.finishDate);
+        		});
+        		
+        	});
+        	return employees;
+        }
+}]);
 

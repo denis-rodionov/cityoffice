@@ -1,5 +1,6 @@
 (unreleased)
 
+ - projects overlaping on projects chart [Denis Rodionov]
  - vacations in the project page [Denis Rodionov]
  - phone number and email added [Denis Rodionov]
 v0.5.1 (12.09.2016)
