@@ -193,10 +193,23 @@ function projectController(EmployeeService, ProjectService, $filter) {
 		var res = {};
 		res.startDate = startDate;
 		res.finishDate = finishDate;
-		res.projectName = project1.projectName + "(" + project1.workload + "%) / " + project2.projectName + "(" + project2.workload + "%)";
+		res.projectName = buildProjectName(project1.projectName, project1.workload) + " / " 
+						+ buildProjectName(project2.projectName, project2.workload);
 		res.workload = project1.workload + project2.workload;
 		
 		return res;
+	}
+	
+	/**
+	 * Building project name for bubble on the chart
+	 * @param {String} existingName Name of the project
+	 * @param {int} workload Workload of the project
+	 */
+	function buildProjectName(existingName, workload) {
+		if (existingName.indexOf('%') > -1)
+			return existingName;
+		else
+			return existingName + "(" + workload + "%)";
 	}
 	
 	/**
