@@ -18,10 +18,7 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	AmCharts.useUTC = true;
 
 	self.onProjectSelected = onProjectSelected;
-	self.plotData = plotData;
 	self.fillUserProject = fillUserProject;
-	self.getColor = getColor;
-	self.getConfig = getConfig;
 
 	/**
 	 * @namespace projectController
@@ -86,9 +83,11 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	function plotData(employees) {
 		employees.forEach(mergeProjectsIntersections);
 		
-		if (self.selectedProject.id == null) {	// if all projects selected: show vacations also
-			injectVacancies(employees);
+		if (self.selectedProject.id != null) {	// if concrete project selected: show vacations also
+			employees = deleteEmployeesWithoutProjects(employees);
 		}
+		
+		injectVacancies(employees);
 		
 		fillUserProject(employees);
 		self.employees = employees;
@@ -98,6 +97,18 @@ function projectController(EmployeeService, ProjectService, $filter) {
 		angular.extend(dst, chartEmployeesData, chartconfig);
 		
 		AmCharts.makeChart("chartdiv", dst);
+	}
+	
+	/**
+	 * Deletes those employees from the list who does not contains any projects
+	 */
+	function deleteEmployeesWithoutProjects(employees) {
+		var res = [];
+		employees.forEach(function(e) {
+			if (e.projects.length > 0)
+				res.push(e);
+		});
+		return res;
 	}
 
 	/**
@@ -239,12 +250,12 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	 */
 	function injectVacancies(employees) {
 		for (var i = 0; i < employees.length; i++) {
-			for (var j = 0; j < employees[i].vacations.length; j++) {
-				var vacation = employees[i].vacations[j];
-				vacation['workload'] = 0;
-				vacation['projectName'] = ($filter('translate')("VACATION_AKK"));
-				employees[i].projects.push(vacation);
-			}
+				for (var j = 0; j < employees[i].vacations.length; j++) {
+					var vacation = employees[i].vacations[j];
+					vacation['workload'] = 0;
+					vacation['projectName'] = ($filter('translate')("VACATION_AKK"));
+					employees[i].projects.push(vacation);
+				}
 		}
 	}
 

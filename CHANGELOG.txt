@@ -1,5 +1,6 @@
 (unreleased)
 
+ - show vacations on a concrete project view [Denis Rodionov]
 v0.5.4
  - bug with na-admin filters fixed [Denis Rodionov]
 v0.5.3 (16.09.2016)
