@@ -1,7 +1,8 @@
 (unreleased)
 
+v0.5.5 (16.09.2016)
  - show vacations on a concrete project view [Denis Rodionov]
-v0.5.4
+v0.5.4 (16.09.2016)
  - bug with na-admin filters fixed [Denis Rodionov]
 v0.5.3 (16.09.2016)
  - limiting projects by start and end day on chart [Denis Rodionov]
