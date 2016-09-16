@@ -1,5 +1,7 @@
 (unreleased)
 
+v0.5.4
+ - bug with na-admin filters fixed [Denis Rodionov]
 v0.5.3 (16.09.2016)
  - limiting projects by start and end day on chart [Denis Rodionov]
 v0.5.2 (15.09.2016)

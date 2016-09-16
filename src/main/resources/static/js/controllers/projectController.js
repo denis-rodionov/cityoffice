@@ -284,7 +284,7 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	 * @memberOf activate.projectController
 	 */
 	function getConfig() {
-		var balloon = "<b>[[name]]</b> " + ($filter('translate'))("IN_PROJECT") + " <b>[[projectName]]</b>: <p>[[open]] - [[value]]</p>  " + ($filter('translate'))("WORKLOAD") + ": <b>[[workload]]%</b>";
+		var balloon = "<b>[[name]]</b> " + ($filter('translate'))("IN_PROJECT") + " <br/><b>[[projectName]]</b>: <p>[[open]] - [[value]]</p>  " + ($filter('translate'))("WORKLOAD") + ": <b>[[workload]]%</b>";
 		chartconfig = {
 			"language": "ru",
 			"type": "gantt",

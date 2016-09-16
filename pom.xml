@@ -5,7 +5,7 @@
 
 	<groupId>com.rodionov.cityoffice</groupId>
 	<artifactId>cityoffice</artifactId>
-	<version>0.5.3</version>
+	<version>0.5.4</version>
 	<packaging>war</packaging>
 
 	<name>cityoffice</name>
