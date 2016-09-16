@@ -80,6 +80,8 @@ public class EmployeeController {
 			mergeDTOs(employees, getEmployeesWithVacations(userVacations));
 		}
 		
+		limitDates(employees, finishAfter, startBefore);
+		
 		return employees;
 	}
 	
@@ -110,6 +112,24 @@ public class EmployeeController {
 		List<UserVacation> vacations = userService.getUserVacations(id, startBefore, finishAfter, pageable).getContent();
 		
 		return convertToEmployeeDto(id, projects, vacations);
+	}
+	
+	private void limitDates(List<EmployeeDTO> employees, LocalDate startDate, LocalDate finishDate) {
+		for (EmployeeDTO employee : employees) {
+			if (employee.getProjects() != null) {
+				for (EmployeeProjectDTO ep : employee.getProjects()) {
+					ep.setStartDate(cutDate(ep.getStartDate(), startDate, finishDate));
+					ep.setFinishDate(cutDate(ep.getFinishDate(), startDate, finishDate));
+				}
+			}
+			
+			if (employee.getVacations() != null) {
+				for (EmployeeVacationDTO ev : employee.getVacations()) {
+					ev.setStartDate(cutDate(ev.getStartDate(), startDate, finishDate));
+					ev.setFinishDate(cutDate(ev.getFinishDate(), startDate, finishDate));
+				}
+			}
+		}
 	}
 	
 	private void mergeDTOs(List<EmployeeDTO> dest, List<EmployeeDTO> source) {
@@ -195,5 +215,14 @@ public class EmployeeController {
 		dto.setWorkload((int)(userProject.getLoad() * 100));
 		
 		return dto;
+	}
+	
+	private LocalDate cutDate(LocalDate value, LocalDate min, LocalDate max) {
+		if (min != null && value.isBefore(min))
+			return min;
+		if (max != null && value.isAfter(max))
+			return max;
+		
+		return value;
 	}
 }

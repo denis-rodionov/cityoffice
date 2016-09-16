@@ -96,13 +96,8 @@ function projectController(EmployeeService, ProjectService, $filter) {
 		getConfig();
 		var dst = {};
 		angular.extend(dst, chartEmployeesData, chartconfig);
-		AmCharts.makeChart("chartdiv", dst);
 		
-		var valueAxis = new AmCharts.ValueAxis();
-		valueAxis.autoGridCount = false;
-		valueAxis.gridCount = 50;
-		// since we increased the number of grid lines dramatically, let's make the label display only on each 10th of them
-		valueAxis.labelFrequency = 50;
+		AmCharts.makeChart("chartdiv", dst);
 	}
 
 	/**
@@ -183,7 +178,22 @@ function projectController(EmployeeService, ProjectService, $filter) {
 			
 			result = [project1, project2, newProject];
 		}
-		return result;
+		
+		return filterZeroDurationProjects(result);
+	}
+	
+	/**
+	 * @return source array without projects with zero duration
+	 */
+	function filterZeroDurationProjects(projectArray) {
+		var res = [];
+		
+		projectArray.forEach(function(prj) {
+			if (prj.startDate.getTime() != prj.finishDate.getTime())
+				res.push(prj);
+		});
+		
+		return res;
 	}
 	
 	/**
@@ -217,9 +227,9 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	 * @return true if intersected
 	 */
 	function isIntersected(project1, project2) {
-		return project1.startDate.getTime() > project2.startDate.getTime() 
+		return project1.startDate.getTime() >= project2.startDate.getTime() 
 			&& project1.startDate.getTime() < project2.finishDate.getTime() ||
-			   project2.startDate.getTime() > project1.startDate.getTime() 
+			   project2.startDate.getTime() >= project1.startDate.getTime() 
 			&& project2.startDate.getTime() < project1.finishDate.getTime();
 	}
 	
