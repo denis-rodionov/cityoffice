@@ -93,9 +93,9 @@ function projectController(EmployeeService, ProjectService, $filter) {
 		self.employees = employees;
 		
 		chartEmployeesData =  {"dataProvider": self.employees };
-		getConfig();
+		var chartConfig = getConfig();
 		var dst = {};
-		angular.extend(dst, chartEmployeesData, chartconfig);
+		angular.extend(dst, chartEmployeesData, chartConfig);
 		
 		AmCharts.makeChart("chartdiv", dst);
 	}
@@ -294,10 +294,11 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	 * @name getConfig
 	 * @desc generation config for chart
 	 * @memberOf activate.projectController
+	 * @return {String} chart configuration
 	 */
 	function getConfig() {
 		var balloon = "<b>[[name]]</b> " + ($filter('translate'))("IN_PROJECT") + " <br/><b>[[projectName]]</b>: <p>[[open]] - [[value]]</p>  " + ($filter('translate'))("WORKLOAD") + ": <b>[[workload]]%</b>";
-		chartconfig = {
+		res = {
 			"language": "ru",
 			"type": "gantt",
 			"theme": "dark",
@@ -335,6 +336,8 @@ function projectController(EmployeeService, ProjectService, $filter) {
 				"valueZoomable": true
 			}
 		}
+		
+		return res;
 	}
 
 }

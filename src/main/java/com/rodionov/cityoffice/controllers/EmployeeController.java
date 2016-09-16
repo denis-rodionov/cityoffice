@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -81,10 +82,11 @@ public class EmployeeController {
 		}
 		
 		limitDates(employees, finishAfter, startBefore);
+		sort(employees);
 		
 		return employees;
 	}
-	
+
 	/**
 	 * Get user by id
 	 * @param id
@@ -112,6 +114,10 @@ public class EmployeeController {
 		List<UserVacation> vacations = userService.getUserVacations(id, startBefore, finishAfter, pageable).getContent();
 		
 		return convertToEmployeeDto(id, projects, vacations);
+	}
+	
+	private void sort(List<EmployeeDTO> employees) {
+		Collections.sort(employees, (p1, p2) -> p1.getName().compareTo(p2.getName()));
 	}
 	
 	private void limitDates(List<EmployeeDTO> employees, LocalDate startDate, LocalDate finishDate) {

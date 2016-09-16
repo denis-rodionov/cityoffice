@@ -1,5 +1,6 @@
 (unreleased)
 
+v0.5.6 (16.09.2016)
  - adaptive project chart height [Denis Rodionov]
  - non-transparent balloon [Denis Rodionov]
 v0.5.5 (16.09.2016)
