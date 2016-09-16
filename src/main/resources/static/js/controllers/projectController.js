@@ -16,6 +16,7 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	self.projects = [];
 	self.selectedProject = null;
 	AmCharts.useUTC = true;
+	//self.employees = [];
 
 	self.onProjectSelected = onProjectSelected;
 	self.fillUserProject = fillUserProject;
@@ -87,10 +88,10 @@ function projectController(EmployeeService, ProjectService, $filter) {
 			employees = deleteEmployeesWithoutProjects(employees);
 		}
 		
-		injectVacancies(employees);
-		
+		injectVacancies(employees);		
 		fillUserProject(employees);
 		self.employees = employees;
+		
 		chartEmployeesData =  {"dataProvider": self.employees };
 		getConfig();
 		var dst = {};
@@ -311,6 +312,10 @@ function projectController(EmployeeService, ProjectService, $filter) {
 			"graph": {
 				"fillAlphas": 1,
 				"balloonText": balloon
+			},
+			"balloon" : {
+				"fillAlpha" : 1,
+				"fillColor": "#FFFFFF"
 			},
 			"rotate": true,
 			"categoryField": "name",

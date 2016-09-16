@@ -1,5 +1,7 @@
 (unreleased)
 
+ - adaptive project chart height [Denis Rodionov]
+ - non-transparent balloon [Denis Rodionov]
 v0.5.5 (16.09.2016)
  - show vacations on a concrete project view [Denis Rodionov]
 v0.5.4 (16.09.2016)
