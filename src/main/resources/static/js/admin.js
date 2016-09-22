@@ -38,6 +38,11 @@ myApp.config(['RestangularProvider', function(RestangularProvider) {
                 
                 return { params: params };
             }
+            
+            if (params['_sortField'] == null) {
+            	params['_perPage'] = null;
+            	params['_page'] = null;
+            }
         }        
     	
         return { element: element };

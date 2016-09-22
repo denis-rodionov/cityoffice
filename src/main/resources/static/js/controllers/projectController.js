@@ -16,12 +16,10 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	self.projects = [];
 	self.selectedProject = null;
 	AmCharts.useUTC = true;
+	//self.employees = [];
 
 	self.onProjectSelected = onProjectSelected;
-	self.plotData = plotData;
 	self.fillUserProject = fillUserProject;
-	self.getColor = getColor;
-	self.getConfig = getConfig;
 
 	/**
 	 * @namespace projectController
@@ -86,18 +84,32 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	function plotData(employees) {
 		employees.forEach(mergeProjectsIntersections);
 		
-		if (self.selectedProject.id == null) {	// if all projects selected: show vacations also
-			injectVacancies(employees);
+		if (self.selectedProject.id != null) {	// if concrete project selected: show vacations also
+			employees = deleteEmployeesWithoutProjects(employees);
 		}
 		
+		injectVacancies(employees);		
 		fillUserProject(employees);
 		self.employees = employees;
+		
 		chartEmployeesData =  {"dataProvider": self.employees };
-		getConfig();
+		var chartConfig = getConfig();
 		var dst = {};
-		angular.extend(dst, chartEmployeesData, chartconfig);
+		angular.extend(dst, chartEmployeesData, chartConfig);
 		
 		AmCharts.makeChart("chartdiv", dst);
+	}
+	
+	/**
+	 * Deletes those employees from the list who does not contains any projects
+	 */
+	function deleteEmployeesWithoutProjects(employees) {
+		var res = [];
+		employees.forEach(function(e) {
+			if (e.projects.length > 0)
+				res.push(e);
+		});
+		return res;
 	}
 
 	/**
@@ -239,12 +251,12 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	 */
 	function injectVacancies(employees) {
 		for (var i = 0; i < employees.length; i++) {
-			for (var j = 0; j < employees[i].vacations.length; j++) {
-				var vacation = employees[i].vacations[j];
-				vacation['workload'] = 0;
-				vacation['projectName'] = ($filter('translate')("VACATION_AKK"));
-				employees[i].projects.push(vacation);
-			}
+				for (var j = 0; j < employees[i].vacations.length; j++) {
+					var vacation = employees[i].vacations[j];
+					vacation['workload'] = 0;
+					vacation['projectName'] = ($filter('translate')("VACATION_AKK"));
+					employees[i].projects.push(vacation);
+				}
 		}
 	}
 
@@ -282,10 +294,11 @@ function projectController(EmployeeService, ProjectService, $filter) {
 	 * @name getConfig
 	 * @desc generation config for chart
 	 * @memberOf activate.projectController
+	 * @return {String} chart configuration
 	 */
 	function getConfig() {
-		var balloon = "<b>[[name]]</b> " + ($filter('translate'))("IN_PROJECT") + " <b>[[projectName]]</b>: <p>[[open]] - [[value]]</p>  " + ($filter('translate'))("WORKLOAD") + ": <b>[[workload]]%</b>";
-		chartconfig = {
+		var balloon = "<b>[[name]]</b> " + ($filter('translate'))("IN_PROJECT") + " <br/><b>[[projectName]]</b>: <p>[[open]] - [[value]]</p>  " + ($filter('translate'))("WORKLOAD") + ": <b>[[workload]]%</b>";
+		res = {
 			"language": "ru",
 			"type": "gantt",
 			"theme": "dark",
@@ -300,6 +313,10 @@ function projectController(EmployeeService, ProjectService, $filter) {
 			"graph": {
 				"fillAlphas": 1,
 				"balloonText": balloon
+			},
+			"balloon" : {
+				"fillAlpha" : 1,
+				"fillColor": "#FFFFFF"
 			},
 			"rotate": true,
 			"categoryField": "name",
@@ -319,6 +336,8 @@ function projectController(EmployeeService, ProjectService, $filter) {
 				"valueZoomable": true
 			}
 		}
+		
+		return res;
 	}
 
 }

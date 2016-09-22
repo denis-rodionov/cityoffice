@@ -3,11 +3,11 @@
 </div>
 <link href="css/chart_style.css" rel="stylesheet" type="text/css" />
 <br/>
-<div class="col-xs-2">
+<div class="col-xs-2 row">
     <select class="form-control"
                    ng-model="controller.selectedProject"
                    ng-change="controller.onProjectSelected()"
                    ng-options="project as project.name for project in controller.projects">
     </select>
-</div>
-<div id="chartdiv"></div>
+</div><br/></br>
+<div id="chartdiv" class="row" style="height: {{ controller.employees.length * 50 + 200 }}px"></div>
